@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Comunicator</string>
+    <string name="text">Text</string>
+    <string name="title_activity_settings_password">SettingsPasswordActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_cases">CasesActivity</string>
+    <string name="title_activity_page_settings">PageSettingsActivity</string>
+    <string name="title_activity_card_settings">CardSettingsActivity</string>
+    <string name="NOMINATIVE">Именительный падеж</string>
+    <string name="save_cases_button">Сохранить</string>
+    <string name="new_page_button">Новый лист</string>
+    <string name="edit_page_button">Редактировать лист</string>
+    <string name="search_line_text">Строка поиска</string>
+    <string name="recent_symbol_text">Строка недавних символов</string>
+    <string name="symbol_name_text">Введите название символа</string>
+    <string name="open_cases_button">Падежи</string>
+    <string name="preview_button">Предпросмотр</string>
+    <string name="save_card_button">Сохранить</string>
+    <string name="type_size">Размер шрифта</string>
+    <string name="text_place">Расположение надписи</string>
+    <string name="text_colour">Цвет надписи</string>
+    <string name="speech_part">Выберите часть речи</string>
+    <string name="card_image">Изображение символа</string>
+    <string name="card_voice">Озвучивание символа</string>
+    <string name="frame_size">Толщина рамки</string>
+    <string name="frame_colour">Цвет рамки</string>
+    <string name="GENITIVE">Родительный падеж</string>
+    <string name="DATIVE">Дательный падеж</string>
+    <string name="ACCUSATIVE">Винительный падеж</string>
+    <string name="INSTRUMENTAL">Творительный падеж</string>
+    <string name="PREPOSITIONAL">Предложный падеж</string>
+    <string name="submit_password">Подтвердить</string>
+    <string name="password_insert_text">Введите пароль</string>
+</resources>
