@@ -1,16 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/communicative_panel"
         android:layout_width="wrap_content"
-        android:text="@string/text">
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true">
 
-    </com.google.android.material.button.MaterialButton>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/communicative_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_toStartOf="@id/settings_panel"/>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <RelativeLayout
+            android:id="@+id/settings_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/settings_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_settings_black_24dp"
+                android:layout_below="@id/search_button" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/play_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/communicative_panel"
+        android:layout_centerHorizontal="true">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/play_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:src="@drawable/ic_play_circle_outline_black_24dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/delete_all_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:src="@drawable/ic_delete_black_24dp"
+            android:layout_toEndOf="@id/play_button" />
+
+    </RelativeLayout>
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/page_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?actionBarSize"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorHeight="4dp"
+        app:tabMode="fixed"
+        android:layout_below="@id/play_panel">
+
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/page_tab_layout">
+
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>

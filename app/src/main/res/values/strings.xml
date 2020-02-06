@@ -31,4 +31,7 @@
     <string name="PREPOSITIONAL">Предложный падеж</string>
     <string name="submit_password">Подтвердить</string>
     <string name="password_insert_text">Введите пароль</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
