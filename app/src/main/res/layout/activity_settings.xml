@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SettingsActivity">
+    tools:context=".activity.SettingsActivity">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/new_page_button"
@@ -16,15 +16,22 @@
         android:layout_alignParentTop="true">
     </com.google.android.material.button.MaterialButton>
 
-
-    <Spinner
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:id="@+id/page_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_below="@+id/new_page_button"
-        android:layout_centerInParent="true"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/page_list_hint_text">
+
+        <AutoCompleteTextView
+            android:id="@+id/filled_exposed_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/edit_page_button"

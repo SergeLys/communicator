@@ -10,26 +10,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CardSettingsActivity"
-            android:label="@string/title_activity_card_settings"
+            android:name=".activity.GraphicParameters"
+            android:label="@string/title_activity_graphic_parameters"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".PageSettingsActivity"
+            android:name=".activity.CardSettingsActivity"
+            android:label="@string/title_activity_card_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.PageSettingsActivity"
             android:label="@string/title_activity_page_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CasesActivity"
+            android:name=".activity.CasesActivity"
             android:label="@string/title_activity_cases"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SettingsPasswordActivity"
+            android:name=".activity.SettingsPasswordActivity"
             android:label="@string/title_activity_settings_password"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

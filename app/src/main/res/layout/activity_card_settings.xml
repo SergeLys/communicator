@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CardSettingsActivity">
+    tools:context=".activity.CardSettingsActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -25,224 +25,49 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:id="@+id/type_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:layout_below="@id/symbol_name">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/type_size"/>
-
-        <Spinner
-            android:id="@+id/type_size_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/text_place"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:layout_below="@id/type_size">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_place"/>
-
-        <Spinner
-            android:id="@+id/text_place_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/text_colour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/text_place">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_colour"/>
-
-        <Spinner
-            android:id="@+id/text_colour_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:id="@+id/speech_part"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_margin="10dp"
-        android:layout_below="@id/text_colour">
+        android:layout_below="@id/symbol_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/speech_part_list_hint_text">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/speech_part"/>
-
-        <Spinner
+        <AutoCompleteTextView
             android:id="@+id/speech_part_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
+            android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <RelativeLayout
-        android:id="@+id/card_image"
-        android:layout_width="match_parent"
+        android:id="@+id/buttons_panel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_centerInParent="true"
         android:layout_below="@id/speech_part">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/open_graphic_button"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/image_file_button"
-            android:text="@string/card_image"/>
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_alignParentStart="true"
+            android:text="@string/graphic_parameters_button">
+        </com.google.android.material.button.MaterialButton>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/image_file_button"
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/open_cases_button"
             android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_folder_black_24dp"
-            android:layout_toStartOf="@id/image_net_button"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/image_net_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_internet_black_24dp"
-            android:layout_toStartOf="@id/image_camera_button"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/image_camera_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_photo_camera_black_24dp"
-            android:layout_alignParentEnd="true"/>
+            android:layout_margin="10dp"
+            android:text="@string/open_cases_button"
+            android:layout_toEndOf="@id/open_graphic_button">
+        </com.google.android.material.button.MaterialButton>
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/card_voice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@id/card_image">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/card_voice"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/voice_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_keyboard_voice_black_24dp"
-            android:layout_alignParentEnd="true"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/case_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_folder_black_24dp"
-            android:layout_toStartOf="@id/voice_button"/>
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/frame_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:layout_below="@id/card_voice">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/frame_size"/>
-
-        <Spinner
-            android:id="@+id/frame_size_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/frame_colour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:layout_below="@id/frame_size">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/frame_colour"/>
-
-        <Spinner
-            android:id="@+id/frame_colour_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/open_cases_button"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/open_cases_button"
-        android:layout_below="@id/frame_colour"
-        android:layout_centerInParent="true">
-    </com.google.android.material.button.MaterialButton>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/preview_button"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/preview_button"
-        android:layout_below="@id/open_cases_button"
-        android:layout_centerInParent="true">
-    </com.google.android.material.button.MaterialButton>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_card_button"
@@ -250,8 +75,8 @@
         android:layout_width="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/save_card_button"
-        android:layout_below="@id/preview_button"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true">
     </com.google.android.material.button.MaterialButton>
 
 </RelativeLayout>

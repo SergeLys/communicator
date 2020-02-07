@@ -13,13 +13,12 @@
     <string name="search_line_text">Строка поиска</string>
     <string name="recent_symbol_text">Строка недавних символов</string>
     <string name="symbol_name_text">Введите название символа</string>
-    <string name="open_cases_button">Падежи</string>
+    <string name="open_cases_button">Озвучка</string>
     <string name="preview_button">Предпросмотр</string>
     <string name="save_card_button">Сохранить</string>
     <string name="type_size">Размер шрифта</string>
     <string name="text_place">Расположение надписи</string>
     <string name="text_colour">Цвет надписи</string>
-    <string name="speech_part">Выберите часть речи</string>
     <string name="card_image">Изображение символа</string>
     <string name="card_voice">Озвучивание символа</string>
     <string name="frame_size">Толщина рамки</string>
@@ -34,4 +33,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_symbol_button">Добавить символ</string>
+    <string name="save_button">Сохранить</string>
+    <string name="input_page_name">Введите имя страницы</string>
+    <string name="title_activity_graphic_parameters">GraphicParameters</string>
+    <string name="graphic_parameters_button">Графика</string>
+    <string name="page_list_hint_text">Выберите лист</string>
+    <string name="speech_part_list_hint_text">Выберите часть речи</string>
+    <string name="image_text">image_text</string>
+    <string name="card_test_text">Машинка</string>
 </resources>
