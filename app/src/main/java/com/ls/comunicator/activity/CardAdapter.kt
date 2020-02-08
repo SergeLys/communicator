@@ -34,7 +34,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context) : RecyclerV
         fun bind(card: Card) {
 //        TODO
 //        cardImage.setImageDrawable(card.image)
-            cardText.text = "Машинка"
+            cardText.text = card.name
         }
     }
 

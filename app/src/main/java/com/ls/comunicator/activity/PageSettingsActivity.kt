@@ -13,11 +13,11 @@ import com.ls.comunicator.core.Card
 class PageSettingsActivity : AppCompatActivity() {
 
     val cards = arrayListOf(
-        Card(null, null, null),
-        Card(null, null, null),
-        Card(null, null, null),
-        Card(null, null, null),
-        Card(null, null, null)
+        Card("Машинка", null, null),
+        Card("Грузовик", null, null),
+        Card("Ложка", null, null),
+        Card("Тарелка", null, null),
+        Card("Машинка", null, null)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
