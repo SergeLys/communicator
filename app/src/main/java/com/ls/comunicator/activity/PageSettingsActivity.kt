@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.ls.comunicator.R
+import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.core.Card
 
 
@@ -25,7 +26,8 @@ class PageSettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_page_settings)
 
         findViewById<RecyclerView>(R.id.page_list).layoutManager = GridLayoutManager( this, 3)
-        findViewById<RecyclerView>(R.id.page_list).adapter = CardAdapter(cards,this)
+        findViewById<RecyclerView>(R.id.page_list).adapter =
+            CardAdapter(cards, this, false)
 
         findViewById<MaterialButton>(R.id.add_symbol_button)
             .setOnClickListener {

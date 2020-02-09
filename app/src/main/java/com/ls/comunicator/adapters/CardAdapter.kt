@@ -1,4 +1,4 @@
-package com.ls.comunicator.activity
+package com.ls.comunicator.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
 import com.ls.comunicator.core.Card
 
-class CardAdapter(val cards : ArrayList<Card>, val context: Context) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
+class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommunicativeLine: Boolean) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return cards.size
@@ -18,7 +18,10 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context) : RecyclerV
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.card_list_item, parent, false))
+        var viewHolder = ViewHolder(LayoutInflater.from(context).inflate(R.layout.card_list_item, parent, false))
+        if(isCommunicativeLine)
+            viewHolder = ViewHolder(LayoutInflater.from(context).inflate(R.layout.card_list_communicative_item, parent, false))
+        return viewHolder
     }
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,273 +7,267 @@
     android:orientation="vertical"
     tools:context=".activity.CasesActivity">
 
-    <RelativeLayout
-        android:id="@+id/nominative"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_margin="15dp">
+        android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/nominative_layout"
+        <RelativeLayout
+            android:id="@+id/nominative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/nominative_file_button"
-            android:layout_alignParentStart="true">
+            android:layout_margin="15dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:id="@+id/nominative_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/NOMINATIVE" />
+                android:layout_toStartOf="@id/nominative_file_button"
+                android:layout_alignParentStart="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/NOMINATIVE" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/nominative_voice_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_keyboard_voice_black_24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/nominative_layout"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/nominative_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_folder_black_24dp"
-            android:layout_toStartOf="@id/nominative_voice_button"
-            android:layout_alignBottom="@+id/nominative_layout"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/nominative_voice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_keyboard_voice_black_24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/nominative_layout"/>
 
-    </RelativeLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/nominative_file_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_folder_black_24dp"
+                android:layout_toStartOf="@id/nominative_voice_button"
+                android:layout_alignBottom="@+id/nominative_layout"/>
 
-    <RelativeLayout
-        android:id="@+id/genitive"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/nominative"
-        android:layout_margin="15dp">
+        </RelativeLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/genitive_layout"
+        <RelativeLayout
+            android:id="@+id/genitive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/genitive_file_button"
-            android:layout_alignParentStart="true">
+            android:layout_margin="15dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:id="@+id/genitive_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/GENITIVE" />
+                android:layout_toStartOf="@id/genitive_file_button"
+                android:layout_alignParentStart="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/GENITIVE" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/genitive_voice_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_keyboard_voice_black_24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/genitive_layout"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/genitive_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_folder_black_24dp"
-            android:layout_toStartOf="@id/genitive_voice_button"
-            android:layout_alignBottom="@+id/genitive_layout"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/genitive_voice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_keyboard_voice_black_24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/genitive_layout"/>
 
-    </RelativeLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/genitive_file_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_folder_black_24dp"
+                android:layout_toStartOf="@id/genitive_voice_button"
+                android:layout_alignBottom="@+id/genitive_layout"/>
 
-    <RelativeLayout
-        android:id="@+id/dative"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/genitive"
-        android:layout_margin="15dp">
+        </RelativeLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/dative_layout"
+        <RelativeLayout
+            android:id="@+id/dative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/dative_file_button"
-            android:layout_alignParentStart="true">
+            android:layout_margin="15dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:id="@+id/dative_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/DATIVE" />
+                android:layout_toStartOf="@id/dative_file_button"
+                android:layout_alignParentStart="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/DATIVE" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/dative_voice_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_keyboard_voice_black_24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_toStartOf="@id/dative_voice_button"
-            android:layout_alignBottom="@+id/dative_layout"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/dative_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_folder_black_24dp"
-            android:layout_toStartOf="@id/dative_voice_button"
-            android:layout_alignBottom="@+id/dative_layout"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/dative_voice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_keyboard_voice_black_24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_toStartOf="@id/dative_voice_button"
+                android:layout_alignBottom="@+id/dative_layout"/>
 
-    </RelativeLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/dative_file_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_folder_black_24dp"
+                android:layout_toStartOf="@id/dative_voice_button"
+                android:layout_alignBottom="@+id/dative_layout"/>
 
-    <RelativeLayout
-        android:id="@+id/accusative"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/dative"
-        android:layout_margin="15dp">
+        </RelativeLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/accusative_layout"
+        <RelativeLayout
+            android:id="@+id/accusative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/accusative_file_button"
-            android:layout_alignParentStart="true">
+            android:layout_margin="15dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:id="@+id/accusative_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/ACCUSATIVE" />
+                android:layout_toStartOf="@id/accusative_file_button"
+                android:layout_alignParentStart="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/ACCUSATIVE" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/accusative_voice_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_keyboard_voice_black_24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/accusative_layout"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/accusative_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_folder_black_24dp"
-            android:layout_toStartOf="@id/accusative_voice_button"
-            android:layout_alignBottom="@+id/accusative_layout"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/accusative_voice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_keyboard_voice_black_24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/accusative_layout"/>
 
-    </RelativeLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/accusative_file_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_folder_black_24dp"
+                android:layout_toStartOf="@id/accusative_voice_button"
+                android:layout_alignBottom="@+id/accusative_layout"/>
 
-    <RelativeLayout
-        android:id="@+id/instrumental"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/accusative"
-        android:layout_margin="15dp">
+        </RelativeLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/instrumental_layout"
+        <RelativeLayout
+            android:id="@+id/instrumental"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/instrumental_file_button"
-            android:layout_alignParentStart="true">
+            android:layout_margin="15dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:id="@+id/instrumental_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/INSTRUMENTAL" />
+                android:layout_toStartOf="@id/instrumental_file_button"
+                android:layout_alignParentStart="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/INSTRUMENTAL" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/instrumental_voice_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_keyboard_voice_black_24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/instrumental_layout"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/instrumental_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_folder_black_24dp"
-            android:layout_toStartOf="@id/instrumental_voice_button"
-            android:layout_alignBottom="@+id/instrumental_layout"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/instrumental_voice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_keyboard_voice_black_24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/instrumental_layout"/>
 
-    </RelativeLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/instrumental_file_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_folder_black_24dp"
+                android:layout_toStartOf="@id/instrumental_voice_button"
+                android:layout_alignBottom="@+id/instrumental_layout"/>
 
-    <RelativeLayout
-        android:id="@+id/prepositional"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/instrumental"
-        android:layout_margin="15dp">
+        </RelativeLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/prepositional_layout"
+        <RelativeLayout
+            android:id="@+id/prepositional"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/prepositional_file_button"
-            android:layout_alignParentStart="true">
+            android:layout_margin="15dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:id="@+id/prepositional_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/PREPOSITIONAL" />
+                android:layout_toStartOf="@id/prepositional_file_button"
+                android:layout_alignParentStart="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/PREPOSITIONAL" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/prepositional_voice_button"
-            android:layout_width="wrap_content"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/prepositional_voice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_keyboard_voice_black_24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/prepositional_layout"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/prepositional_file_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                android:src="@drawable/ic_folder_black_24dp"
+                android:layout_toStartOf="@id/prepositional_voice_button"
+                android:layout_alignBottom="@+id/prepositional_layout"/>
+
+        </RelativeLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_cases_button"
             android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_keyboard_voice_black_24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/prepositional_layout"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/prepositional_file_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_folder_black_24dp"
-            android:layout_toStartOf="@id/prepositional_voice_button"
-            android:layout_alignBottom="@+id/prepositional_layout"/>
+            android:layout_gravity="center"
+            android:layout_marginBottom="25dp"
+            android:text="@string/save_cases_button">
+        </com.google.android.material.button.MaterialButton>
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/save_cases_button"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25dp"
-        android:text="@string/save_cases_button">
-    </com.google.android.material.button.MaterialButton>
-
-</RelativeLayout>
+</ScrollView>

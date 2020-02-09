@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
+import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.core.Card
 
 class PageFragment : Fragment() {
@@ -29,7 +30,8 @@ class PageFragment : Fragment() {
         // Inflate the layout for this fragment
         view.findViewById<RecyclerView>(R.id.page_list)
             .layoutManager = GridLayoutManager( view.context, 3)
-        view.findViewById<RecyclerView>(R.id.page_list).adapter = CardAdapter(cards, view.context)
+        view.findViewById<RecyclerView>(R.id.page_list).adapter =
+            CardAdapter(cards, view.context, false)
 
         return view
     }
