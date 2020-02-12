@@ -60,12 +60,20 @@
             android:src="@drawable/ic_play_circle_outline_black_24dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/delete_all_button"
+            android:id="@+id/delete_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fabSize="mini"
             android:src="@drawable/ic_delete_black_24dp"
             android:layout_toEndOf="@id/play_button" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/delete_all_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:src="@drawable/ic_delete_all_black_24dp"
+            android:layout_toEndOf="@id/delete_button" />
 
     </RelativeLayout>
 

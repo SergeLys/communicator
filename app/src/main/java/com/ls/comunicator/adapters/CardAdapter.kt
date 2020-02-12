@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.ls.comunicator.R
 import com.ls.comunicator.core.Card
+import kotlinx.android.synthetic.main.card_list_item.view.*
 
 class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommunicativeLine: Boolean) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
@@ -31,12 +33,17 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommu
 
     inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
-        val cardImage = view.findViewById<ImageView>(R.id.card_image)
-        val cardText = view.findViewById<TextView>(R.id.card_text)
+        val cardFrame = view.card_frame
+        val cardImage = view.card_image
+        val cardText = view.card_text
 
         fun bind(card: Card) {
-//        TODO
-//        cardImage.setImageDrawable(card.image)
+//        TODO textPlace
+            cardFrame.strokeColor = card.image.borderColour
+            cardFrame.strokeWidth = card.image.borderSize
+            cardImage.setImageBitmap(card.image.image)
+            cardText.setTextColor(card.image.textColour)
+            cardText.textSize = card.image.textSize
             cardText.text = card.name
         }
     }

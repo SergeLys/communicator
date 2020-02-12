@@ -1,6 +1,9 @@
 package com.ls.comunicator.activity
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -9,21 +12,25 @@ import com.google.android.material.button.MaterialButton
 import com.ls.comunicator.R
 import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.core.Card
+import com.ls.comunicator.core.Image
 
 
 class PageSettingsActivity : AppCompatActivity() {
 
-    val cards = arrayListOf(
-        Card("Машинка", null, null),
-        Card("Грузовик", null, null),
-        Card("Ложка", null, null),
-        Card("Тарелка", null, null),
-        Card("Машинка", null, null)
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_page_settings)
+
+        val bitMap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.car)
+
+        val cards = arrayListOf(
+            Card("Машинка", null, Image(bitMap, 10.5F, Color.RED,null, 10, Color.RED)),
+            Card("Грузовик", null, Image(bitMap, 8.5F, Color.BLUE,null, 8, Color.BLUE)),
+            Card("Ложка", null, Image(bitMap, 10.5F, Color.GREEN,null, 10, Color.GREEN)),
+            Card("Тарелка", null, Image(bitMap, 10.5F, Color.RED,null, 10, Color.GREEN)),
+            Card("Машинка", null, Image(bitMap, 10.5F, Color.YELLOW,null, 10, Color.YELLOW))
+        )
 
         findViewById<RecyclerView>(R.id.page_list).layoutManager = GridLayoutManager( this, 3)
         findViewById<RecyclerView>(R.id.page_list).adapter =
