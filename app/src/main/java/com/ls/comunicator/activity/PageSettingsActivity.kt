@@ -17,6 +17,7 @@ import com.ls.comunicator.core.Image
 
 class PageSettingsActivity : AppCompatActivity() {
 
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +33,9 @@ class PageSettingsActivity : AppCompatActivity() {
             Card("Машинка", null, Image(bitMap, 10.5F, Color.YELLOW,null, 10, Color.YELLOW))
         )
 
-        findViewById<RecyclerView>(R.id.page_list).layoutManager = GridLayoutManager( this, 3)
-        findViewById<RecyclerView>(R.id.page_list).adapter =
-            CardAdapter(cards, this, false)
+        recyclerView = findViewById(R.id.page_list)
+        recyclerView.layoutManager = GridLayoutManager( this, 3)
+        recyclerView.adapter = CardAdapter(cards, this, false)
 
         findViewById<MaterialButton>(R.id.add_symbol_button)
             .setOnClickListener {

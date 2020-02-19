@@ -28,6 +28,22 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommu
         holder.bind(cards.get(position))
     }
 
+    fun delete() {
+        if (cards.isNotEmpty()) {
+            cards.removeAt(cards.lastIndex)
+            notifyDataSetChanged()
+
+        }
+    }
+
+    fun deleteAll() {
+        if (cards.isNotEmpty()) {
+            cards.clear()
+            notifyDataSetChanged()
+
+        }
+    }
+
     inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
         val cardFrame = view.card_frame

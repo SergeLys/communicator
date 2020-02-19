@@ -22,7 +22,10 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var mTTS: TextToSpeech
+    private lateinit var mTTS: TextToSpeech
+    private lateinit var viewPager: ViewPager
+    private lateinit var tabLayout: TabLayout
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,20 +68,31 @@ class MainActivity : AppCompatActivity() {
         adapter.addFragment(PageFragment(), "Животные")
         adapter.addFragment(PageFragment(), "Растения")
 
-        val viewPager = findViewById<ViewPager>(R.id.view_pager)
+        viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = adapter
-        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
+
+        tabLayout = findViewById(R.id.tab_layout)
         tabLayout.setupWithViewPager(viewPager)
 
-        findViewById<RecyclerView>(R.id.communicative_line)
-            .layoutManager = LinearLayoutManager( this, RecyclerView.HORIZONTAL, true)
-        findViewById<RecyclerView>(R.id.communicative_line).adapter =
-            CardAdapter(cards, this, true)
+        recyclerView = findViewById(R.id.communicative_line)
+        recyclerView.layoutManager = LinearLayoutManager( this, RecyclerView.HORIZONTAL, false)
+        val cardAdapter = CardAdapter(cards, this, true)
+        recyclerView.adapter = cardAdapter
 
         findViewById<FloatingActionButton>(R.id.settings_button)
             .setOnClickListener {
                 val settingsPasswordActivity = Intent(this, SettingsPasswordActivity::class.java)
                 startActivity(settingsPasswordActivity)
+            }
+
+        findViewById<FloatingActionButton>(R.id.delete_all_button)
+            .setOnClickListener {
+               cardAdapter.deleteAll()
+            }
+
+        findViewById<FloatingActionButton>(R.id.delete_button)
+            .setOnClickListener {
+                cardAdapter.delete()
             }
 
         findViewById<FloatingActionButton>(R.id.play_button)

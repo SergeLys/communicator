@@ -18,6 +18,8 @@ import com.ls.comunicator.core.Image
 
 class PageFragment : Fragment() {
 
+    private lateinit var recyclerView: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,10 +36,9 @@ class PageFragment : Fragment() {
             Card("Машинка", null, Image(bitMap, 10.5F, Color.YELLOW,null, 10, Color.YELLOW))
         )
 
-        view.findViewById<RecyclerView>(R.id.page_list)
-            .layoutManager = GridLayoutManager( view.context, 3)
-        view.findViewById<RecyclerView>(R.id.page_list).adapter =
-            CardAdapter(cards, view.context, false)
+        recyclerView = view.findViewById(R.id.page_list)
+        recyclerView.layoutManager = GridLayoutManager( view.context, 3)
+        recyclerView.adapter = CardAdapter(cards, view.context, false)
 
         return view
     }
