@@ -9,6 +9,8 @@ public class Image implements Serializable {
     private int textColour, borderSize, borderColour;
     private String textPlace;
 
+    public Image() {}
+
     public Image(ProxyBitMap image, float textSize, int textColour,  String textPlace, int borderSize, int borderColour) {
         this.image = image;
         this.textSize = textSize;

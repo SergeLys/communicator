@@ -22,6 +22,7 @@ import com.ls.comunicator.core.Consts.Companion.CARD
 import com.ls.comunicator.core.Image
 import com.ls.comunicator.core.ProxyBitMap
 import com.ls.comunicator.core.SingletonCard.card
+import com.ls.comunicator.core.checkCard
 import java.io.*
 
 class CardSettingsActivity : AppCompatActivity() {
@@ -48,8 +49,9 @@ class CardSettingsActivity : AppCompatActivity() {
         val bitMap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.car, options)
 
         card.name = "Машинка"
-        card.image = Image(ProxyBitMap(bitMap), 20F, Color.BLACK,null, 20, Color.YELLOW)
-        updateCardPreview(card)
+//        card.image = Image(ProxyBitMap(bitMap), 20F, Color.BLACK,null, 20, Color.YELLOW)
+        if (checkCard(baseContext, card, false))
+            updateCardPreview(card)
 
         findViewById<MaterialButton>(R.id.open_cases_button)
             .setOnClickListener {
@@ -65,41 +67,43 @@ class CardSettingsActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.save_card_button)
             .setOnClickListener {
-//                var appRoot = File("/storage/emmc","/$APP_NAME/$page")
-                if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-                    pageData = File(Environment.getExternalStorageDirectory().absoluteFile,"/$APP_NAME/$page")
+                if (checkCard(baseContext, card, true)) {
+                    var appRoot = File("/storage/emmc","/$APP_NAME/$page")
+                    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
+                        pageData = File(Environment.getExternalStorageDirectory().absoluteFile,"/$APP_NAME/$page")
 
-                ActivityCompat.requestPermissions(this,
-                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
-
-                var success = true
-                if (!pageData.exists()) {
-                    success = pageData.mkdirs()
-                }
-                if (success) {
-                    val fileCard = File(pageData, card.name)
-                    if (fileCard.exists()) fileCard.delete()
-                    try {
-                        val fos = FileOutputStream(fileCard)
-                        val os = ObjectOutputStream(fos)
-                        os.writeObject(card)
-                        os.flush()
-                        os.close()
-                        fos.close()
-                    } catch (e : Exception) {
-                        e.printStackTrace()
-                    }
-                }
-                try {
                     ActivityCompat.requestPermissions(this,
-                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-                    val fis = FileInputStream(File(Environment.getExternalStorageDirectory().toString() + "/Communicator/Машинка"))
-                    val ins = ObjectInputStream(fis)
-                    val test = ins.readObject()
-                    ins.close()
-                    fis.close()
-                } catch (e: java.lang.Exception) {
+                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
 
+                    var success = true
+                    if (!pageData.exists()) {
+                        success = pageData.mkdirs()
+                    }
+                    if (success) {
+                        val fileCard = File(pageData, card.name)
+                        if (fileCard.exists()) fileCard.delete()
+                        try {
+                            val fos = FileOutputStream(fileCard)
+                            val os = ObjectOutputStream(fos)
+                            os.writeObject(card)
+                            os.flush()
+                            os.close()
+                            fos.close()
+                        } catch (e : Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    try {
+                        ActivityCompat.requestPermissions(this,
+                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+                        val fis = FileInputStream(File(Environment.getExternalStorageDirectory().toString() + "/Communicator/Машинка"))
+                        val ins = ObjectInputStream(fis)
+                        val test = ins.readObject()
+                        ins.close()
+                        fis.close()
+                    } catch (e: java.lang.Exception) {
+
+                    }
                 }
             }
 
