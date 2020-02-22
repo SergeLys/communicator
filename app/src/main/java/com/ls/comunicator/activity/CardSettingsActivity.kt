@@ -50,8 +50,7 @@ class CardSettingsActivity : AppCompatActivity() {
 
         card.name = "Машинка"
 //        card.image = Image(ProxyBitMap(bitMap), 20F, Color.BLACK,null, 20, Color.YELLOW)
-        if (checkCard(baseContext, card, false))
-            updateCardPreview(card)
+        updateCardPreview(card)
 
         findViewById<MaterialButton>(R.id.open_cases_button)
             .setOnClickListener {
@@ -128,11 +127,19 @@ class CardSettingsActivity : AppCompatActivity() {
         cardImage = findViewById(R.id.card_image)
         cardText = findViewById(R.id.card_text)
 
-        cardFrame.strokeColor = card.image.borderColour
-        cardFrame.strokeWidth = card.image.borderSize
-        cardImage.setImageBitmap(card.image.image.bitmap)
-        cardText.setTextColor(card.image.textColour)
-        cardText.textSize = card.image.textSize
-        cardText.text = card.name
+        if (card.name != "")
+            cardText.text = card.name
+        if (card.image != null) {
+            if (card.image.borderColour != 0)
+                cardFrame.strokeColor = card.image.borderColour
+            if (card.image.borderSize != 0)
+                cardFrame.strokeWidth = card.image.borderSize
+            if (card.image.image != null)
+                cardImage.setImageBitmap(card.image.image.bitmap)
+            if (card.image.textColour != 0)
+                cardText.setTextColor(card.image.textColour)
+            if (card.image.textSize != 0F)
+                cardText.textSize = card.image.textSize
+        }
     }
 }

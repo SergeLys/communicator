@@ -43,4 +43,6 @@
     <string name="image_text">image_text</string>
     <string name="card_test_text">Машинка</string>
     <string name="back_button">Назад</string>
+    <string name="border_color_button">Выбрать цвет рамки</string>
+    <string name="text_color_button">Выберите цвет текста</string>
 </resources>

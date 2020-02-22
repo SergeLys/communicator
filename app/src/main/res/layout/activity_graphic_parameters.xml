@@ -6,21 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".activity.GraphicParameters">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        android:id="@+id/type_size"
-        android:layout_marginTop="20dp"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/type_size">
+     <RelativeLayout
+         android:id="@+id/type_size"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content">
 
-        <AutoCompleteTextView
-            android:id="@+id/type_size_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+         <com.google.android.material.slider.Slider
+             android:id="@+id/text_size_slider"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:valueFrom="10"
+             android:valueTo="30"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+      </RelativeLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
@@ -38,53 +36,68 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        android:id="@+id/text_colour"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/text_place"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/text_colour_frame"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/text_colour">
+        android:layout_below="@+id/text_place">
 
-        <AutoCompleteTextView
-            android:id="@+id/text_colour_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/text_color_button"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/text_color_button"
+            android:layout_alignParentStart="true" />
+        <LinearLayout
+            android:id="@+id/text_colour"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="1dp"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary"
+            android:layout_toEndOf="@id/text_color_button"
+            android:layout_alignTop="@id/text_color_button"/>
+    </RelativeLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+    <RelativeLayout
         android:id="@+id/frame_size"
-        android:layout_margin="10dp"
-        android:layout_below="@id/text_colour"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/frame_size">
+        android:layout_below="@id/text_colour_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <AutoCompleteTextView
-            android:id="@+id/frame_size_list"
+        <com.google.android.material.slider.Slider
+            android:id="@+id/frame_size_slider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="30"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </RelativeLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+    <RelativeLayout
         android:id="@+id/frame_colour"
-        android:layout_margin="10dp"
-        android:layout_below="@id/frame_size"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/frame_colour">
+        android:layout_below="@id/frame_size">
 
-        <AutoCompleteTextView
-            android:id="@+id/frame_colour_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/border_color_button"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/border_color_button"
+            android:layout_alignParentStart="true" />
+        <LinearLayout
+            android:id="@+id/border_colour"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="1dp"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary"
+            android:layout_toEndOf="@id/border_color_button"
+            android:layout_alignBottom="@id/border_color_button"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/card_image"
