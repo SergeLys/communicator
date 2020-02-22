@@ -260,12 +260,12 @@
         </RelativeLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_cases_button"
+            android:id="@+id/back_button"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="25dp"
-            android:text="@string/save_cases_button">
+            android:text="@string/back_button">
         </com.google.android.material.button.MaterialButton>
 
     </LinearLayout>

@@ -9,12 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
 import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.core.Card
 import com.ls.comunicator.core.Image
+import com.ls.comunicator.core.ProxyBitMap
 
 class PageFragment : Fragment() {
 
@@ -29,11 +29,11 @@ class PageFragment : Fragment() {
         val bitMap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.car)
 
         val cards = arrayListOf(
-            Card("Машинка", null, Image(bitMap, 10.5F, Color.RED,null, 10, Color.RED)),
-            Card("Грузовик", null, Image(bitMap, 8.5F, Color.BLUE,null, 8, Color.BLUE)),
-            Card("Ложка", null, Image(bitMap, 10.5F, Color.GREEN,null, 10, Color.GREEN)),
-            Card("Тарелка", null, Image(bitMap, 10.5F, Color.RED,null, 10, Color.GREEN)),
-            Card("Машинка", null, Image(bitMap, 10.5F, Color.YELLOW,null, 10, Color.YELLOW))
+            Card("Машинка", null, Image(ProxyBitMap(bitMap), 10.5F, Color.RED,null, 10, Color.RED)),
+            Card("Грузовик", null, Image(ProxyBitMap(bitMap), 8.5F, Color.BLUE,null, 8, Color.BLUE)),
+            Card("Ложка", null, Image(ProxyBitMap(bitMap), 10.5F, Color.GREEN,null, 10, Color.GREEN)),
+            Card("Тарелка", null, Image(ProxyBitMap(bitMap), 10.5F, Color.RED,null, 10, Color.GREEN)),
+            Card("Машинка", null, Image(ProxyBitMap(bitMap), 10.5F, Color.YELLOW,null, 10, Color.YELLOW))
         )
 
         recyclerView = view.findViewById(R.id.page_list)

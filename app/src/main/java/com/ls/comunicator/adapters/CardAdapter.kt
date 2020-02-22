@@ -54,7 +54,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommu
 //        TODO textPlace
             cardFrame.strokeColor = card.image.borderColour
             cardFrame.strokeWidth = card.image.borderSize
-            cardImage.setImageBitmap(card.image.image)
+            cardImage.setImageBitmap(card.image.image.bitmap)
             cardText.setTextColor(card.image.textColour)
             cardText.textSize = card.image.textSize
             cardText.text = card.name

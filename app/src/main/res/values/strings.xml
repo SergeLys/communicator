@@ -42,4 +42,5 @@
     <string name="speech_part_list_hint_text">Выберите часть речи</string>
     <string name="image_text">image_text</string>
     <string name="card_test_text">Машинка</string>
+    <string name="back_button">Назад</string>
 </resources>
