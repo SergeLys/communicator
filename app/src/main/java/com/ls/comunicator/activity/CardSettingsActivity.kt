@@ -9,6 +9,7 @@ import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -16,13 +17,10 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
-import com.ls.comunicator.core.Card
+import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.APP_NAME
 import com.ls.comunicator.core.Consts.Companion.CARD
-import com.ls.comunicator.core.Image
-import com.ls.comunicator.core.ProxyBitMap
 import com.ls.comunicator.core.SingletonCard.card
-import com.ls.comunicator.core.checkCard
 import java.io.*
 
 class CardSettingsActivity : AppCompatActivity() {
@@ -140,6 +138,23 @@ class CardSettingsActivity : AppCompatActivity() {
                 cardText.setTextColor(card.image.textColour)
             if (card.image.textSize != 0F)
                 cardText.textSize = card.image.textSize
+            if (card.image.textPlace != null) {
+                val imageParams = cardImage.layoutParams as RelativeLayout.LayoutParams
+                val textParams = cardText.layoutParams as RelativeLayout.LayoutParams
+                when(card.image.textPlace) {
+                    TextPositionEnum.UP -> {
+                        textParams.removeRule(RelativeLayout.BELOW)
+                        textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+                        imageParams.addRule(RelativeLayout.BELOW, R.id.card_text)
+                    }
+                    TextPositionEnum.BOTTOM -> {
+                        textParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP)
+                        imageParams.removeRule(RelativeLayout.BELOW)
+                        textParams.addRule(RelativeLayout.BELOW, R.id.card_image)
+                    }
+                    else -> {}
+                }
+            }
         }
     }
 }

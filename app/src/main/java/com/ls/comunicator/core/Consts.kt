@@ -14,5 +14,6 @@ class Consts {
         const val TEXT_COLOUR_WARNING = "Выберите цвет текста !"
         const val TEXT_PLACE_WARNING = "Выберите расположение текста !"
         const val TEXT_SIZE_WARNING = "Выберите размер текста !"
+        const val CAMERA_REQUEST = 0
     }
 }

@@ -7,11 +7,11 @@ public class Image implements Serializable {
     private ProxyBitMap image;
     private float textSize;
     private int textColour, borderSize, borderColour;
-    private String textPlace;
+    private  TextPositionEnum textPlace;
 
     public Image() {}
 
-    public Image(ProxyBitMap image, float textSize, int textColour,  String textPlace, int borderSize, int borderColour) {
+    public Image(ProxyBitMap image, float textSize, int textColour,  TextPositionEnum textPlace, int borderSize, int borderColour) {
         this.image = image;
         this.textSize = textSize;
         this.textColour = textColour;
@@ -60,11 +60,11 @@ public class Image implements Serializable {
         this.borderColour = borderColour;
     }
 
-    public String getTextPlace() {
+    public  TextPositionEnum getTextPlace() {
         return textPlace;
     }
 
-    public void setTextPlace(String textPlace) {
+    public void setTextPlace( TextPositionEnum textPlace) {
         this.textPlace = textPlace;
     }
 }
