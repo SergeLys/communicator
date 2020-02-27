@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.material.button.MaterialButton
@@ -20,17 +21,18 @@ import com.ls.comunicator.R
 import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.APP_NAME
 import com.ls.comunicator.core.Consts.Companion.CARD
+import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
 import com.ls.comunicator.core.SingletonCard.card
 import java.io.*
 
 class CardSettingsActivity : AppCompatActivity() {
 
-    lateinit var page: String
-    lateinit var pageData: File
-    lateinit var cardFrame: MaterialCardView
-    lateinit var cardImage: ImageView
-    lateinit var cardText: TextView
-    lateinit var cardName: TextInputEditText
+    private lateinit var page: String
+    private lateinit var pageData: File
+    private lateinit var cardFrame: MaterialCardView
+    private lateinit var cardImage: ImageView
+    private lateinit var cardText: TextView
+    private lateinit var cardName: TextInputEditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +43,9 @@ class CardSettingsActivity : AppCompatActivity() {
         if (intent.hasExtra(CARD))
             card = intent.getSerializableExtra(CARD) as Card
 
-//        page = intent.getStringExtra(PAGE)
         val options = BitmapFactory.Options()
         options.inScaled = false
-        val bitMap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.car, options)
 
-        card.name = "Машинка"
-//        card.image = Image(ProxyBitMap(bitMap), 20F, Color.BLACK,null, 20, Color.YELLOW)
         updateCardPreview(card)
 
         findViewById<MaterialButton>(R.id.open_cases_button)
@@ -64,13 +62,13 @@ class CardSettingsActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.save_card_button)
             .setOnClickListener {
-                if (checkCard(baseContext, card, true)) {
-                    var appRoot = File("/storage/emmc","/$APP_NAME/$page")
+                if (checkCard(baseContext, card, true) || true) {
+                    var appRoot = File("/storage/emmc","/$APP_NAME/${card.name}")
                     if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-                        pageData = File(Environment.getExternalStorageDirectory().absoluteFile,"/$APP_NAME/$page")
+                        pageData = File(Environment.getExternalStorageDirectory().absoluteFile,"/$APP_NAME/${card.name}")
 
                     ActivityCompat.requestPermissions(this,
-                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_CODE)
 
                     var success = true
                     if (!pageData.exists()) {
@@ -86,21 +84,22 @@ class CardSettingsActivity : AppCompatActivity() {
                             os.flush()
                             os.close()
                             fos.close()
+                            Toast.makeText(baseContext, "Сохранено", Toast.LENGTH_SHORT).show()
                         } catch (e : Exception) {
                             e.printStackTrace()
                         }
                     }
-                    try {
-                        ActivityCompat.requestPermissions(this,
-                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-                        val fis = FileInputStream(File(Environment.getExternalStorageDirectory().toString() + "/Communicator/Машинка"))
-                        val ins = ObjectInputStream(fis)
-                        val test = ins.readObject()
-                        ins.close()
-                        fis.close()
-                    } catch (e: java.lang.Exception) {
-
-                    }
+//                    try {
+//                        ActivityCompat.requestPermissions(this,
+//                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+//                        val fis = FileInputStream(File(Environment.getExternalStorageDirectory().toString() + "/Communicator/Машинка"))
+//                        val ins = ObjectInputStream(fis)
+//                        val test = ins.readObject()
+//                        ins.close()
+//                        fis.close()
+//                    } catch (e: java.lang.Exception) {
+//
+//                    }
                 }
             }
 
@@ -125,7 +124,7 @@ class CardSettingsActivity : AppCompatActivity() {
         cardImage = findViewById(R.id.card_image)
         cardText = findViewById(R.id.card_text)
 
-        if (card.name != "")
+        if (card.name != "" && card.name != null)
             cardText.text = card.name
         if (card.image != null) {
             if (card.image.borderColour != 0)

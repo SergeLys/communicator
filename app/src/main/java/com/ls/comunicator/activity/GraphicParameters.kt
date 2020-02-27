@@ -1,7 +1,9 @@
 package com.ls.comunicator.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.CheckBox
@@ -9,12 +11,17 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
+import coil.Coil
+import coil.api.get
+import coil.api.load
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.CAMERA_REQUEST
+import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback
 
@@ -30,7 +37,6 @@ class GraphicParameters : AppCompatActivity() {
     lateinit var frameSizeSlider: Slider
     lateinit var upCheckBox: CheckBox
     lateinit var bottomCheckBox: CheckBox
-    lateinit var imageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +52,9 @@ class GraphicParameters : AppCompatActivity() {
         upCheckBox = findViewById(R.id.up_check_box)
         bottomCheckBox = findViewById(R.id.bottom_check_box)
 
-        textColorPicker = ColorPicker(this, 100,100,100)
+        setParameters(card)
+
+        textColorPicker = ColorPicker(this, 0,0,0)
         textColorPicker.enableAutoClose()
         textColorPicker.setCallback(object : ColorPickerCallback{
             override fun onColorChosen(color: Int) {
@@ -54,7 +62,7 @@ class GraphicParameters : AppCompatActivity() {
                 textColorLayout.setBackgroundColor(color)
             }
         })
-        borderColorPicker = ColorPicker(this, 100,100,100)
+        borderColorPicker = ColorPicker(this, 0,0,0)
         borderColorPicker.enableAutoClose()
         borderColorPicker.setCallback(object : ColorPickerCallback{
             override fun onColorChosen(color: Int) {
@@ -105,12 +113,11 @@ class GraphicParameters : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.image_file_button)
             .setOnClickListener {
-//                imageView.load() // file
+                val fileintent = Intent(Intent.ACTION_GET_CONTENT)
+                fileintent.type = "image/*"
+                startActivityForResult(fileintent, FILE_BROWSER_REQUEST)
             }
-        findViewById<FloatingActionButton>(R.id.image_net_button)
-            .setOnClickListener {
-//                imageView.load() // net
-            }
+
         findViewById<FloatingActionButton>(R.id.image_camera_button)
             .setOnClickListener {
                 val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -122,9 +129,21 @@ class GraphicParameters : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            val thumbnailBitmap = data?.extras?.get("data") as Bitmap
-            card.image.image = ProxyBitMap(thumbnailBitmap)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                CAMERA_REQUEST -> {
+                    val thumbnailBitmap = data?.extras?.get("data") as Bitmap
+                    card.image.image = ProxyBitMap(thumbnailBitmap)
+
+                }
+                FILE_BROWSER_REQUEST -> {
+                    Coil.load(baseContext, data?.data) {
+                        target {drawable ->
+                            card.image.image = ProxyBitMap(drawable.toBitmap())
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -141,6 +160,30 @@ class GraphicParameters : AppCompatActivity() {
                     card.image.textPlace = TextPositionEnum.BOTTOM
                     if (upCheckBox.isChecked)
                         upCheckBox.isChecked = false
+                }
+            }
+        }
+    }
+
+    fun setParameters(card: Card) {
+        if (card.image != null) {
+            if(card.image.borderColour != 0)
+                borderColorLayout.setBackgroundColor(card.image.borderColour)
+            if(card.image.textColour != 0)
+                textColorLayout.setBackgroundColor(card.image.textColour)
+            if(!card.image.textSize.equals(0F))
+                textSizeSlider.value = card.image.textSize
+            if(card.image.borderSize != 0)
+                frameSizeSlider.value = card.image.borderSize.toFloat()
+            if(card.image.textPlace != null) {
+                when(card.image.textPlace) {
+                    TextPositionEnum.UP -> {
+                        upCheckBox.isChecked = true
+                    }
+                    TextPositionEnum.BOTTOM -> {
+                        bottomCheckBox.isChecked = true
+                    }
+                    else -> {}
                 }
             }
         }

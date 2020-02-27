@@ -94,7 +94,7 @@
             android:layout_height="30dp"
             android:layout_margin="1dp"
             android:orientation="horizontal"
-            android:background="@color/colorPrimary"
+            android:background="@color/materialcolorpicker__black"
             android:layout_toEndOf="@id/text_color_button"
             android:layout_alignTop="@id/text_color_button"/>
     </RelativeLayout>
@@ -141,7 +141,7 @@
             android:layout_height="30dp"
             android:layout_margin="1dp"
             android:orientation="horizontal"
-            android:background="@color/colorPrimary"
+            android:background="@color/materialcolorpicker__black"
             android:layout_toEndOf="@id/border_color_button"
             android:layout_alignBottom="@id/border_color_button"/>
     </RelativeLayout>
@@ -186,6 +186,11 @@
             android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/test_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/back_button"

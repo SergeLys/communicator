@@ -117,7 +117,7 @@
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/image_text"
                         android:scaleType="centerInside"
-                        android:src="@drawable/car" />
+                        android:src="@drawable/ic_image_black_24dp" />
 
                     <RelativeLayout
                         android:id="@+id/text_layout"
@@ -133,7 +133,7 @@
                         android:layout_below="@id/card_image"
                         android:layout_centerInParent="true"
                         android:layout_margin="10dp"
-                        android:text="@string/card_test_text"
+                        android:text="@string/card_default_text"
                         android:textSize="20sp" />
 
                 </RelativeLayout>
