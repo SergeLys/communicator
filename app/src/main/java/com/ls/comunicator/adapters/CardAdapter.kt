@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.ls.comunicator.R
 import com.ls.comunicator.core.Card
 import kotlinx.android.synthetic.main.card_list_item.view.*
+import java.io.File
 
 class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommunicativeLine: Boolean) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
@@ -54,7 +56,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommu
 //        TODO textPlace
             cardFrame.strokeColor = card.image.borderColour
             cardFrame.strokeWidth = card.image.borderSize
-            cardImage.setImageBitmap(card.image.image.bitmap)
+            cardImage.load(File(card.image.imagePath))
             cardText.setTextColor(card.image.textColour)
             cardText.textSize = card.image.textSize
             cardText.text = card.name

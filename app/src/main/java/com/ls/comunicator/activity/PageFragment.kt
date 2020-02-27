@@ -1,8 +1,5 @@
 package com.ls.comunicator.activity
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
 import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.core.Card
-import com.ls.comunicator.core.Image
-import com.ls.comunicator.core.ProxyBitMap
 
 class PageFragment : Fragment() {
 

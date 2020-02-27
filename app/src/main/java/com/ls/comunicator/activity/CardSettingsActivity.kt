@@ -1,11 +1,8 @@
 package com.ls.comunicator.activity
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.ImageView
@@ -19,16 +16,13 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
-import com.ls.comunicator.core.Consts.Companion.APP_NAME
 import com.ls.comunicator.core.Consts.Companion.CARD
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
 import com.ls.comunicator.core.SingletonCard.card
-import java.io.*
 
 class CardSettingsActivity : AppCompatActivity() {
 
     private lateinit var page: String
-    private lateinit var pageData: File
     private lateinit var cardFrame: MaterialCardView
     private lateinit var cardImage: ImageView
     private lateinit var cardText: TextView
@@ -62,45 +56,11 @@ class CardSettingsActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.save_card_button)
             .setOnClickListener {
-                if (checkCard(baseContext, card, true) || true) {
-                    var appRoot = File("/storage/emmc","/$APP_NAME/${card.name}")
-                    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-                        pageData = File(Environment.getExternalStorageDirectory().absoluteFile,"/$APP_NAME/${card.name}")
-
-                    ActivityCompat.requestPermissions(this,
-                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_CODE)
-
-                    var success = true
-                    if (!pageData.exists()) {
-                        success = pageData.mkdirs()
-                    }
-                    if (success) {
-                        val fileCard = File(pageData, card.name)
-                        if (fileCard.exists()) fileCard.delete()
-                        try {
-                            val fos = FileOutputStream(fileCard)
-                            val os = ObjectOutputStream(fos)
-                            os.writeObject(card)
-                            os.flush()
-                            os.close()
-                            fos.close()
-                            Toast.makeText(baseContext, "Сохранено", Toast.LENGTH_SHORT).show()
-                        } catch (e : Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-//                    try {
-//                        ActivityCompat.requestPermissions(this,
-//                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-//                        val fis = FileInputStream(File(Environment.getExternalStorageDirectory().toString() + "/Communicator/Машинка"))
-//                        val ins = ObjectInputStream(fis)
-//                        val test = ins.readObject()
-//                        ins.close()
-//                        fis.close()
-//                    } catch (e: java.lang.Exception) {
-//
-//                    }
-                }
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_CODE
+                )
+                val success = saveCard(baseContext, "test", card)
+                Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
             }
 
         cardName.addTextChangedListener(object : TextWatcher {
@@ -131,8 +91,8 @@ class CardSettingsActivity : AppCompatActivity() {
                 cardFrame.strokeColor = card.image.borderColour
             if (card.image.borderSize != 0)
                 cardFrame.strokeWidth = card.image.borderSize
-            if (card.image.image != null)
-                cardImage.setImageBitmap(card.image.image.bitmap)
+            if (card.image.imageView != null)
+                cardImage.setImageDrawable(card.image.imageView.drawable)
             if (card.image.textColour != 0)
                 cardText.setTextColor(card.image.textColour)
             if (card.image.textSize != 0F)

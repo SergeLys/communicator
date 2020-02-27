@@ -1,9 +1,6 @@
 package com.ls.comunicator.activity
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,8 +14,6 @@ import com.ls.comunicator.R
 import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.adapters.ViewPagerAdapter
 import com.ls.comunicator.core.Card
-import com.ls.comunicator.core.Image
-import com.ls.comunicator.core.ProxyBitMap
 import java.util.*
 
 class MainActivity : AppCompatActivity() {

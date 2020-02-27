@@ -1,18 +1,21 @@
 package com.ls.comunicator.core;
 
+import android.widget.ImageView;
+
 import java.io.Serializable;
 
 public class Image implements Serializable {
 
-    private ProxyBitMap image;
+    private String imagePath;
+    private transient ImageView imageView;
     private float textSize;
     private int textColour, borderSize, borderColour;
     private  TextPositionEnum textPlace;
 
     public Image() {}
 
-    public Image(ProxyBitMap image, float textSize, int textColour,  TextPositionEnum textPlace, int borderSize, int borderColour) {
-        this.image = image;
+    public Image(String imagePath, float textSize, int textColour, int borderSize, int borderColour, TextPositionEnum textPlace) {
+        this.imagePath = imagePath;
         this.textSize = textSize;
         this.textColour = textColour;
         this.borderSize = borderSize;
@@ -20,12 +23,20 @@ public class Image implements Serializable {
         this.textPlace = textPlace;
     }
 
-    public ProxyBitMap getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImage(ProxyBitMap image) {
-        this.image = image;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
     }
 
     public float getTextSize() {

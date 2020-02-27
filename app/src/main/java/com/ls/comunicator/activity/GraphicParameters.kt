@@ -43,8 +43,10 @@ class GraphicParameters : AppCompatActivity() {
         setContentView(R.layout.activity_graphic_parameters)
 
         card = SingletonCard.card
-        if (card.image == null)
+        if (card.image == null) {
             card.image = Image()
+            card.image.imageView = ImageView(baseContext)
+        }
         textColorLayout = findViewById(R.id.text_colour)
         borderColorLayout = findViewById(R.id.border_colour)
         textSizeSlider = findViewById(R.id.text_size_slider)
@@ -133,13 +135,13 @@ class GraphicParameters : AppCompatActivity() {
             when (requestCode) {
                 CAMERA_REQUEST -> {
                     val thumbnailBitmap = data?.extras?.get("data") as Bitmap
-                    card.image.image = ProxyBitMap(thumbnailBitmap)
+                    card.image.imageView.setImageBitmap(thumbnailBitmap)
 
                 }
                 FILE_BROWSER_REQUEST -> {
                     Coil.load(baseContext, data?.data) {
                         target {drawable ->
-                            card.image.image = ProxyBitMap(drawable.toBitmap())
+                            card.image.imageView.setImageDrawable(drawable)
                         }
                     }
                 }
