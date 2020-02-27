@@ -104,19 +104,40 @@ fun saveCard(context: Context, listName: String, card: Card): Boolean {
     return success
 }
 
-fun loadCard(): Card {
+fun loadCardsList(listName: String): ArrayList<Card> {
 
-    lateinit var fos: FileOutputStream
-    lateinit var os: ObjectOutputStream
-    try {
-//                        ActivityCompat.requestPermissions(this,
-//                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-        val fis = FileInputStream(File(Environment.getExternalStorageDirectory().toString() + "/Communicator/Машинка"))
-        val ins = ObjectInputStream(fis)
-        val test = ins.readObject()
-        ins.close()
-        fis.close()
-    } catch (e: java.lang.Exception) {
+    lateinit var fis: FileInputStream
+    lateinit var ins:  ObjectInputStream
+    lateinit var listDir: File
+    val cards = arrayListOf<Card>()
+    val listDirPath = "/${Consts.CARD_FOLDER}/$listName"
+
+    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
+        listDir = File(Environment.getExternalStorageDirectory().absoluteFile, listDirPath)
+
+    if (listDir.exists()) {
+        listDir.listFiles().forEach {
+            if (it.isDirectory) {
+                try {
+                    fis = FileInputStream(File("${it.absolutePath}/card_info"))
+                    ins = ObjectInputStream(fis)
+                    cards.add(ins.readObject() as Card)
+
+                } catch (e: java.lang.Exception) {
+                } finally {
+                    ins.close()
+                    fis.close()
+                }
+            }
+        }
     }
-    return Card()
+    return cards
+}
+
+fun deleteCard() {
+
+}
+
+fun deleteCardList() {
+
 }

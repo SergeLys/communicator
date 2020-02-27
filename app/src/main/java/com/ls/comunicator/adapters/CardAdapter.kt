@@ -1,6 +1,7 @@
 package com.ls.comunicator.adapters
 
 import android.content.Context
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.ls.comunicator.R
 import com.ls.comunicator.core.Card
+import com.ls.comunicator.core.Consts
 import kotlinx.android.synthetic.main.card_list_item.view.*
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommunicativeLine: Boolean) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
@@ -28,6 +32,11 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommu
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(cards.get(position))
+    }
+
+    fun add(card: Card) {
+        cards.add(card)
+        notifyDataSetChanged()
     }
 
     fun delete() {
@@ -56,7 +65,8 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommu
 //        TODO textPlace
             cardFrame.strokeColor = card.image.borderColour
             cardFrame.strokeWidth = card.image.borderSize
-            cardImage.load(File(card.image.imagePath))
+            cardImage.load(File(Environment.getExternalStorageDirectory().absoluteFile, "/${Consts.CARD_FOLDER}/test/${card.name.toLowerCase(
+                Locale.getDefault())}/image.jpg"))
             cardText.setTextColor(card.image.textColour)
             cardText.textSize = card.image.textSize
             cardText.text = card.name

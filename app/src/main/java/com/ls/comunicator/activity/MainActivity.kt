@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -13,7 +14,7 @@ import com.google.android.material.tabs.TabLayout
 import com.ls.comunicator.R
 import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.adapters.ViewPagerAdapter
-import com.ls.comunicator.core.Card
+import com.ls.comunicator.core.loadCardsList
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        ActivityCompat.requestPermissions(this,
+                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
 
         mTTS = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
             if (status != TextToSpeech.ERROR){
@@ -46,16 +50,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-//        val bitMap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_image_black_24dp)
-
-//        val cards = arrayListOf(
-//            Card("Машинка", null, Image(ProxyBitMap(bitMap), 10.5F, Color.RED,null, 10, Color.RED)),
-//            Card("Грузовик", null, Image(ProxyBitMap(bitMap), 8.5F, Color.BLUE,null, 8, Color.BLUE)),
-//            Card("Ложка", null, Image(ProxyBitMap(bitMap), 10.5F, Color.GREEN,null, 10, Color.GREEN)),
-//            Card("Тарелка", null, Image(ProxyBitMap(bitMap), 10.5F, Color.RED,null, 10, Color.GREEN)),
-//            Card("Машинка", null, Image(ProxyBitMap(bitMap), 10.5F, Color.YELLOW,null, 10, Color.YELLOW))
-//        )
-        val cards = arrayListOf<Card>()
+        val cards = loadCardsList("test")
 
         val adapter =
             ViewPagerAdapter(supportFragmentManager)
