@@ -47,4 +47,6 @@
     <string name="bottom_text">Низ</string>
     <string name="up_place">Верх</string>
     <string name="card_default_text">Надпись</string>
+    <string name="card_menu_delete">Удалить</string>
+    <string name="card_menu_edit">Редактировать</string>
 </resources>

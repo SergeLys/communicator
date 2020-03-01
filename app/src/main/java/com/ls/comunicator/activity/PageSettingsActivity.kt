@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.ls.comunicator.R
 import com.ls.comunicator.adapters.CardAdapter
+import com.ls.comunicator.adapters.CardAdapterEnum
 import com.ls.comunicator.core.Card
 import com.ls.comunicator.core.loadCardsList
 
@@ -23,7 +24,7 @@ class PageSettingsActivity : AppCompatActivity() {
         val cards = loadCardsList("test")
         recyclerView = findViewById(R.id.page_list)
         recyclerView.layoutManager = GridLayoutManager( this, 3)
-        recyclerView.adapter = CardAdapter(cards, this, false)
+        recyclerView.adapter = CardAdapter(cards, this, CardAdapterEnum.EDIT_PAGE)
 
         findViewById<MaterialButton>(R.id.add_symbol_button)
             .setOnClickListener {

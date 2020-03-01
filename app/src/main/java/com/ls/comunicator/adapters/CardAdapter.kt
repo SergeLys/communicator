@@ -1,30 +1,35 @@
 package com.ls.comunicator.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.PopupMenu
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.ls.comunicator.R
+import com.ls.comunicator.activity.CardSettingsActivity
 import com.ls.comunicator.core.Card
 import com.ls.comunicator.core.Consts
+import com.ls.comunicator.core.SingletonCard
 import kotlinx.android.synthetic.main.card_list_item.view.*
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommunicativeLine: Boolean) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
+class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: CardAdapterEnum) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return cards.size
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var viewHolder = ViewHolder(LayoutInflater.from(context).inflate(R.layout.card_list_item, parent, false))
-        if(isCommunicativeLine)
+        if(type == CardAdapterEnum.COMMUNICATIVE_LINE)
             viewHolder = ViewHolder(LayoutInflater.from(context).inflate(R.layout.card_list_communicative_item, parent, false))
         return viewHolder
     }
@@ -70,6 +75,40 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val isCommu
             cardText.setTextColor(card.image.textColour)
             cardText.textSize = card.image.textSize
             cardText.text = card.name
+
+            when(type) {
+                CardAdapterEnum.PAGE -> {
+                    itemView.setOnClickListener{
+                    }
+                }
+                CardAdapterEnum.EDIT_PAGE -> {
+                    val popupMenu = PopupMenu(context, itemView)
+                    popupMenu.inflate(R.menu.cardmenu)
+                    popupMenu.setOnMenuItemClickListener {
+                        when(it.itemId) {
+                            R.id.menu_edit -> {
+                                card.image.imageView = ImageView(context)
+                                card.image.imageView.setImageDrawable(cardImage.drawable)
+                                SingletonCard.card = card
+                                val cardSettingsActivity = Intent(context, CardSettingsActivity::class.java)
+                                startActivity(context, cardSettingsActivity, null)
+                                true
+                            }
+                            R.id.menu_delete -> {
+                                cards.remove(card)
+                                notifyDataSetChanged()
+                                true
+                            }
+                            else -> false
+                        }
+                    }
+                    itemView.setOnLongClickListener{
+                        popupMenu.show()
+                        true
+                    }
+                }
+                else -> {}
+            }
         }
     }
 

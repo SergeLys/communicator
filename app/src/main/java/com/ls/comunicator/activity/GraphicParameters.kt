@@ -15,6 +15,7 @@ import androidx.core.graphics.drawable.toBitmap
 import coil.Coil
 import coil.api.get
 import coil.api.load
+import coil.request.CachePolicy
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
@@ -134,12 +135,19 @@ class GraphicParameters : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 CAMERA_REQUEST -> {
-                    val thumbnailBitmap = data?.extras?.get("data") as Bitmap
-                    card.image.imageView.setImageBitmap(thumbnailBitmap)
-
+                    val bitmap = data?.extras?.get("data") as Bitmap
+                    Coil.load(baseContext, bitmap) {
+                        size(350, 450)
+                        memoryCachePolicy(CachePolicy.DISABLED)
+                        target {drawable ->
+                            card.image.imageView.setImageDrawable(drawable)
+                        }
+                    }
                 }
                 FILE_BROWSER_REQUEST -> {
                     Coil.load(baseContext, data?.data) {
+                        size(350, 450)
+                        memoryCachePolicy(CachePolicy.DISABLED)
                         target {drawable ->
                             card.image.imageView.setImageDrawable(drawable)
                         }

@@ -16,7 +16,6 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
-import com.ls.comunicator.core.Consts.Companion.CARD
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
 import com.ls.comunicator.core.SingletonCard.card
 
@@ -33,9 +32,6 @@ class CardSettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_card_settings)
 
         cardName = findViewById(R.id.card_name)
-
-        if (intent.hasExtra(CARD))
-            card = intent.getSerializableExtra(CARD) as Card
 
         val options = BitmapFactory.Options()
         options.inScaled = false

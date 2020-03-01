@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.ls.comunicator.R
 import com.ls.comunicator.adapters.CardAdapter
+import com.ls.comunicator.adapters.CardAdapterEnum
 import com.ls.comunicator.adapters.ViewPagerAdapter
 import com.ls.comunicator.core.loadCardsList
 import java.util.*
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.communicative_line)
         recyclerView.layoutManager = LinearLayoutManager( this, RecyclerView.HORIZONTAL, false)
-        val cardAdapter = CardAdapter(cards, this, true)
+        val cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE)
         recyclerView.adapter = cardAdapter
 
         findViewById<FloatingActionButton>(R.id.settings_button)
