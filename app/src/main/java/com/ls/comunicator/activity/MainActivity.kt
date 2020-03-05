@@ -32,45 +32,26 @@ class MainActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(this,
                             arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
 
-        mTTS = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
-            if (status != TextToSpeech.ERROR){
-                //if there is no error then set language
-                mTTS.language = Locale.UK
-            }
-            if (status == TextToSpeech.SUCCESS) {
-                if (mTTS.isLanguageAvailable(Locale(Locale.getDefault().language))
-                    == TextToSpeech.LANG_AVAILABLE) {
-                    mTTS.language = Locale(Locale.getDefault().language)
-                } else {
-                    mTTS.language = Locale.US
-                }
-                mTTS.setPitch(1.3f)
-                mTTS.setSpeechRate(0.7f)
-            } else if (status == TextToSpeech.ERROR) {
-                // TODO error msg
-            }
-        })
-
         val cards = loadCardsList("test")
+
+        recyclerView = findViewById(R.id.communicative_line)
+        recyclerView.layoutManager = LinearLayoutManager( this, RecyclerView.HORIZONTAL, false)
+        val cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE, null)
+        recyclerView.adapter = cardAdapter
 
         val adapter =
             ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(PageFragment(), "Дейсвтия")
-        adapter.addFragment(PageFragment(), "Природа")
-        adapter.addFragment(PageFragment(), "Техника")
-        adapter.addFragment(PageFragment(), "Животные")
-        adapter.addFragment(PageFragment(), "Растения")
+        adapter.addFragment(fragment = PageFragment(cardAdapter), title = "Дейсвтия")
+        adapter.addFragment(PageFragment(cardAdapter), "Природа")
+        adapter.addFragment(PageFragment(cardAdapter), "Техника")
+        adapter.addFragment(PageFragment(cardAdapter), "Животные")
+        adapter.addFragment(PageFragment(cardAdapter), "Растения")
 
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = adapter
 
         tabLayout = findViewById(R.id.tab_layout)
         tabLayout.setupWithViewPager(viewPager)
-
-        recyclerView = findViewById(R.id.communicative_line)
-        recyclerView.layoutManager = LinearLayoutManager( this, RecyclerView.HORIZONTAL, false)
-        val cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE)
-        recyclerView.adapter = cardAdapter
 
         findViewById<FloatingActionButton>(R.id.settings_button)
             .setOnClickListener {
@@ -90,14 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.play_button)
             .setOnClickListener {
-                var speech = ""
-                cards.forEach{
-                    speech += it.name + " "
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    mTTS.speak(speech,TextToSpeech.QUEUE_FLUSH,null,null)
-                else
-                    mTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null)
+               cardAdapter.playAll()
             }
     }
 }

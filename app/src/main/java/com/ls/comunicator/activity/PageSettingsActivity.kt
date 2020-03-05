@@ -24,7 +24,7 @@ class PageSettingsActivity : AppCompatActivity() {
         val cards = loadCardsList("test")
         recyclerView = findViewById(R.id.page_list)
         recyclerView.layoutManager = GridLayoutManager( this, 3)
-        recyclerView.adapter = CardAdapter(cards, this, CardAdapterEnum.EDIT_PAGE)
+        recyclerView.adapter = CardAdapter(cards, this, CardAdapterEnum.EDIT_PAGE, null)
 
         findViewById<MaterialButton>(R.id.add_symbol_button)
             .setOnClickListener {

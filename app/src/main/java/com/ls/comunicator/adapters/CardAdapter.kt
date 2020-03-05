@@ -2,7 +2,9 @@ package com.ls.comunicator.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Environment
+import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +23,30 @@ import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: CardAdapterEnum) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
+class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: CardAdapterEnum, val communicate: CardAdapter?) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
+
+    private lateinit var mTTS: TextToSpeech
+
+    init {
+        mTTS = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
+            if (status != TextToSpeech.ERROR){
+                //if there is no error then set language
+                mTTS.language = Locale.UK
+            }
+            if (status == TextToSpeech.SUCCESS) {
+                if (mTTS.isLanguageAvailable(Locale(Locale.getDefault().language))
+                    == TextToSpeech.LANG_AVAILABLE) {
+                    mTTS.language = Locale(Locale.getDefault().language)
+                } else {
+                    mTTS.language = Locale.US
+                }
+                mTTS.setPitch(1.3f)
+                mTTS.setSpeechRate(0.7f)
+            } else if (status == TextToSpeech.ERROR) {
+                // TODO error msg
+            }
+        })
+    }
 
     override fun getItemCount(): Int {
         return cards.size
@@ -60,6 +85,17 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
         }
     }
 
+    fun playAll() {
+        var speech = ""
+        cards.forEach{
+            speech += it.name + " "
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            mTTS.speak(speech,TextToSpeech.QUEUE_FLUSH,null,null)
+        else
+            mTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null)
+    }
+
     inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
         val cardFrame = view.card_frame
@@ -67,7 +103,6 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
         val cardText = view.card_text
 
         fun bind(card: Card) {
-//        TODO textPlace
             cardFrame.strokeColor = card.image.borderColour
             cardFrame.strokeWidth = card.image.borderSize
             cardImage.load(File(Environment.getExternalStorageDirectory().absoluteFile, "/${Consts.CARD_FOLDER}/test/${card.name.toLowerCase(
@@ -78,7 +113,15 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
 
             when(type) {
                 CardAdapterEnum.PAGE -> {
+                    itemView.setOnLongClickListener{
+                        communicate?.add(card)
+                        true
+                    }
                     itemView.setOnClickListener{
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                            mTTS.speak(card.name,TextToSpeech.QUEUE_FLUSH,null,null)
+                        else
+                            mTTS.speak(card.name, TextToSpeech.QUEUE_FLUSH, null)
                     }
                 }
                 CardAdapterEnum.EDIT_PAGE -> {
@@ -110,10 +153,6 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                 else -> {}
             }
         }
-    }
-
-    interface Callback {
-        fun onItemClicked(card: Card)
     }
 }
 
