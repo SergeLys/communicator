@@ -58,7 +58,7 @@ fun saveCard(context: Context, listName: String, card: Card): Boolean {
     lateinit var pageData: File
     lateinit var fos: FileOutputStream
     lateinit var os: ObjectOutputStream
-    val cardDirPath = "/${Consts.CARD_FOLDER}/$listName/${SingletonCard.card.name.toLowerCase(Locale.getDefault())}"
+    val cardDirPath = "/${Consts.LISTS_FOLDER}/$listName/${SingletonCard.card.name.toLowerCase(Locale.getDefault())}"
     val cardSoundDirPath = "/$cardDirPath/sound"
     val cardInfo = "card_info"
     val cardImage = "image.jpg"
@@ -110,7 +110,7 @@ fun loadCardsList(listName: String): ArrayList<Card> {
     lateinit var ins:  ObjectInputStream
     lateinit var listDir: File
     val cards = arrayListOf<Card>()
-    val listDirPath = "/${Consts.CARD_FOLDER}/$listName"
+    val listDirPath = "/${Consts.LISTS_FOLDER}/$listName"
 
     if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
         listDir = File(Environment.getExternalStorageDirectory().absoluteFile, listDirPath)
@@ -140,4 +140,55 @@ fun deleteCard() {
 
 fun deleteCardList() {
 
+}
+
+fun loadPagesList(): List<String> {
+    lateinit var fis: FileInputStream
+    lateinit var ins:  ObjectInputStream
+    lateinit var list:  List<String>
+    val pagesMapPath = "/${Consts.APP_FOLDER}/page_dict"
+    lateinit var pagesMap: File
+
+    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
+        pagesMap = File(Environment.getExternalStorageDirectory().absoluteFile, pagesMapPath)
+
+    if (pagesMap.exists()) {
+        try {
+            fis = FileInputStream(pagesMap)
+            ins = ObjectInputStream(fis)
+            list = ins.readObject() as List<String>
+
+        } catch (e: java.lang.Exception) {
+        } finally {
+            ins.close()
+            fis.close()
+        }
+    }
+    return  list
+}
+
+fun savePagesList(pages: List<String>): Boolean {
+    lateinit var fos: FileOutputStream
+    lateinit var os: ObjectOutputStream
+    val pagesMapPath = "/${Consts.APP_FOLDER}/page_dict"
+    lateinit var pagesMap: File
+    var success = true
+
+    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
+        pagesMap = File(Environment.getExternalStorageDirectory().absoluteFile, pagesMapPath)
+
+    if (pagesMap.exists()) pagesMap.delete()
+    try {
+        fos = FileOutputStream(pagesMap)
+        os = ObjectOutputStream(fos)
+        os.writeObject(pages)
+    } catch (e : Exception) {
+        success = false
+        e.printStackTrace()
+    } finally {
+        os.flush()
+        os.close()
+        fos.close()
+    }
+    return  success
 }

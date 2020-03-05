@@ -1,15 +1,16 @@
 package com.ls.comunicator.adapters
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.ls.comunicator.activity.PageFragment
 
 class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    private val mFragmentList = ArrayList<PageFragment>()
+    private val mFragmentList = ArrayList<Fragment>()
     private val mFragmentTitleList = ArrayList<String>()
 
-    override fun getItem(position: Int): PageFragment {
+    override fun getItem(position: Int): Fragment {
         return mFragmentList.get(position)
     }
 
@@ -21,7 +22,7 @@ class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager,
         return mFragmentTitleList[position]
     }
 
-    fun addFragment(fragment: PageFragment, title: String) {
+    fun addFragment(fragment: Fragment, title: String) {
         mFragmentList.add(fragment)
         mFragmentTitleList.add(title)
     }

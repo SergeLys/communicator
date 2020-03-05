@@ -15,8 +15,9 @@ import com.ls.comunicator.R
 import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.adapters.CardAdapterEnum
 import com.ls.comunicator.adapters.ViewPagerAdapter
-import com.ls.comunicator.core.loadCardsList
+import com.ls.comunicator.core.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,21 +32,24 @@ class MainActivity : AppCompatActivity() {
 
         ActivityCompat.requestPermissions(this,
                             arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+//        "Техника", "Животные", "Растения"
+        val pages = listOf<String>("Действия", "Природа")
+        savePagesList(pages)
 
-        val cards = loadCardsList("test")
+        val cards = ArrayList<Card>()
 
         recyclerView = findViewById(R.id.communicative_line)
         recyclerView.layoutManager = LinearLayoutManager( this, RecyclerView.HORIZONTAL, false)
         val cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE, null)
         recyclerView.adapter = cardAdapter
 
-        val adapter =
-            ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(fragment = PageFragment(cardAdapter), title = "Дейсвтия")
-        adapter.addFragment(PageFragment(cardAdapter), "Природа")
-        adapter.addFragment(PageFragment(cardAdapter), "Техника")
-        adapter.addFragment(PageFragment(cardAdapter), "Животные")
-        adapter.addFragment(PageFragment(cardAdapter), "Растения")
+        SingletonCard.pages = loadPagesList()
+        val adapter = ViewPagerAdapter(supportFragmentManager)
+        if (SingletonCard.pages.size > 3)
+            adapter.addFragment(DictionaryFragment(), "Словарь")
+        SingletonCard.pages.forEach {
+            adapter.addFragment(PageFragment(cardAdapter), it)
+        }
 
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = adapter

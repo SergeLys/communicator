@@ -105,7 +105,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
         fun bind(card: Card) {
             cardFrame.strokeColor = card.image.borderColour
             cardFrame.strokeWidth = card.image.borderSize
-            cardImage.load(File(Environment.getExternalStorageDirectory().absoluteFile, "/${Consts.CARD_FOLDER}/test/${card.name.toLowerCase(
+            cardImage.load(File(Environment.getExternalStorageDirectory().absoluteFile, "/${Consts.LISTS_FOLDER}/test/${card.name.toLowerCase(
                 Locale.getDefault())}/image.jpg"))
             cardText.setTextColor(card.image.textColour)
             cardText.textSize = card.image.textSize
