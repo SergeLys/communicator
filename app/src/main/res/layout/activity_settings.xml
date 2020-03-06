@@ -16,32 +16,13 @@
         android:layout_alignParentTop="true">
     </com.google.android.material.button.MaterialButton>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+    <ListView
         android:id="@+id/page_list"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
         android:layout_below="@+id/new_page_button"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/page_list_hint_text">
-
-        <AutoCompleteTextView
-            android:id="@+id/filled_exposed_dropdown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/edit_page_button"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="@string/edit_page_button"
-        android:layout_below="@id/page_list"
-        android:layout_margin="15dp"
-        android:layout_centerInParent="true">
-    </com.google.android.material.button.MaterialButton>
+        android:layout_height="480dp" />
 
     <LinearLayout
         android:id="@+id/search"
@@ -49,7 +30,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="15dp"
-        android:layout_below="@id/edit_page_button"
+        android:layout_below="@+id/page_list"
         android:layout_centerInParent="true">
 
         <TextView

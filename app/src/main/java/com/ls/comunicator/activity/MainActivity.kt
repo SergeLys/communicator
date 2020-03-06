@@ -21,7 +21,6 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mTTS: TextToSpeech
     private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: TabLayout
     private lateinit var recyclerView: RecyclerView
@@ -32,9 +31,6 @@ class MainActivity : AppCompatActivity() {
 
         ActivityCompat.requestPermissions(this,
                             arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-//        "Техника", "Животные", "Растения"
-        val pages = listOf<String>("Действия", "Природа")
-        savePagesList(pages)
 
         val cards = ArrayList<Card>()
 
@@ -48,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         if (SingletonCard.pages.size > 3)
             adapter.addFragment(DictionaryFragment(), "Словарь")
         SingletonCard.pages.forEach {
-            adapter.addFragment(PageFragment(cardAdapter), it)
+            adapter.addFragment(PageFragment(cardAdapter, it), it)
         }
 
         viewPager = findViewById(R.id.view_pager)

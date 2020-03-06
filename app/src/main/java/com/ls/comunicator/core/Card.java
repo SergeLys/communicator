@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class Card implements Serializable {
 
     private String name;
+    private transient String page;
     private HashMap<CaseEnum, Case> cases;
     private Image image;
 
@@ -15,6 +16,14 @@ public class Card implements Serializable {
         this.name = name;
         this.cases = cases;
         this.image = image;
+    }
+
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
     }
 
     public String getName() {

@@ -21,7 +21,6 @@ import com.ls.comunicator.core.SingletonCard.card
 
 class CardSettingsActivity : AppCompatActivity() {
 
-    private lateinit var page: String
     private lateinit var cardFrame: MaterialCardView
     private lateinit var cardImage: ImageView
     private lateinit var cardText: TextView
@@ -55,7 +54,7 @@ class CardSettingsActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this,
                     arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_CODE
                 )
-                val success = saveCard(baseContext, "test", card)
+                val success = savePage(baseContext, card.page, card)
                 Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
             }
 

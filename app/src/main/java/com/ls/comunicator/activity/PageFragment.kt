@@ -1,7 +1,6 @@
 package com.ls.comunicator.activity
 
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
 import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.adapters.CardAdapterEnum
-import com.ls.comunicator.core.Card
-import com.ls.comunicator.core.loadCardsList
+import com.ls.comunicator.core.loadPage
 
-class PageFragment(val communicate : CardAdapter) : Fragment() {
+class PageFragment(val communicate : CardAdapter, val page: String) : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -24,7 +22,7 @@ class PageFragment(val communicate : CardAdapter) : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_page, container, false)
 
-        val cards = loadCardsList("test")
+        val cards = loadPage(page)
 
         recyclerView = view.findViewById(R.id.page_list)
         recyclerView.layoutManager = GridLayoutManager( view.context, 3)

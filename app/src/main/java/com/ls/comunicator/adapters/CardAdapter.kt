@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
@@ -18,6 +19,7 @@ import com.ls.comunicator.activity.CardSettingsActivity
 import com.ls.comunicator.core.Card
 import com.ls.comunicator.core.Consts
 import com.ls.comunicator.core.SingletonCard
+import com.ls.comunicator.core.deletePage
 import kotlinx.android.synthetic.main.card_list_item.view.*
 import java.io.File
 import java.util.*
@@ -105,8 +107,9 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
         fun bind(card: Card) {
             cardFrame.strokeColor = card.image.borderColour
             cardFrame.strokeWidth = card.image.borderSize
-            cardImage.load(File(Environment.getExternalStorageDirectory().absoluteFile, "/${Consts.LISTS_FOLDER}/test/${card.name.toLowerCase(
-                Locale.getDefault())}/image.jpg"))
+            cardImage.load(File(Environment.getExternalStorageDirectory().absoluteFile, "/${Consts.LISTS_FOLDER}" +
+                    "/${card.page.toLowerCase(Locale.getDefault())}" +
+                    "/${card.name.toLowerCase(Locale.getDefault())}/image.jpg"))
             cardText.setTextColor(card.image.textColour)
             cardText.textSize = card.image.textSize
             cardText.text = card.name
@@ -138,8 +141,12 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                                 true
                             }
                             R.id.menu_delete -> {
-                                cards.remove(card)
-                                notifyDataSetChanged()
+                                val success = deletePage(card.page, card.name)
+                                if (success) {
+                                    cards.remove(card)
+                                    notifyDataSetChanged()
+                                }
+                                Toast.makeText(context, if (success) "Удалено" else "Не удалось", Toast.LENGTH_SHORT).show()
                                 true
                             }
                             else -> false

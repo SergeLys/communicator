@@ -12,20 +12,21 @@ import com.ls.comunicator.core.Consts.Companion.CARD_NAME_WARNING
 import com.ls.comunicator.core.Consts.Companion.TEXT_PLACE_WARNING
 import java.io.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-fun checkCard(appContext: Context, card: Card, isToast: Boolean): Boolean {
+fun checkCard(appContext: Context, card: Card?, isToast: Boolean): Boolean {
 
     var isValid = true
-    if (card.name == null) {
+    if (card?.name == null) {
         if (isToast) showToast(appContext ,CARD_NAME_WARNING)
         isValid = false
     }
-    if (card.cases == null) {
+    if (card?.cases == null) {
         if (isToast) showToast(appContext, CARD_CASES_WARNING)
         isValid = false
     }
-    if (card.image == null) {
+    if (card?.image == null) {
         if (isToast) showToast(appContext, CARD_IMAGE_WARNING)
         isValid = false
     }
@@ -53,28 +54,29 @@ fun showToast(appContext: Context,message: String) {
     Toast.makeText(appContext, message, LENGTH_SHORT).show()
 }
 
-fun saveCard(context: Context, listName: String, card: Card): Boolean {
+fun savePage(context: Context, listName: String, card: Card?): Boolean {
 
     lateinit var pageData: File
     lateinit var fos: FileOutputStream
     lateinit var os: ObjectOutputStream
-    val cardDirPath = "/${Consts.LISTS_FOLDER}/$listName/${SingletonCard.card.name.toLowerCase(Locale.getDefault())}"
-    val cardSoundDirPath = "/$cardDirPath/sound"
+    val pageDirPath  = "/${Consts.LISTS_FOLDER}/${listName.toLowerCase(Locale.getDefault())}"
+    val cardDirPath = "$pageDirPath/${card?.name?.toLowerCase(Locale.getDefault())}"
+    val cardSoundDirPath = "$cardDirPath/sound"
     val cardInfo = "card_info"
     val cardImage = "image.jpg"
     var success = true
 
-    if (checkCard(context, card, true) || true) {
+    if (checkCard(context, card, false) || true) {
         if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-            pageData = File(Environment.getExternalStorageDirectory().absoluteFile, cardDirPath)
+            pageData = File(Environment.getExternalStorageDirectory().absoluteFile, pageDirPath)
 
-        if (!pageData.exists()) {
-            success = pageData.mkdirs()
-            success = File(Environment.getExternalStorageDirectory().absoluteFile, cardSoundDirPath).mkdirs()
-        }
-        if (success) {
-            val cardInfoFile = File(pageData, cardInfo) // save card_info
-            if (cardInfoFile.exists()) cardInfoFile.delete()
+        if (!pageData.exists()) success = pageData.mkdirs()
+
+        if (success && card != null) {
+            val cardDir =  File(Environment.getExternalStorageDirectory().absoluteFile, cardDirPath)
+            cardDir.mkdirs()
+            val cardInfoFile = File(cardDir, cardInfo) // save card_info
+            if (cardInfoFile.exists()) cardInfoFile.delete() else cardInfoFile.createNewFile()
             try {
                 fos = FileOutputStream(cardInfoFile)
                 os = ObjectOutputStream(fos)
@@ -87,30 +89,31 @@ fun saveCard(context: Context, listName: String, card: Card): Boolean {
                 os.close()
                 fos.close()
             }
-            val cardImageFile = File(pageData, cardImage) // save card image
+            val cardImageFile = File(cardDir, cardImage) // save card image
             if (cardImageFile.exists()) cardImageFile.delete()
             try {
                 fos = FileOutputStream(cardImageFile)
-                card.image.imageView.drawable.toBitmap()
-                    .compress(Bitmap.CompressFormat.PNG, 50, fos)
+                card?.image?.imageView?.drawable?.toBitmap()
+                    ?.compress(Bitmap.CompressFormat.PNG, 50, fos)
             } catch (e : Exception) {
                 success = false
                 e.printStackTrace()
             } finally {
                 fos.close()
             }
+            File(Environment.getExternalStorageDirectory().absoluteFile, cardSoundDirPath).mkdirs()
         }
     }
     return success
 }
 
-fun loadCardsList(listName: String): ArrayList<Card> {
+fun loadPage(listName: String?): ArrayList<Card> {
 
     lateinit var fis: FileInputStream
     lateinit var ins:  ObjectInputStream
     lateinit var listDir: File
     val cards = arrayListOf<Card>()
-    val listDirPath = "/${Consts.LISTS_FOLDER}/$listName"
+    val listDirPath = "/${Consts.LISTS_FOLDER}/${listName?.toLowerCase(Locale.getDefault())}"
 
     if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
         listDir = File(Environment.getExternalStorageDirectory().absoluteFile, listDirPath)
@@ -121,7 +124,9 @@ fun loadCardsList(listName: String): ArrayList<Card> {
                 try {
                     fis = FileInputStream(File("${it.absolutePath}/card_info"))
                     ins = ObjectInputStream(fis)
-                    cards.add(ins.readObject() as Card)
+                    val card = ins.readObject() as Card
+                    card.page = listName
+                    cards.add(card)
 
                 } catch (e: java.lang.Exception) {
                 } finally {
@@ -133,19 +138,26 @@ fun loadCardsList(listName: String): ArrayList<Card> {
     }
     return cards
 }
+fun deletePage(page: String, card: String?): Boolean {
+    lateinit var pageData: File
+    lateinit var path: String
 
-fun deleteCard() {
+    if (card == null)
+        path = "/${Consts.LISTS_FOLDER}/${page.toLowerCase(Locale.getDefault())}"
+    else
+        path = "/${Consts.LISTS_FOLDER}/${page.toLowerCase(Locale.getDefault())}/${card.toLowerCase(Locale.getDefault())}"
 
+    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
+        pageData = File(Environment.getExternalStorageDirectory().absoluteFile, path)
+
+    pageData.deleteRecursively()
+    return (!pageData.exists())
 }
 
-fun deleteCardList() {
-
-}
-
-fun loadPagesList(): List<String> {
+fun loadPagesList(): ArrayList<String> {
     lateinit var fis: FileInputStream
     lateinit var ins:  ObjectInputStream
-    lateinit var list:  List<String>
+    lateinit var list:  ArrayList<String>
     val pagesMapPath = "/${Consts.APP_FOLDER}/page_dict"
     lateinit var pagesMap: File
 
@@ -156,18 +168,21 @@ fun loadPagesList(): List<String> {
         try {
             fis = FileInputStream(pagesMap)
             ins = ObjectInputStream(fis)
-            list = ins.readObject() as List<String>
+            list = ins.readObject() as ArrayList<String>
 
         } catch (e: java.lang.Exception) {
         } finally {
             ins.close()
             fis.close()
         }
+    } else {
+        list = ArrayList()
+        savePagesDictionary(list)
     }
     return  list
 }
 
-fun savePagesList(pages: List<String>): Boolean {
+fun savePagesDictionary(pages:ArrayList<String>): Boolean {
     lateinit var fos: FileOutputStream
     lateinit var os: ObjectOutputStream
     val pagesMapPath = "/${Consts.APP_FOLDER}/page_dict"
