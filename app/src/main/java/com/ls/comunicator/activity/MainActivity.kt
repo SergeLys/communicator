@@ -5,6 +5,10 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        super.onCreate(null)
         setContentView(R.layout.activity_main)
 
         ActivityCompat.requestPermissions(this,
@@ -53,12 +57,6 @@ class MainActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tab_layout)
         tabLayout.setupWithViewPager(viewPager)
 
-        findViewById<FloatingActionButton>(R.id.settings_button)
-            .setOnClickListener {
-                val settingsPasswordActivity = Intent(this, SettingsPasswordActivity::class.java)
-                startActivity(settingsPasswordActivity)
-            }
-
         findViewById<FloatingActionButton>(R.id.delete_all_button)
             .setOnClickListener {
                cardAdapter.deleteAll()
@@ -73,5 +71,24 @@ class MainActivity : AppCompatActivity() {
             .setOnClickListener {
                cardAdapter.playAll()
             }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when (item?.itemId) {
+            R.id.main_menu_settings -> {
+                val settingsPasswordActivity = Intent(this, SettingsPasswordActivity::class.java)
+                startActivity(settingsPasswordActivity)
+            }
+            R.id.main_menu_search -> {
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
