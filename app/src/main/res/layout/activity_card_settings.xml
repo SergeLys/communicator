@@ -27,21 +27,21 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        android:id="@+id/speech_part"
-        android:layout_margin="10dp"
+    <TextView
+        android:id="@+id/speech_part_text"
         android:layout_below="@id/symbol_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/speech_part_list_hint_text">
+        android:layout_marginStart="20dp"
+        android:text="@string/speech_part_list_hint_text"/>
 
-        <AutoCompleteTextView
-            android:id="@+id/speech_part_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
+    <Spinner
+        android:id="@+id/speech_part"
+        android:layout_below="@+id/speech_part_text"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:id="@+id/buttons_panel"
@@ -103,7 +103,6 @@
                     android:id="@+id/text_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-
                 </RelativeLayout>
 
                 <TextView

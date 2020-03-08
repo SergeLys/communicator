@@ -39,6 +39,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_keyboard_voice_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@+id/nominative_layout"/>
 
@@ -48,6 +50,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_folder_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_toStartOf="@id/nominative_voice_button"
                 android:layout_alignBottom="@+id/nominative_layout"/>
 
@@ -80,6 +84,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_keyboard_voice_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@+id/genitive_layout"/>
 
@@ -89,6 +95,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_folder_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_toStartOf="@id/genitive_voice_button"
                 android:layout_alignBottom="@+id/genitive_layout"/>
 
@@ -121,6 +129,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_keyboard_voice_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_alignParentEnd="true"
                 android:layout_toStartOf="@id/dative_voice_button"
                 android:layout_alignBottom="@+id/dative_layout"/>
@@ -131,6 +141,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_folder_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_toStartOf="@id/dative_voice_button"
                 android:layout_alignBottom="@+id/dative_layout"/>
 
@@ -163,6 +175,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_keyboard_voice_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@+id/accusative_layout"/>
 
@@ -172,6 +186,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_folder_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_toStartOf="@id/accusative_voice_button"
                 android:layout_alignBottom="@+id/accusative_layout"/>
 
@@ -204,6 +220,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_keyboard_voice_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@+id/instrumental_layout"/>
 
@@ -213,6 +231,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_folder_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_toStartOf="@id/instrumental_voice_button"
                 android:layout_alignBottom="@+id/instrumental_layout"/>
 
@@ -245,6 +265,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_keyboard_voice_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@+id/prepositional_layout"/>
 
@@ -254,6 +276,8 @@
                 android:layout_height="wrap_content"
                 app:fabSize="mini"
                 android:src="@drawable/ic_folder_black_24dp"
+                style="@style/PrimaryActionButton"
+                app:tint="#FFFFFF"
                 android:layout_toStartOf="@id/prepositional_voice_button"
                 android:layout_alignBottom="@+id/prepositional_layout"/>
 

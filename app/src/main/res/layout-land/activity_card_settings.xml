@@ -28,27 +28,24 @@
             android:layout_marginBottom="15dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/card_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/symbol_name_text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/speech_part"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:hint="@string/speech_part_list_hint_text">
-
-            <AutoCompleteTextView
-                android:id="@+id/speech_part_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="20dp"
+            android:text="@string/speech_part_list_hint_text"/>
+        <Spinner
+            android:id="@+id/speech_part"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:id="@+id/buttons_panel"

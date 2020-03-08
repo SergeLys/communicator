@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:weightSum="2"
-    tools:context=".activity.SettingsActivity">
+    tools:context=".activity.SettingsActivity"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:id="@+id/left_layout"
@@ -15,23 +16,11 @@
         android:orientation="vertical">
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        <ListView
             android:id="@+id/page_list"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="@string/page_list_hint_text">
-
-            <AutoCompleteTextView
-                android:id="@+id/filled_exposed_dropdown"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_page_button"
@@ -59,40 +48,6 @@
             android:text="@string/new_page_button"
             android:layout_margin="15dp">
         </com.google.android.material.button.MaterialButton>
-
-        <LinearLayout
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="15dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/search_line_text"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/recent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="15dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recent_symbol_text"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
 
     </LinearLayout>
 

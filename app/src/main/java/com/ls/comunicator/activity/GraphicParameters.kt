@@ -48,8 +48,8 @@ class GraphicParameters : AppCompatActivity() {
             card.image = Image()
             card.image.imageView = ImageView(baseContext)
         }
-        textColorLayout = findViewById(R.id.text_colour)
-        borderColorLayout = findViewById(R.id.border_colour)
+        textColorLayout = findViewById(R.id.text_colour_btn)
+        borderColorLayout = findViewById(R.id.border_color_button)
         textSizeSlider = findViewById(R.id.text_size_slider)
         frameSizeSlider = findViewById(R.id.frame_size_slider)
         upCheckBox = findViewById(R.id.up_check_box)
@@ -100,12 +100,10 @@ class GraphicParameters : AppCompatActivity() {
 
         })
 
-        findViewById<MaterialButton>(R.id.text_color_button)
-            .setOnClickListener {
+        textColorLayout.setOnClickListener {
                 textColorPicker.show()
             }
-        findViewById<MaterialButton>(R.id.border_color_button)
-            .setOnClickListener {
+        borderColorLayout.setOnClickListener {
                 borderColorPicker.show()
             }
         findViewById<MaterialButton>(R.id.back_button)
