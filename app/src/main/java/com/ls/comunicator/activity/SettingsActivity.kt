@@ -13,13 +13,14 @@ import com.ls.comunicator.core.savePagesDictionary
 class SettingsActivity : AppCompatActivity() {
 
     lateinit var pageList: ListView
+    lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
         pageList = findViewById(R.id.page_list)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, SingletonCard.pages)
+        adapter = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, SingletonCard.pages)
         pageList.adapter = adapter
 
         pageList.setOnItemLongClickListener { adapterView, view, i, l ->
@@ -57,4 +58,8 @@ class SettingsActivity : AppCompatActivity() {
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
+    }
 }
