@@ -10,15 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
 import com.ls.comunicator.activity.CardSettingsActivity
-import com.ls.comunicator.core.Card
-import com.ls.comunicator.core.Consts
-import com.ls.comunicator.core.SingletonCard
-import com.ls.comunicator.core.deletePage
+import com.ls.comunicator.core.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_list_item.view.*
 import java.io.File
@@ -119,6 +117,31 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
             cardText.textSize = card.image.textSize
             cardText.text = card.name
 
+            if (card.image.textPlace != null) {
+                val imageParams = cardImage.layoutParams as RelativeLayout.LayoutParams
+                val textParams = cardText.layoutParams as RelativeLayout.LayoutParams
+                when(card.image.textPlace) {
+                    TextPositionEnum.UP -> {
+                        textParams.removeRule(RelativeLayout.BELOW)
+                        textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+                        textParams.topMargin = 10
+                        textParams.bottomMargin = 0
+                        imageParams.addRule(RelativeLayout.BELOW, R.id.card_text)
+                        imageParams.topMargin = 0
+                        imageParams.bottomMargin = 20
+                    }
+                    TextPositionEnum.BOTTOM -> {
+                        textParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP)
+                        imageParams.removeRule(RelativeLayout.BELOW)
+                        textParams.addRule(RelativeLayout.BELOW, R.id.card_image)
+                        textParams.topMargin = 0
+                        textParams.bottomMargin = 10
+                        imageParams.topMargin = 20
+                        imageParams.bottomMargin = 0
+                    }
+                    else -> {}
+                }
+            }
             when(type) {
                 CardAdapterEnum.PAGE -> {
                     itemView.setOnLongClickListener{

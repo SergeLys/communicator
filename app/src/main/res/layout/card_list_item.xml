@@ -45,7 +45,7 @@
 <!--            android:id="@+id/card_image"-->
 <!--            android:layout_height="wrap_content"-->
 <!--            android:layout_width="wrap_content"-->
-<!--            android:src="@drawable/car"-->
+<!--            android:src="@drawable/ic_image_black_24dp"-->
 <!--            android:scaleType="centerInside"-->
 <!--            android:adjustViewBounds="true"-->
 <!--            android:layout_below="@id/card_text"-->
@@ -55,7 +55,7 @@
 <!--            android:id="@+id/card_text"-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/card_test_text"-->
+<!--            android:text="@string/card_default_text"-->
 <!--            android:textSize="20sp"-->
 <!--            android:layout_margin="20dp"-->
 <!--            android:layout_alignParentTop="true"-->

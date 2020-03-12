@@ -106,8 +106,7 @@ class GraphicParameters : AppCompatActivity() {
             }
         findViewById<MaterialButton>(R.id.back_button)
             .setOnClickListener {
-                val casesActivity = Intent(this, CardSettingsActivity::class.java)
-                startActivity(casesActivity)
+                onBackPressed()
             }
 
         findViewById<FloatingActionButton>(R.id.image_file_button)

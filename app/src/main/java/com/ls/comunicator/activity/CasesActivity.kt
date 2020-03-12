@@ -1,6 +1,5 @@
 package com.ls.comunicator.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
@@ -20,8 +19,7 @@ class CasesActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.back_button)
             .setOnClickListener {
-                val casesActivity = Intent(this, CardSettingsActivity::class.java)
-                startActivity(casesActivity)
+                onBackPressed()
             }
     }
 

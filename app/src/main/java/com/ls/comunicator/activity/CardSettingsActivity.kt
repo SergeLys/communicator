@@ -99,12 +99,20 @@ class CardSettingsActivity : AppCompatActivity() {
                     TextPositionEnum.UP -> {
                         textParams.removeRule(RelativeLayout.BELOW)
                         textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+                        textParams.topMargin = 10
+                        textParams.bottomMargin = 0
                         imageParams.addRule(RelativeLayout.BELOW, R.id.card_text)
+                        imageParams.topMargin = 0
+                        imageParams.bottomMargin = 20
                     }
                     TextPositionEnum.BOTTOM -> {
                         textParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP)
                         imageParams.removeRule(RelativeLayout.BELOW)
                         textParams.addRule(RelativeLayout.BELOW, R.id.card_image)
+                        textParams.topMargin = 0
+                        textParams.bottomMargin = 10
+                        imageParams.topMargin = 20
+                        imageParams.bottomMargin = 0
                     }
                     else -> {}
                 }
