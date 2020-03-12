@@ -1,9 +1,10 @@
 package com.ls.comunicator.activity
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.CheckBox
@@ -11,11 +12,6 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
-import coil.Coil
-import coil.api.get
-import coil.api.load
-import coil.request.CachePolicy
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
@@ -25,6 +21,8 @@ import com.ls.comunicator.core.Consts.Companion.CAMERA_REQUEST
 import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback
+import com.squareup.picasso.Picasso
+import java.io.ByteArrayOutputStream
 
 
 class GraphicParameters : AppCompatActivity() {
@@ -134,22 +132,23 @@ class GraphicParameters : AppCompatActivity() {
             when (requestCode) {
                 CAMERA_REQUEST -> {
                     val bitmap = data?.extras?.get("data") as Bitmap
-                    Coil.load(baseContext, bitmap) {
-                        size(350, 450)
-                        memoryCachePolicy(CachePolicy.DISABLED)
-                        target {drawable ->
-                            card.image.imageView.setImageDrawable(drawable)
-                        }
-                    }
+                    val bytes = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+                    val path = MediaStore.Images.Media.insertImage(baseContext.contentResolver, bitmap, "Title", null)
+                    Picasso.get()
+                        .load(Uri.parse(path))
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_image_black_24dp)
+                        .resize(400, 400)
+                        .into(card.image.imageView)
                 }
                 FILE_BROWSER_REQUEST -> {
-                    Coil.load(baseContext, data?.data) {
-                        size(350, 450)
-                        memoryCachePolicy(CachePolicy.DISABLED)
-                        target {drawable ->
-                            card.image.imageView.setImageDrawable(drawable)
-                        }
-                    }
+                    Picasso.get()
+                        .load(data?.data)
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_image_black_24dp)
+                        .resize(400, 400)
+                        .into(card.image.imageView)
                 }
             }
         }

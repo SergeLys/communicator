@@ -13,13 +13,13 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
 import com.ls.comunicator.R
 import com.ls.comunicator.activity.CardSettingsActivity
 import com.ls.comunicator.core.Card
 import com.ls.comunicator.core.Consts
 import com.ls.comunicator.core.SingletonCard
 import com.ls.comunicator.core.deletePage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_list_item.view.*
 import java.io.File
 import java.util.*
@@ -107,9 +107,14 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
         fun bind(card: Card) {
             cardFrame.strokeColor = card.image.borderColour
             cardFrame.strokeWidth = card.image.borderSize
-            cardImage.load(File(Environment.getExternalStorageDirectory().absoluteFile, "/${Consts.LISTS_FOLDER}" +
-                    "/${card.page.toLowerCase(Locale.getDefault())}" +
-                    "/${card.name.toLowerCase(Locale.getDefault())}/image.jpg"))
+            Picasso.get()
+                .load(File(Environment.getExternalStorageDirectory().absoluteFile, "/${Consts.LISTS_FOLDER}" +
+                        "/${card.page.toLowerCase(Locale.getDefault())}" +
+                        "/${card.name.toLowerCase(Locale.getDefault())}/image.jpg"))
+                .centerCrop()
+                .placeholder(R.drawable.ic_image_black_24dp)
+                .resize(400, 400)
+                .into(cardImage)
             cardText.setTextColor(card.image.textColour)
             cardText.textSize = card.image.textSize
             cardText.text = card.name

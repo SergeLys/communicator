@@ -87,35 +87,30 @@
             android:layout_centerInParent="true">
 
             <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/card_image"
+                android:layout_height="200dp"
+                android:layout_width="200dp"
+                android:layout_margin="15dp"
+                android:src="@drawable/ic_image_black_24dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/image_text" />
+
+            <TextView
+                android:id="@+id/card_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="@string/card_default_text"
+                android:textSize="20sp"
+                android:layout_marginBottom="30dp"
+                android:layout_below="@id/card_image"
+                android:autoSizeTextType="uniform"
+                android:layout_centerInParent="true"/>
 
-                <ImageView
-                    android:id="@+id/card_image"
-                    android:layout_height="250dp"
-                    android:layout_width="200dp"
-                    android:src="@drawable/ic_image_black_24dp"
-                    android:scaleType="centerInside"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/image_text" />
-
-                <RelativeLayout
-                    android:id="@+id/text_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/card_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/card_default_text"
-                    android:textSize="20sp"
-                    android:layout_margin="10dp"
-                    android:layout_below="@id/card_image"
-                    android:layout_centerInParent="true"/>
-
-            </RelativeLayout>
+        </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
