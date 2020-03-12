@@ -1,14 +1,10 @@
 package com.ls.comunicator.activity
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +16,6 @@ import com.ls.comunicator.adapters.CardAdapter
 import com.ls.comunicator.adapters.CardAdapterEnum
 import com.ls.comunicator.adapters.ViewPagerAdapter
 import com.ls.comunicator.core.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -39,22 +34,22 @@ class MainActivity : AppCompatActivity() {
         val cards = ArrayList<Card>()
 
         recyclerView = findViewById(R.id.communicative_line)
+        tabLayout = findViewById(R.id.tab_layout)
+        viewPager = findViewById(R.id.view_pager)
+
         recyclerView.layoutManager = LinearLayoutManager( this, RecyclerView.HORIZONTAL, false)
         val cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE, null)
         recyclerView.adapter = cardAdapter
 
         SingletonCard.pages = loadPagesList()
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        if (SingletonCard.pages.size > 3)
-            adapter.addFragment(DictionaryFragment(), "Словарь")
+        if (SingletonCard.pages.size >= 3)
+            adapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
         SingletonCard.pages.forEach {
             adapter.addFragment(PageFragment(cardAdapter, it), it)
         }
 
-        viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = adapter
-
-        tabLayout = findViewById(R.id.tab_layout)
         tabLayout.setupWithViewPager(viewPager)
 
         findViewById<FloatingActionButton>(R.id.delete_all_button)

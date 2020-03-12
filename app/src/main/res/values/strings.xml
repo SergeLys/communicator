@@ -50,4 +50,5 @@
     <string name="card_menu_delete">Удалить</string>
     <string name="card_menu_edit">Редактировать</string>
     <string name="settings">Настройки</string>
+    <string name="search_text">Поиск</string>
 </resources>
