@@ -22,7 +22,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/content_table_list"
         android:layout_margin="20dp"
         android:layout_width="match_parent"

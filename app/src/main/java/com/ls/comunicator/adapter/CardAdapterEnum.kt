@@ -1,4 +1,4 @@
-package com.ls.comunicator.adapters
+package com.ls.comunicator.adapter
 
 enum class CardAdapterEnum {
     PAGE,

@@ -12,9 +12,9 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.ls.comunicator.R
-import com.ls.comunicator.adapters.CardAdapter
-import com.ls.comunicator.adapters.CardAdapterEnum
-import com.ls.comunicator.adapters.ViewPagerAdapter
+import com.ls.comunicator.adapter.CardAdapter
+import com.ls.comunicator.adapter.CardAdapterEnum
+import com.ls.comunicator.adapter.ViewPagerAdapter
 import com.ls.comunicator.core.*
 import kotlin.collections.ArrayList
 

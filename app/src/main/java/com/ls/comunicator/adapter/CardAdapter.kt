@@ -1,4 +1,4 @@
-package com.ls.comunicator.adapters
+package com.ls.comunicator.adapter
 
 import android.content.Context
 import android.content.Intent

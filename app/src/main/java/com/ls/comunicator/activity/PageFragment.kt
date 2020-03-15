@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
-import com.ls.comunicator.adapters.CardAdapter
-import com.ls.comunicator.adapters.CardAdapterEnum
+import com.ls.comunicator.adapter.CardAdapter
+import com.ls.comunicator.adapter.CardAdapterEnum
 import com.ls.comunicator.core.loadPage
 
 class PageFragment(val communicate : CardAdapter, val page: String) : Fragment() {

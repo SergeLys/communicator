@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
-import com.ls.comunicator.adapters.CardAdapter
-import com.ls.comunicator.adapters.CardAdapterEnum
+import com.ls.comunicator.adapter.CardAdapter
+import com.ls.comunicator.adapter.CardAdapterEnum
 import com.ls.comunicator.core.SingletonCard
 import com.ls.comunicator.core.loadPage
 import com.ls.comunicator.core.savePage
