@@ -51,4 +51,6 @@
     <string name="card_menu_edit">Редактировать</string>
     <string name="settings">Настройки</string>
     <string name="search_text">Поиск</string>
+    <string name="yes">Ок</string>
+    <string name="cancel">Отмена</string>
 </resources>

@@ -5,18 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
 import com.ls.comunicator.adapter.ViewPagerAdapter
 import com.ls.comunicator.core.*
 import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -77,8 +81,22 @@ class MainActivity : AppCompatActivity() {
 
         when (item?.itemId) {
             R.id.main_menu_settings -> {
-                val settingsPasswordActivity = Intent(this, SettingsPasswordActivity::class.java)
-                startActivity(settingsPasswordActivity)
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Пароль")
+                val view = layoutInflater.inflate(R.layout.dialog_password, null)
+                val passwordTextView = view.findViewById<TextView>(R.id.password_text)
+                val inputPassword = view.findViewById<TextInputEditText>(R.id.password_input_text)
+
+                val password = Random.nextInt(10000, 99999)
+                passwordTextView.text = password.toString()
+                builder.setView(view)
+                builder.setPositiveButton("Ok") { dialogInterface, i ->
+                    if (inputPassword.text.toString() == password.toString()) {
+                        val settingsActivity = Intent(this, SettingsActivity::class.java)
+                        startActivity(settingsActivity)
+                    }
+                }
+                builder.show()
             }
             R.id.main_menu_search -> {
 

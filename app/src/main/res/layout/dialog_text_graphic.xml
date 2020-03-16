@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/type_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_size_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type_size"
+                android:textSize="20sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="30dp"/>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/text_size_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="10"
+                android:valueTo="30"
+                android:layout_below="@id/text_size_view"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@id/choose_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_color_button"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="30dp"/>
+
+        <LinearLayout
+            android:id="@+id/text_colour_btn"
+            android:layout_marginTop="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="40dp"
+            android:orientation="horizontal"
+            android:background="@color/materialcolorpicker__black"/>
+
+        <TextView
+            android:id="@+id/text_place_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_place"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="30dp"/>
+
+        <LinearLayout
+            android:id="@+id/up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/up_check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/up_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/up_place"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/down"
+            android:layout_marginStart="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/bottom_check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/bottom_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bottom_text"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
