@@ -3,8 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/main_menu_settings"
-        android:title="@string/settings"/>
+        android:id="@+id/menu_pages_settings"
+        android:title="@string/pages_settings"/>
+
+    <item
+        android:id="@+id/menu_common_settings"
+        android:title="@string/common_settings"/>
 
     <item
         android:id="@+id/main_menu_search"

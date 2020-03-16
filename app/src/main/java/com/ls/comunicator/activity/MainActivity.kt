@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.CheckBox
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -80,7 +82,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when (item?.itemId) {
-            R.id.main_menu_settings -> {
+            R.id.menu_pages_settings,
+            R.id.menu_common_settings-> {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Пароль")
                 val view = layoutInflater.inflate(R.layout.dialog_password, null)
@@ -92,8 +95,25 @@ class MainActivity : AppCompatActivity() {
                 builder.setView(view)
                 builder.setPositiveButton("Ok") { dialogInterface, i ->
                     if (inputPassword.text.toString() == password.toString()) {
-                        val settingsActivity = Intent(this, SettingsActivity::class.java)
-                        startActivity(settingsActivity)
+                        when (item?.itemId) {
+                            R.id.menu_pages_settings -> {
+                                val settingsActivity = Intent(this, SettingsActivity::class.java)
+                                startActivity(settingsActivity)
+                            }
+                            R.id.menu_common_settings-> {
+                                val builder = AlertDialog.Builder(this)
+                                builder.setTitle("Общие настройки")
+                                val view = layoutInflater.inflate(R.layout.dialog_common_settings, null)
+                                val cardAmountSpinner = view.findViewById<Spinner>(R.id.cards_amount_spinner)
+                                val isSearchLine = view.findViewById<CheckBox>(R.id.search_line)
+                                builder.setView(view)
+                                builder.setPositiveButton("Ok") { dialogInterface, i ->
+                                    SingletonCard.cardAmount = (cardAmountSpinner.selectedItem as String).toInt()
+                                    SingletonCard.isSearchLine = isSearchLine.isChecked
+                                }
+                                builder.show()
+                            }
+                        }
                     }
                 }
                 builder.show()

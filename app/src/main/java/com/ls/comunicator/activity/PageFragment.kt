@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
+import com.ls.comunicator.core.SingletonCard
 import com.ls.comunicator.core.loadPage
 
 class PageFragment(val communicate : CardAdapter, val page: String) : Fragment() {
@@ -25,7 +26,7 @@ class PageFragment(val communicate : CardAdapter, val page: String) : Fragment()
         val cards = loadPage(page)
 
         recyclerView = view.findViewById(R.id.page_list)
-        recyclerView.layoutManager = GridLayoutManager( view.context, 3)
+        recyclerView.layoutManager = GridLayoutManager( view.context, SingletonCard.cardAmount)
         recyclerView.adapter = CardAdapter(cards, view.context, CardAdapterEnum.PAGE, communicate)
 
         return view

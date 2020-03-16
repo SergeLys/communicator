@@ -93,8 +93,8 @@ class CardSettingsActivity : AppCompatActivity() {
             val view = layoutInflater.inflate(R.layout.dialog_text_graphic, null)
             val textColorLayout = view.findViewById<LinearLayout>(R.id.text_colour_btn)
             val textSizeSlider = view.findViewById<Slider>(R.id.text_size_slider)
-            upCheckBox = view.findViewById<CheckBox>(R.id.up_check_box)
-            bottomCheckBox = view.findViewById<CheckBox>(R.id.bottom_check_box)
+            upCheckBox = view.findViewById(R.id.up_check_box)
+            bottomCheckBox = view.findViewById(R.id.bottom_check_box)
             textColorPicker = ColorPicker(this, 0,0,0)
             textColorPicker.enableAutoClose()
             textColorPicker.setCallback(object : ColorPickerCallback {
