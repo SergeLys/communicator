@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
 
     <application
         android:allowBackup="true"
@@ -12,10 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.GraphicParameters"
-            android:label="@string/title_activity_graphic_parameters"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.CardSettingsActivity"
             android:label="@string/title_activity_card_settings"
@@ -31,10 +29,6 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.SettingsPasswordActivity"
-            android:label="@string/title_activity_settings_password"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>

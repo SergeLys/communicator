@@ -1,10 +1,10 @@
 package com.ls.comunicator.core
 
-enum class CaseEnum {
-    NOMINATIVE,
-    GENITVIE,
-    DATIVE,
-    ACCUSATIVE,
-    INSTRUMENTAL,
-    PREPOSITIONAL
+enum class CaseEnum(val text: String) {
+    NOMINATIVE("nominative"),
+    GENITVIE("genitive"),
+    DATIVE("dative"),
+    ACCUSATIVE("accusative"),
+    INSTRUMENTAL("instrumental"),
+    PREPOSITIONAL("prepositional")
 }

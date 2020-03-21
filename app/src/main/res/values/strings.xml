@@ -7,6 +7,7 @@
     <string name="title_activity_page_settings">PageSettingsActivity</string>
     <string name="title_activity_card_settings">CardSettingsActivity</string>
     <string name="NOMINATIVE">Именительный падеж</string>
+    <string name="CASE">Озвучка</string>
     <string name="save_cases_button">Сохранить</string>
     <string name="new_page_button">Новый лист</string>
     <string name="edit_page_button">Редактировать лист</string>
@@ -45,6 +46,7 @@
     <string name="border_color_button">Выбрать цвет рамки</string>
     <string name="text_color_button">Выберите цвет текста</string>
     <string name="bottom_text">Низ</string>
+    <string name="cases_exists">Наличие падежей</string>
     <string name="up_place">Верх</string>
     <string name="card_default_text">Надпись</string>
     <string name="card_menu_delete">Удалить</string>
@@ -55,6 +57,9 @@
     <string name="yes">Ок</string>
     <string name="cancel">Отмена</string>
     <string name="cards_amount">Кол-во карточек</string>
+    <string name="start_voice">Запись</string>
+    <string name="stop_voice">Стоп</string>
+    <string name="sound_play">Воспроизвести</string>
 
 
     <string-array name="cards_amount">

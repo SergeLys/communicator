@@ -27,37 +27,29 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/speech_part_text"
-        android:layout_below="@id/symbol_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="@string/speech_part_list_hint_text"/>
-
-    <Spinner
-        android:id="@+id/speech_part"
-        android:layout_below="@+id/speech_part_text"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <RelativeLayout
         android:id="@+id/buttons_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_below="@id/speech_part">
+        android:layout_below="@id/symbol_name">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/open_graphic_button"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/is_cases"
             android:layout_width="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_alignParentStart="true"
-            android:text="@string/graphic_parameters_button">
-        </com.google.android.material.button.MaterialButton>
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/is_cases_check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cases_exists"/>
+
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/open_cases_button"
@@ -65,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/open_cases_button"
-            android:layout_toEndOf="@id/open_graphic_button">
+            android:layout_toEndOf="@id/is_cases">
         </com.google.android.material.button.MaterialButton>
 
     </RelativeLayout>

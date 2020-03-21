@@ -1,18 +1,22 @@
 package com.ls.comunicator.core;
 
 import java.io.Serializable;
+import java.util.EnumMap;
 import java.util.HashMap;
+
+import kotlin.UByteArray;
 
 public class Card implements Serializable {
 
     private String name;
-    private transient String page;
-    private HashMap<CaseEnum, Case> cases;
     private Image image;
+    private transient String page;
+    private transient boolean isCases;
+    private EnumMap<CaseEnum, String> cases;
 
     public Card() {}
 
-    public Card(String name, HashMap<CaseEnum, Case> cases, Image image) {
+    public Card(String name,  EnumMap<CaseEnum, String> cases, Image image) {
         this.name = name;
         this.cases = cases;
         this.image = image;
@@ -34,11 +38,11 @@ public class Card implements Serializable {
         this.name = name;
     }
 
-    public HashMap<CaseEnum, Case> getCases() {
+    public  EnumMap<CaseEnum, String> getCases() {
         return cases;
     }
 
-    public void setCases(HashMap<CaseEnum, Case> cases) {
+    public void setCases( EnumMap<CaseEnum, String> cases) {
         this.cases = cases;
     }
 
@@ -49,4 +53,13 @@ public class Card implements Serializable {
     public void setImage(Image image) {
         this.image = image;
     }
+
+    public boolean isCases() {
+        return isCases;
+    }
+
+    public void setCases(boolean cases) {
+        isCases = cases;
+    }
+
 }

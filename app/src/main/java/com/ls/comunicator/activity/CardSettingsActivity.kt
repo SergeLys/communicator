@@ -35,6 +35,7 @@ class CardSettingsActivity : AppCompatActivity() {
     private lateinit var cardImage: ImageView
     private lateinit var cardText: TextView
     private lateinit var cardName: TextInputEditText
+    private lateinit var isCasesCheckBox: CheckBox
     lateinit var card: Card
     lateinit var textColorPicker: ColorPicker
     lateinit var borderColorPicker: ColorPicker
@@ -49,6 +50,7 @@ class CardSettingsActivity : AppCompatActivity() {
         cardFrame = findViewById(R.id.card_preview)
         cardImage = findViewById(R.id.card_image)
         cardText = findViewById(R.id.card_text)
+        isCasesCheckBox = findViewById(R.id.is_cases_check_box)
 
         card = SingletonCard.card
         if (card.image == null) {
@@ -60,8 +62,18 @@ class CardSettingsActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.open_cases_button)
             .setOnClickListener {
-                val casesActivity = Intent(this, CasesActivity::class.java)
-                startActivity(casesActivity)
+                if (isCasesCheckBox.isChecked) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Озвучка")
+                    val view = layoutInflater.inflate(R.layout.dialog_case, null)
+                    builder.setView(view)
+                    builder.setPositiveButton("Ok") { dialogInterface, i ->
+                    }
+                    builder.show()
+                } else {
+                    val casesActivity = Intent(this, CasesActivity::class.java)
+                    startActivity(casesActivity)
+                }
             }
 
         cardImage.setOnClickListener {
