@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 public class Image implements Serializable {
 
-    private String imagePath;
     private transient ImageView imageView;
     private float textSize;
     private int textColour, borderSize, borderColour;
@@ -14,21 +13,12 @@ public class Image implements Serializable {
 
     public Image() {}
 
-    public Image(String imagePath, float textSize, int textColour, int borderSize, int borderColour, TextPositionEnum textPlace) {
-        this.imagePath = imagePath;
+    public Image(float textSize, int textColour, int borderSize, int borderColour, TextPositionEnum textPlace) {
         this.textSize = textSize;
         this.textColour = textColour;
         this.borderSize = borderSize;
         this.borderColour = borderColour;
         this.textPlace = textPlace;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
     }
 
     public ImageView getImageView() {

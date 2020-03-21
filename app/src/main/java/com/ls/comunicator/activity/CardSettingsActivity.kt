@@ -53,10 +53,6 @@ class CardSettingsActivity : AppCompatActivity() {
         isCasesCheckBox = findViewById(R.id.is_cases_check_box)
 
         card = SingletonCard.card
-        if (card.image == null) {
-            card.image = Image()
-            card.image.imageView = ImageView(baseContext)
-        }
 
         updateCardPreview(card)
 

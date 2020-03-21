@@ -52,16 +52,6 @@ class CasesActivity : AppCompatActivity() {
 
         card = SingletonCard.card
 
-        if (card.cases == null) {
-            card.cases = EnumMap(CaseEnum::class.java)
-            card.cases[CaseEnum.NOMINATIVE] = ""
-            card.cases[CaseEnum.GENITVIE] = ""
-            card.cases[CaseEnum.DATIVE] = ""
-            card.cases[CaseEnum.ACCUSATIVE] = ""
-            card.cases[CaseEnum.INSTRUMENTAL] = ""
-            card.cases[CaseEnum.PREPOSITIONAL] = ""
-        }
-
         findViewById<MaterialButton>(R.id.back_button)
             .setOnClickListener {
                 onBackPressed()
@@ -150,12 +140,12 @@ class CasesActivity : AppCompatActivity() {
     inner class TextChange : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             when (p0) {
-                nEditText.editableText -> { card.cases[CaseEnum.NOMINATIVE] = p0.toString() }
-                gEditText.editableText -> { card.cases[CaseEnum.GENITVIE] = p0.toString() }
-                dEditText.editableText -> { card.cases[CaseEnum.DATIVE] = p0.toString() }
-                aEditText.editableText -> { card.cases[CaseEnum.ACCUSATIVE] = p0.toString() }
-                iEditText.editableText -> { card.cases[CaseEnum.INSTRUMENTAL] = p0.toString() }
-                pEditText.editableText -> { card.cases[CaseEnum.PREPOSITIONAL] = p0.toString() }
+                nEditText.editableText -> { card.cases.nominative = p0.toString() }
+                gEditText.editableText -> { card.cases.genitive = p0.toString() }
+                dEditText.editableText -> { card.cases.dative = p0.toString() }
+                aEditText.editableText -> { card.cases.accusative = p0.toString() }
+                iEditText.editableText -> { card.cases.instrumental = p0.toString() }
+                pEditText.editableText -> { card.cases.prepositional = p0.toString() }
             }
         }
 

@@ -2,8 +2,6 @@ package com.ls.comunicator.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.CheckBox
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,11 +13,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
+import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
-import com.ls.comunicator.core.SingletonCard
-import com.ls.comunicator.core.loadPage
-import com.ls.comunicator.core.savePage
-import com.ls.comunicator.core.savePagesDictionary
 
 
 class PageSettingsActivity : AppCompatActivity() {
@@ -43,14 +38,14 @@ class PageSettingsActivity : AppCompatActivity() {
         findViewById<MaterialButton>(R.id.add_symbol_button)
             .setOnClickListener {
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Общие настройки")
+                builder.setTitle("Название карты")
                 val view = layoutInflater.inflate(R.layout.dialog_new_card, null)
                 val cardEditText = view.findViewById<TextInputEditText>(R.id.card_name)
                 builder.setView(view)
                 builder.setPositiveButton("Ok") { dialogInterface, i ->
-                    SingletonCard.card.page = pageNameEditText.text.toString()
                     if (cardEditText.text.toString() != "") {
-                        SingletonCard.card.name = cardEditText.text.toString()
+                        SingletonCard.card = Card(cardEditText.text.toString(), baseContext)
+                        SingletonCard.card.page = pageNameEditText.text.toString()
                         ActivityCompat.requestPermissions(this,
                             arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_CODE
                         )

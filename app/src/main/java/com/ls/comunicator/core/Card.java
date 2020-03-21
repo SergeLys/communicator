@@ -1,5 +1,10 @@
 package com.ls.comunicator.core;
 
+import android.content.Context;
+import android.widget.ImageView;
+
+import com.ls.comunicator.R;
+
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -10,16 +15,18 @@ public class Card implements Serializable {
 
     private String name;
     private Image image;
+    private Cases cases;
     private transient String page;
     private transient boolean isCases;
-    private EnumMap<CaseEnum, String> cases;
 
     public Card() {}
 
-    public Card(String name,  EnumMap<CaseEnum, String> cases, Image image) {
+    public Card(String name, Context context) {
         this.name = name;
-        this.cases = cases;
-        this.image = image;
+        this.cases = new Cases();
+        this.image = new Image(20, 0, 10, 0, TextPositionEnum.BOTTOM);
+        this.image.setImageView(new ImageView(context));
+        this.image.getImageView().setImageResource(R.drawable.ic_image_black_24dp);
     }
 
     public String getPage() {
@@ -38,14 +45,6 @@ public class Card implements Serializable {
         this.name = name;
     }
 
-    public  EnumMap<CaseEnum, String> getCases() {
-        return cases;
-    }
-
-    public void setCases( EnumMap<CaseEnum, String> cases) {
-        this.cases = cases;
-    }
-
     public Image getImage() {
         return image;
     }
@@ -62,4 +61,74 @@ public class Card implements Serializable {
         isCases = cases;
     }
 
+    public Cases getCases() {
+        return cases;
+    }
+
+    public void setCases(Cases cases) {
+        this.cases = cases;
+    }
+
+    public class Cases implements Serializable {
+
+        String nominative, genitive, dative,
+                accusative, instrumental, prepositional;
+
+        Cases() {
+            this.nominative = "";
+            this.genitive = "";
+            this.dative = "";
+            this.accusative = "";
+            this.instrumental = "";
+            this.prepositional = "";
+        }
+
+        public String getNominative() {
+            return nominative;
+        }
+
+        public void setNominative(String nominative) {
+            this.nominative = nominative;
+        }
+
+        public String getGenitive() {
+            return genitive;
+        }
+
+        public void setGenitive(String genitive) {
+            this.genitive = genitive;
+        }
+
+        public String getDative() {
+            return dative;
+        }
+
+        public void setDative(String dative) {
+            this.dative = dative;
+        }
+
+        public String getAccusative() {
+            return accusative;
+        }
+
+        public void setAccusative(String accusative) {
+            this.accusative = accusative;
+        }
+
+        public String getInstrumental() {
+            return instrumental;
+        }
+
+        public void setInstrumental(String instrumental) {
+            this.instrumental = instrumental;
+        }
+
+        public String getPrepositional() {
+            return prepositional;
+        }
+
+        public void setPrepositional(String prepositional) {
+            this.prepositional = prepositional;
+        }
+    }
 }
