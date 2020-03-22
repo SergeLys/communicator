@@ -67,6 +67,8 @@ class CardSettingsActivity : AppCompatActivity() {
                     }
                     builder.show()
                 } else {
+                    if (card.cases == null)
+                        card.addCases()
                     val casesActivity = Intent(this, CasesActivity::class.java)
                     startActivity(casesActivity)
                 }

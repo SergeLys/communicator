@@ -68,4 +68,43 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+
+    <string-array name="genitive">
+        <item>от</item>
+        <item>без</item>
+        <item>у</item>
+        <item>до</item>
+        <item>возле</item>
+        <item>для</item>
+        <item>вокруг</item>
+    </string-array>
+
+    <string-array name="dative">
+        <item>по</item>
+        <item>к</item>
+    </string-array>
+
+    <string-array name="accusative">
+        <item>на</item>
+        <item>за</item>
+        <item>через</item>
+        <item>про</item>
+    </string-array>
+
+    <string-array name="instrumental">
+        <item>за</item>
+        <item>под</item>
+        <item>над</item>
+        <item>перед</item>
+        <item>с</item>
+    </string-array>
+
+    <string-array name="prepositional">
+        <item>о</item>
+        <item>об</item>
+        <item>обо</item>
+        <item>при</item>
+        <item>в</item>
+    </string-array>
+
 </resources>

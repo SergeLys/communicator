@@ -1,11 +1,16 @@
 package com.ls.comunicator.core
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.media.MediaPlayer
+import android.os.Build
 import android.os.Environment
+import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.core.graphics.drawable.toBitmap
+import com.ls.comunicator.R
 import com.ls.comunicator.core.Consts.Companion.CARD_CASES_WARNING
 import com.ls.comunicator.core.Consts.Companion.CARD_IMAGE_WARNING
 import com.ls.comunicator.core.Consts.Companion.CARD_NAME_WARNING
@@ -206,4 +211,132 @@ fun savePagesDictionary(pages:ArrayList<String>): Boolean {
         fos.close()
     }
     return  success
+}
+
+fun play(cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {
+    var case: CaseEnum = CaseEnum.NOMINATIVE
+    var current: CaseEnum
+    cards.forEach {
+        current = checkPreposition(it.name)
+        if (current != CaseEnum.EMPTY)
+            case = current
+        current = checkEnding(it.name)
+        if (current != CaseEnum.EMPTY)
+            case = current
+
+        if (it.cases != null) {
+            if (!hasSound(case, it)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    mTTS.speak(getCase(case, it.cases), TextToSpeech.QUEUE_FLUSH,null,null)
+                else
+                    mTTS.speak(getCase(case, it.cases), TextToSpeech.QUEUE_FLUSH, null)
+                while (mTTS.isSpeaking) {}
+            } else {
+                try {
+                    mediaPlayer.setDataSource(getPath(case, it))
+                    mediaPlayer.prepare()
+                } catch (e : Exception) {
+                    e.printStackTrace()
+                }
+                mediaPlayer.start()
+                while(mediaPlayer.isPlaying) {}
+            }
+        } else {
+            if (!hasSound(case, it)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    mTTS.speak(it.name, TextToSpeech.QUEUE_FLUSH,null,null)
+                else
+                    mTTS.speak(it.name, TextToSpeech.QUEUE_FLUSH, null)
+                while (mTTS.isSpeaking) {}
+            } else {
+                try {
+                    mediaPlayer.setDataSource(getPath(case, it))
+                    mediaPlayer.prepare()
+                } catch (e : Exception) {
+                    e.printStackTrace()
+                }
+                mediaPlayer.start()
+                while(mediaPlayer.isPlaying) {}
+            }
+        }
+    }
+}
+
+fun checkPreposition(text: String): CaseEnum {
+    var case = CaseEnum.EMPTY
+    val res: Resources = Resources.getSystem()
+    val value = text.toLowerCase(Locale.getDefault())
+    val genitive = arrayOf("от", "без", "у", "до", "возле", "для", "вокруг")
+    val dative = arrayOf("по", "к")
+    val accusative = arrayOf("на", "за", "через", "про")
+    val instrumental = arrayOf("за", "под", "над", "перед", "с")
+    val prepositional = arrayOf("о", "об", "обо", "при", "в")
+
+    if (genitive.contains(value)) case = CaseEnum.GENITVIE
+    if (dative.contains(value)) case = CaseEnum.DATIVE
+    if (accusative.contains(value)) case = CaseEnum.ACCUSATIVE
+    if (instrumental.contains(value)) case = CaseEnum.INSTRUMENTAL
+    if (prepositional.contains(value)) case = CaseEnum.PREPOSITIONAL
+
+    return case
+}
+
+fun checkEnding(text: String): CaseEnum {
+    var case: CaseEnum = CaseEnum.EMPTY
+    val value = text.toLowerCase(Locale.getDefault())
+
+    if(value.endsWith("у", true)
+        || value.endsWith("ем", true)
+        || value.endsWith("ем", true)
+        || value.endsWith("ю", true)
+        || value.endsWith("им", true)
+        || value.endsWith("ешь", true)
+        || value.endsWith("ете", true)
+        || value.endsWith("ишь", true)
+        || value.endsWith("ите", true)
+        || value.endsWith("ет", true)
+        || value.endsWith("ут", true)
+        || value.endsWith("ют", true)
+        || value.endsWith("ит", true)
+        || value.endsWith("ят", true)
+        || value.endsWith("ить", true)
+        || value.endsWith("еть", true)
+        || value.endsWith("ять", true)
+        || value.endsWith("уть", true)
+        || value.endsWith("ють", true)
+        || value.endsWith("ыть", true)
+        || value.endsWith("оть", true))
+        case = CaseEnum.GENITVIE
+
+    if(value.endsWith("ать", true)
+        || value.endsWith("ем", true)
+        || value.endsWith("ем", true))
+        case = CaseEnum.INSTRUMENTAL
+    return case
+}
+
+fun hasSound(case: CaseEnum, card: Card): Boolean {
+    return File(getPath(case, card)).exists()
+}
+
+fun getPath(case: CaseEnum, card: Card): String {
+    return if (card.cases == null) {
+        Environment.getExternalStorageDirectory().absolutePath +
+                "/${Consts.LISTS_FOLDER}/${card.page}/${card.name}/sound/sound.3gp"
+    } else {
+        Environment.getExternalStorageDirectory().absolutePath +
+                "/${Consts.LISTS_FOLDER}/${card.page}/${card.name}/sound/${case.text}.3gp"
+    }
+}
+
+fun getCase(case: CaseEnum, cases: Card.Cases): String {
+    return when (case) {
+        CaseEnum.NOMINATIVE -> cases.nominative
+        CaseEnum.GENITVIE -> cases.genitive
+        CaseEnum.DATIVE -> cases.dative
+        CaseEnum.ACCUSATIVE -> cases.accusative
+        CaseEnum.INSTRUMENTAL -> cases.instrumental
+        CaseEnum.PREPOSITIONAL -> cases.prepositional
+        else -> ""
+    }
 }

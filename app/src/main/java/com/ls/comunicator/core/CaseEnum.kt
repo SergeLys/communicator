@@ -6,5 +6,6 @@ enum class CaseEnum(val text: String) {
     DATIVE("dative"),
     ACCUSATIVE("accusative"),
     INSTRUMENTAL("instrumental"),
-    PREPOSITIONAL("prepositional")
+    PREPOSITIONAL("prepositional"),
+    EMPTY("empty")
 }

@@ -139,13 +139,13 @@ class CasesActivity : AppCompatActivity() {
 
     inner class TextChange : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
-            when (p0) {
-                nEditText.editableText -> { card.cases.nominative = p0.toString() }
-                gEditText.editableText -> { card.cases.genitive = p0.toString() }
-                dEditText.editableText -> { card.cases.dative = p0.toString() }
-                aEditText.editableText -> { card.cases.accusative = p0.toString() }
-                iEditText.editableText -> { card.cases.instrumental = p0.toString() }
-                pEditText.editableText -> { card.cases.prepositional = p0.toString() }
+            when (p0.hashCode()) {
+                nEditText.editableText.hashCode() -> { card.cases.nominative = p0.toString() }
+                gEditText.editableText.hashCode() -> { card.cases.genitive = p0.toString() }
+                dEditText.editableText.hashCode() -> { card.cases.dative = p0.toString() }
+                aEditText.editableText.hashCode() -> { card.cases.accusative = p0.toString() }
+                iEditText.editableText.hashCode() -> { card.cases.instrumental = p0.toString() }
+                pEditText.editableText.hashCode() -> { card.cases.prepositional = p0.toString() }
             }
         }
 

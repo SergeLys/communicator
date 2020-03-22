@@ -23,10 +23,13 @@ public class Card implements Serializable {
 
     public Card(String name, Context context) {
         this.name = name;
-        this.cases = new Cases();
         this.image = new Image(20, 0, 10, 0, TextPositionEnum.BOTTOM);
         this.image.setImageView(new ImageView(context));
         this.image.getImageView().setImageResource(R.drawable.ic_image_black_24dp);
+    }
+
+    public void addCases() {
+        this.cases = new Cases();
     }
 
     public String getPage() {

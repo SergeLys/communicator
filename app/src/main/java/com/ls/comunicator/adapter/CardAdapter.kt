@@ -2,6 +2,7 @@ package com.ls.comunicator.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Environment
 import android.speech.tts.TextToSpeech
@@ -26,8 +27,10 @@ import kotlin.collections.ArrayList
 class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: CardAdapterEnum, val communicate: CardAdapter?) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     private lateinit var mTTS: TextToSpeech
+    private lateinit var mediaPlayer: MediaPlayer
 
     init {
+        mediaPlayer = MediaPlayer()
         mTTS = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
             if (status != TextToSpeech.ERROR){
                 //if there is no error then set language
@@ -86,14 +89,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
     }
 
     fun playAll() {
-        var speech = ""
-        cards.forEach{
-            speech += it.name + " "
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            mTTS.speak(speech,TextToSpeech.QUEUE_FLUSH,null,null)
-        else
-            mTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null)
+        play(cards, mediaPlayer , mTTS)
     }
 
     inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
