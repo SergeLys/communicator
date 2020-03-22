@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.media.MediaPlayer
+import android.media.MediaRecorder
 import android.os.Build
 import android.os.Environment
 import android.speech.tts.TextToSpeech
@@ -320,12 +321,14 @@ fun hasSound(case: CaseEnum, card: Card): Boolean {
 }
 
 fun getPath(case: CaseEnum, card: Card): String {
+    val page = card.page.toLowerCase(Locale.getDefault())
+    val name = card.name.toLowerCase(Locale.getDefault())
     return if (card.cases == null) {
         Environment.getExternalStorageDirectory().absolutePath +
-                "/${Consts.LISTS_FOLDER}/${card.page}/${card.name}/sound/sound.3gp"
+                "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/sound.3gp"
     } else {
         Environment.getExternalStorageDirectory().absolutePath +
-                "/${Consts.LISTS_FOLDER}/${card.page}/${card.name}/sound/${case.text}.3gp"
+                "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/${case.text}.3gp"
     }
 }
 
@@ -339,4 +342,10 @@ fun getCase(case: CaseEnum, cases: Card.Cases): String {
         CaseEnum.PREPOSITIONAL -> cases.prepositional
         else -> ""
     }
+}
+
+fun createMediaRecorder(mediaRecorder: MediaRecorder) {
+    mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+    mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+    mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB)
 }

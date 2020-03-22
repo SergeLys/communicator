@@ -4,8 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
+import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -28,6 +31,7 @@ import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback
 import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 class CardSettingsActivity : AppCompatActivity() {
 
@@ -59,18 +63,69 @@ class CardSettingsActivity : AppCompatActivity() {
         findViewById<MaterialButton>(R.id.open_cases_button)
             .setOnClickListener {
                 if (isCasesCheckBox.isChecked) {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Озвучка")
-                    val view = layoutInflater.inflate(R.layout.dialog_case, null)
-                    builder.setView(view)
-                    builder.setPositiveButton("Ok") { dialogInterface, i ->
-                    }
-                    builder.show()
-                } else {
                     if (card.cases == null)
                         card.addCases()
                     val casesActivity = Intent(this, CasesActivity::class.java)
                     startActivity(casesActivity)
+                } else {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Озвучка")
+                    val view = layoutInflater.inflate(R.layout.dialog_case, null)
+                    val voiceBtn = view.findViewById<FloatingActionButton>(R.id.voice_button)
+                    val fileBtn = view.findViewById<FloatingActionButton>(R.id.file_button)
+                    val playBtn = view.findViewById<FloatingActionButton>(R.id.play_button)
+                    val mediaRecorder = MediaRecorder()
+                    voiceBtn.setOnClickListener {
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Запись")
+                        val view = layoutInflater.inflate(R.layout.dialog_voice, null)
+                        val startBtn = view.findViewById<MaterialButton>(R.id.start_play)
+                        val stopBtn = view.findViewById<MaterialButton>(R.id.stop_play)
+
+                        startBtn.setOnClickListener {
+                            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO) ,
+                                123)
+                            createMediaRecorder(mediaRecorder)
+                            startBtn.isEnabled = false
+                            stopBtn.isEnabled = true
+                            mediaRecorder.setOutputFile(getPath(card))
+                            try {
+                                mediaRecorder.prepare()
+                                mediaRecorder.start()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                        stopBtn.setOnClickListener {
+                            startBtn.isEnabled = true
+                            stopBtn.isEnabled = false
+                            mediaRecorder.stop()
+                            mediaRecorder.release()
+                        }
+                        builder.setView(view)
+                        builder.setPositiveButton("Ok") { dialogInterface, i ->
+                        }
+                        builder.show()
+                    }
+                    fileBtn.setOnClickListener {
+
+                    }
+                    playBtn.setOnClickListener {
+                        val mediaPlayer = MediaPlayer()
+                        try {
+                            mediaPlayer.setDataSource(getPath(card))
+                            mediaPlayer.prepare()
+                        } catch (e : Exception) {
+                            e.printStackTrace()
+                        }
+                        mediaPlayer.start()
+                        while (mediaPlayer.isPlaying) {}
+                        mediaPlayer.release()
+                    }
+                    builder.setView(view)
+                    builder.setPositiveButton("Ok") { dialogInterface, i ->
+                    }
+                    builder.show()
                 }
             }
 
@@ -198,6 +253,13 @@ class CardSettingsActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
+    }
+
+    private fun getPath(card: Card): String {
+        val page = card.page.toLowerCase(Locale.getDefault())
+        val name = card.name.toLowerCase(Locale.getDefault())
+        return Environment.getExternalStorageDirectory().absolutePath +
+                "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/sound.3gp"
     }
 
     private fun updateCardPreview(card: Card) {

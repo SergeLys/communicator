@@ -12,10 +12,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
-import com.ls.comunicator.core.Card
-import com.ls.comunicator.core.CaseEnum
-import com.ls.comunicator.core.Consts
-import com.ls.comunicator.core.SingletonCard
+import com.ls.comunicator.core.*
 import java.lang.Exception
 import java.util.*
 
@@ -58,15 +55,6 @@ class CasesActivity : AppCompatActivity() {
             }
     }
 
-    private fun createMediaRecorder() {
-        mediaRecorder = MediaRecorder()
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB)
-
-
-    }
-
     fun onVoiceBtnClick(button: View) {
 
         val builder = AlertDialog.Builder(this)
@@ -78,7 +66,7 @@ class CasesActivity : AppCompatActivity() {
         startBtn.setOnClickListener {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO) ,
                     123)
-            createMediaRecorder()
+            createMediaRecorder(mediaRecorder)
             startBtn.isEnabled = false
             stopBtn.isEnabled = true
             mediaRecorder.setOutputFile(getPath(button))

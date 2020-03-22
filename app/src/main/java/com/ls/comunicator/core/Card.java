@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 import kotlin.UByteArray;
 
+import static android.graphics.Color.BLACK;
+
 public class Card implements Serializable {
 
     private String name;
@@ -23,7 +25,7 @@ public class Card implements Serializable {
 
     public Card(String name, Context context) {
         this.name = name;
-        this.image = new Image(20, 0, 10, 0, TextPositionEnum.BOTTOM);
+        this.image = new Image(20, BLACK, 10, BLACK, TextPositionEnum.BOTTOM);
         this.image.setImageView(new ImageView(context));
         this.image.getImageView().setImageResource(R.drawable.ic_image_black_24dp);
     }
