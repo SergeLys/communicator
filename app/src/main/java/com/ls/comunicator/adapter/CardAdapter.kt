@@ -78,6 +78,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
         }
         cards.add(card)
         notifyDataSetChanged()
+        recyclerView.layoutManager?.scrollToPosition(cards.size - 1)
     }
 
     fun delete() {
