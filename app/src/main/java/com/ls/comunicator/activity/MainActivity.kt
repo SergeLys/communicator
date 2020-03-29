@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.CheckBox
 import android.widget.Spinner
 import android.widget.TextView
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: TabLayout
     private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyRecyclerView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
@@ -40,13 +42,16 @@ class MainActivity : AppCompatActivity() {
         val cards = ArrayList<Card>()
 
         recyclerView = findViewById(R.id.communicative_line)
+        emptyRecyclerView = findViewById(R.id.empty_communicative_line)
         tabLayout = findViewById(R.id.tab_layout)
         viewPager = findViewById(R.id.view_pager)
+
+        recyclerView.visibility = View.GONE
+        emptyRecyclerView.visibility = View.VISIBLE
 
         recyclerView.layoutManager = LinearLayoutManager( this, RecyclerView.HORIZONTAL, false)
         val cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE, null)
         recyclerView.adapter = cardAdapter
-
         SingletonCard.pages = loadPagesList()
         val adapter = ViewPagerAdapter(supportFragmentManager)
         if (SingletonCard.pages.size >= 3)

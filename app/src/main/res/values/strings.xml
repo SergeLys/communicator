@@ -60,6 +60,7 @@
     <string name="start_voice">Запись</string>
     <string name="stop_voice">Стоп</string>
     <string name="sound_play">Воспроизвести</string>
+    <string name="empty_com_line">Выберите карточку</string>
 
 
     <string-array name="cards_amount">

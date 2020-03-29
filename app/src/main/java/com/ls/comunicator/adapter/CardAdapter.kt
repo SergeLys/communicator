@@ -1,5 +1,6 @@
 package com.ls.comunicator.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
@@ -9,10 +10,7 @@ import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.PopupMenu
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
@@ -27,9 +25,15 @@ import kotlin.collections.ArrayList
 class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: CardAdapterEnum, val communicate: CardAdapter?) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     private lateinit var mTTS: TextToSpeech
-    private lateinit var mediaPlayer: MediaPlayer
+    private var mediaPlayer: MediaPlayer
+    private var recyclerView: RecyclerView
+    private var emptyRecyclerView: TextView
+
 
     init {
+        val parentActivity = context as Activity
+        recyclerView = parentActivity.findViewById(R.id.communicative_line)
+        emptyRecyclerView = parentActivity.findViewById(R.id.empty_communicative_line)
         mediaPlayer = MediaPlayer()
         mTTS = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
             if (status != TextToSpeech.ERROR){
@@ -68,6 +72,10 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
     }
 
     fun add(card: Card) {
+        if (cards.isEmpty()) {
+            recyclerView.visibility = View.VISIBLE
+            emptyRecyclerView.visibility = View.GONE
+        }
         cards.add(card)
         notifyDataSetChanged()
     }
@@ -76,15 +84,19 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
         if (cards.isNotEmpty()) {
             cards.removeAt(cards.lastIndex)
             notifyDataSetChanged()
-
+        }
+        if (cards.isEmpty()) {
+            recyclerView.visibility = View.GONE
+            emptyRecyclerView.visibility = View.VISIBLE
         }
     }
 
     fun deleteAll() {
+        recyclerView.visibility = View.GONE
+        emptyRecyclerView.visibility = View.VISIBLE
         if (cards.isNotEmpty()) {
             cards.clear()
             notifyDataSetChanged()
-
         }
     }
 
