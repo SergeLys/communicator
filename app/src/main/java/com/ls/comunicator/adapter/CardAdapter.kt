@@ -26,8 +26,8 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
 
     private lateinit var mTTS: TextToSpeech
     private var mediaPlayer: MediaPlayer
-    private var recyclerView: RecyclerView
-    private var emptyRecyclerView: TextView
+    private var recyclerView: RecyclerView?
+    private var emptyRecyclerView: TextView?
 
 
     init {
@@ -73,12 +73,12 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
 
     fun add(card: Card) {
         if (cards.isEmpty()) {
-            recyclerView.visibility = View.VISIBLE
-            emptyRecyclerView.visibility = View.GONE
+            recyclerView?.visibility = View.VISIBLE
+            emptyRecyclerView?.visibility = View.GONE
         }
         cards.add(card)
         notifyDataSetChanged()
-        recyclerView.layoutManager?.scrollToPosition(cards.size - 1)
+        recyclerView?.layoutManager?.scrollToPosition(cards.size - 1)
     }
 
     fun delete() {
@@ -87,14 +87,14 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
             notifyDataSetChanged()
         }
         if (cards.isEmpty()) {
-            recyclerView.visibility = View.GONE
-            emptyRecyclerView.visibility = View.VISIBLE
+            recyclerView?.visibility = View.GONE
+            emptyRecyclerView?.visibility = View.VISIBLE
         }
     }
 
     fun deleteAll() {
-        recyclerView.visibility = View.GONE
-        emptyRecyclerView.visibility = View.VISIBLE
+        recyclerView?.visibility = View.GONE
+        emptyRecyclerView?.visibility = View.VISIBLE
         if (cards.isNotEmpty()) {
             cards.clear()
             notifyDataSetChanged()

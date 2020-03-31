@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tabLayout: TabLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyRecyclerView: TextView
+    private lateinit var fragmentAdapter: ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
@@ -53,14 +54,15 @@ class MainActivity : AppCompatActivity() {
         val cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE, null)
         recyclerView.adapter = cardAdapter
         SingletonCard.pages = loadPagesList()
-        val adapter = ViewPagerAdapter(supportFragmentManager)
+        fragmentAdapter = ViewPagerAdapter(this, supportFragmentManager)
         if (SingletonCard.pages.size >= 3)
-            adapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
+            fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
+        val  cardAmount = getCardAmount(this)
         SingletonCard.pages.forEach {
-            adapter.addFragment(PageFragment(cardAdapter, it), it)
+            fragmentAdapter.addFragment(PageFragment(cardAmount, cardAdapter, it), it)
         }
 
-        viewPager.adapter = adapter
+        viewPager.adapter = fragmentAdapter
         tabLayout.setupWithViewPager(viewPager)
 
         findViewById<FloatingActionButton>(R.id.delete_all_button)
@@ -113,8 +115,9 @@ class MainActivity : AppCompatActivity() {
                                 val isSearchLine = view.findViewById<CheckBox>(R.id.search_line)
                                 builder.setView(view)
                                 builder.setPositiveButton("Ok") { dialogInterface, i ->
-                                    SingletonCard.cardAmount = (cardAmountSpinner.selectedItem as String).toInt()
-                                    SingletonCard.isSearchLine = isSearchLine.isChecked
+                                    saveCardAmount(this, (cardAmountSpinner.selectedItem as String).toInt())
+                                    saveIsSearch(this, isSearchLine.isChecked)
+                                    fragmentAdapter.notifyDataSetChanged()
                                 }
                                 builder.show()
                             }

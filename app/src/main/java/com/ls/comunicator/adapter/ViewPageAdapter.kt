@@ -1,10 +1,14 @@
 package com.ls.comunicator.adapter
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.ls.comunicator.activity.PageFragment
+import com.ls.comunicator.core.SingletonCard
+import com.ls.comunicator.core.getCardAmount
 
-class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class ViewPagerAdapter(val context: Context, manager: FragmentManager) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val mFragmentList = ArrayList<Fragment>()
     private val mFragmentTitleList = ArrayList<String>()
@@ -15,6 +19,12 @@ class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager,
 
     override fun getCount(): Int {
         return mFragmentList.size
+    }
+
+    override fun getItemPosition(`object`: Any): Int {
+        val fragment = `object` as PageFragment
+        fragment.updateSpanCount(getCardAmount(context))
+        return super.getItemPosition(`object`)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
