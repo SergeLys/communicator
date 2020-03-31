@@ -73,8 +73,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        app:tabBackground="@color/colorPrimary"
-        android:background="@color/colorPrimary"
+        app:tabBackground="@color/title"
+        android:background="@color/title"
         app:tabTextColor="#FFFFFF"
         app:tabMode="scrollable"
         android:layout_below="@id/play_panel"/>

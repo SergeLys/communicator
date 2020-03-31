@@ -38,9 +38,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/page_list"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@drawable/my_border"
         android:layout_below="@id/add_symbol_button"
         android:layout_above="@id/save_page_button"/>
 
