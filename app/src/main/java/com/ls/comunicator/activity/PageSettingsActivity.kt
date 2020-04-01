@@ -68,10 +68,12 @@ class PageSettingsActivity : AppCompatActivity() {
                 var success = false
                 val oldPageName = intent.getStringExtra("page")
                 val pageName  = pageNameEditText.text.toString()
-                if (pageName == "") {
-                    success = savePage(baseContext,  pageNameEditText.text.toString(), null)
-                    if (success)
-                        SingletonCard.pages.add(pageNameEditText.text.toString())
+                if (oldPageName == null) {
+                    if (pageName != "") {
+                        success = savePage(baseContext,  pageNameEditText.text.toString(), null)
+                        if (success)
+                            SingletonCard.pages.add(pageNameEditText.text.toString())
+                    } else pageNameEditText.error = "Имя страницы пустое!"
                 }
                 else {
                     if (oldPageName != pageName)

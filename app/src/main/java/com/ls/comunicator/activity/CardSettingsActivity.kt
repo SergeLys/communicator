@@ -11,6 +11,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -56,20 +57,34 @@ class CardSettingsActivity : AppCompatActivity() {
 
         card = SingletonCard.card
         val oldCardName = card.name
+        val isEdit = intent.getBooleanExtra("isEdit", false)
+        cardName.setText(card.name)
 
         updateCardPreview(card)
 
-        findViewById<MaterialButton>(R.id.open_cases_button)
-            .setOnClickListener {
+        val openCasesBtn = findViewById<MaterialButton>(R.id.open_cases_button)
+        if (isEdit) {
+            findViewById<LinearLayout>(R.id.is_cases).visibility = View.GONE
+            openCasesBtn.setOnClickListener {
+                if (card.cases != null) {
+                    val casesActivity = Intent(this, CasesActivity::class.java)
+                    startActivity(casesActivity)
+                } else {
+                    showCasesDialog()
+                }
+            }
+        } else {
+            openCasesBtn.setOnClickListener {
                 if (isCasesCheckBox.isChecked) {
                     if (card.cases == null)
                         card.addCases()
                     val casesActivity = Intent(this, CasesActivity::class.java)
                     startActivity(casesActivity)
                 } else {
-                   showCasesDialog()
+                    showCasesDialog()
                 }
             }
+        }
 
         cardImage.setOnClickListener { showImageDialog() }
         cardText.setOnClickListener { showCardTextDialog() }

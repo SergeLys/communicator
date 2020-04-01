@@ -174,6 +174,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                                 card.image.imageView.setImageDrawable(cardImage.drawable)
                                 SingletonCard.card = card
                                 val cardSettingsActivity = Intent(context, CardSettingsActivity::class.java)
+                                cardSettingsActivity.putExtra("isEdit", true)
                                 startActivity(context, cardSettingsActivity, null)
                                 true
                             }

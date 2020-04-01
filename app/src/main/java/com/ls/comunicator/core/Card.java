@@ -19,7 +19,6 @@ public class Card implements Serializable {
     private Image image;
     private Cases cases;
     private transient String page;
-    private transient boolean isCases;
 
     public Card() {}
 
@@ -56,14 +55,6 @@ public class Card implements Serializable {
 
     public void setImage(Image image) {
         this.image = image;
-    }
-
-    public boolean isCases() {
-        return isCases;
-    }
-
-    public void setCases(boolean cases) {
-        isCases = cases;
     }
 
     public Cases getCases() {
