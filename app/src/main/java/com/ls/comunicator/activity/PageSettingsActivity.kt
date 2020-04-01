@@ -62,14 +62,21 @@ class PageSettingsActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.save_page_button)
             .setOnClickListener {
-                var success = savePage(baseContext,  pageNameEditText.text.toString(), null)
-                if (success) {
-                    SingletonCard.pages.add(pageNameEditText.text.toString())
-                    success = savePagesDictionary(SingletonCard.pages)
-                    Toast.makeText(baseContext,if (success)  "Сохранено" else "Ошибка при сохранении" , Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(baseContext, "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
+                var success = false
+                val oldPageName = intent.getStringExtra("page")
+                val pageName  = pageNameEditText.text.toString()
+                if (pageName == "") {
+                    success = savePage(baseContext,  pageNameEditText.text.toString(), null)
+                    if (success) {
+                        SingletonCard.pages.add(pageNameEditText.text.toString())
+                        success = savePagesDictionary(SingletonCard.pages)
+                    }
                 }
+                else {
+                    if (oldPageName != pageName)
+                        success = renamePage(oldPageName, pageName)
+                }
+                Toast.makeText(baseContext,if (success)  "Сохранено" else "Ошибка при сохранении" , Toast.LENGTH_SHORT).show()
             }
     }
 

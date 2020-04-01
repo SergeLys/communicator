@@ -3,7 +3,6 @@ package com.ls.comunicator.activity
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
@@ -26,7 +25,6 @@ import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.CAMERA_REQUEST
 import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
-import com.ls.comunicator.core.SingletonCard.card
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback
 import com.squareup.picasso.Picasso
@@ -57,6 +55,7 @@ class CardSettingsActivity : AppCompatActivity() {
         isCasesCheckBox = findViewById(R.id.is_cases_check_box)
 
         card = SingletonCard.card
+        val oldCardName = card.name
 
         updateCardPreview(card)
 
@@ -235,6 +234,8 @@ class CardSettingsActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this,
                     arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_CODE
                 )
+                if (oldCardName != card.name)
+                    deletePage(card.page, oldCardName)
                 val success = savePage(baseContext, card.page, card)
                 Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
             }

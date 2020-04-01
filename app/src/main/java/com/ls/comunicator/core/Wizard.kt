@@ -144,6 +144,7 @@ fun loadPage(listName: String?): ArrayList<Card> {
     }
     return cards
 }
+
 fun deletePage(page: String, card: String?): Boolean {
     lateinit var pageData: File
     lateinit var path: String
@@ -158,6 +159,19 @@ fun deletePage(page: String, card: String?): Boolean {
 
     pageData.deleteRecursively()
     return (!pageData.exists())
+}
+
+fun renamePage(oldName: String, newName: String): Boolean {
+    lateinit var oldPage: File
+    lateinit var newPage: File
+
+    val oldPath = "/${Consts.LISTS_FOLDER}/${oldName.toLowerCase(Locale.getDefault())}"
+    val newPath = "/${Consts.LISTS_FOLDER}/${newName.toLowerCase(Locale.getDefault())}"
+    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+        oldPage = File(Environment.getExternalStorageDirectory().absoluteFile, oldPath)
+        newPage = File(Environment.getExternalStorageDirectory().absoluteFile, newPath)
+    }
+    return oldPage.renameTo(newPage)
 }
 
 fun loadPagesList(): ArrayList<String> {
@@ -181,9 +195,6 @@ fun loadPagesList(): ArrayList<String> {
             ins.close()
             fis.close()
         }
-    } else {
-        list = ArrayList()
-        savePagesDictionary(list)
     }
     return  list
 }
