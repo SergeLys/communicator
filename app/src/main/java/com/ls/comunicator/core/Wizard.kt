@@ -175,54 +175,19 @@ fun renamePage(oldName: String, newName: String): Boolean {
 }
 
 fun loadPagesList(): ArrayList<String> {
-    lateinit var fis: FileInputStream
-    lateinit var ins:  ObjectInputStream
-    lateinit var list:  ArrayList<String>
-    val pagesMapPath = "/${Consts.APP_FOLDER}/page_dict"
-    lateinit var pagesMap: File
+    lateinit var listsFolder: File
+    val pagesList = ArrayList<String>()
+    val pagesListPath = "/${Consts.LISTS_FOLDER}"
 
     if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-        pagesMap = File(Environment.getExternalStorageDirectory().absoluteFile, pagesMapPath)
-
-    if (pagesMap.exists()) {
-        try {
-            fis = FileInputStream(pagesMap)
-            ins = ObjectInputStream(fis)
-            list = ins.readObject() as ArrayList<String>
-
-        } catch (e: java.lang.Exception) {
-        } finally {
-            ins.close()
-            fis.close()
+        listsFolder = File(Environment.getExternalStorageDirectory().absoluteFile, pagesListPath)
+    if (listsFolder.exists()) {
+        listsFolder.listFiles().forEach {
+            if (it.isDirectory)
+                pagesList.add(it.name)
         }
     }
-    return  list
-}
-
-fun savePagesDictionary(pages:ArrayList<String>): Boolean {
-    lateinit var fos: FileOutputStream
-    lateinit var os: ObjectOutputStream
-    val pagesMapPath = "/${Consts.APP_FOLDER}/page_dict"
-    lateinit var pagesMap: File
-    var success = true
-
-    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-        pagesMap = File(Environment.getExternalStorageDirectory().absoluteFile, pagesMapPath)
-
-    if (pagesMap.exists()) pagesMap.delete()
-    try {
-        fos = FileOutputStream(pagesMap)
-        os = ObjectOutputStream(fos)
-        os.writeObject(pages)
-    } catch (e : Exception) {
-        success = false
-        e.printStackTrace()
-    } finally {
-        os.flush()
-        os.close()
-        fos.close()
-    }
-    return  success
+    return  pagesList
 }
 
 fun play(cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {

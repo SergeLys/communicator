@@ -67,10 +67,8 @@ class PageSettingsActivity : AppCompatActivity() {
                 val pageName  = pageNameEditText.text.toString()
                 if (pageName == "") {
                     success = savePage(baseContext,  pageNameEditText.text.toString(), null)
-                    if (success) {
+                    if (success)
                         SingletonCard.pages.add(pageNameEditText.text.toString())
-                        success = savePagesDictionary(SingletonCard.pages)
-                    }
                 }
                 else {
                     if (oldPageName != pageName)

@@ -132,4 +132,10 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onResume() {
+        SingletonCard.pages = loadPagesList()
+        fragmentAdapter.notifyDataSetChanged()
+        super.onResume()
+    }
 }

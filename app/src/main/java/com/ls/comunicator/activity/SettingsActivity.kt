@@ -8,7 +8,6 @@ import com.google.android.material.button.MaterialButton
 import com.ls.comunicator.R
 import com.ls.comunicator.core.SingletonCard
 import com.ls.comunicator.core.deletePage
-import com.ls.comunicator.core.savePagesDictionary
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -38,7 +37,6 @@ class SettingsActivity : AppCompatActivity() {
                         val success = deletePage(SingletonCard.pages[i], null)
                         if (success) {
                             SingletonCard.pages.removeAt(i)
-                            savePagesDictionary(SingletonCard.pages)
                             adapter.notifyDataSetChanged()
                         }
                         Toast.makeText(this, if (success) "Удалено" else "Не удалось", Toast.LENGTH_SHORT).show()
