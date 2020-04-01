@@ -90,47 +90,54 @@ class MainActivity : AppCompatActivity() {
 
         when (item?.itemId) {
             R.id.menu_pages_settings,
-            R.id.menu_common_settings-> {
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("Пароль")
-                val view = layoutInflater.inflate(R.layout.dialog_password, null)
-                val passwordTextView = view.findViewById<TextView>(R.id.password_text)
-                val inputPassword = view.findViewById<TextInputEditText>(R.id.password_input_text)
-
-                val password = Random.nextInt(10000, 99999)
-                passwordTextView.text = password.toString()
-                builder.setView(view)
-                builder.setPositiveButton("Ok") { dialogInterface, i ->
-                    if (inputPassword.text.toString() == password.toString()) {
-                        when (item?.itemId) {
-                            R.id.menu_pages_settings -> {
-                                val settingsActivity = Intent(this, SettingsActivity::class.java)
-                                startActivity(settingsActivity)
-                            }
-                            R.id.menu_common_settings-> {
-                                val builder = AlertDialog.Builder(this)
-                                builder.setTitle("Общие настройки")
-                                val view = layoutInflater.inflate(R.layout.dialog_common_settings, null)
-                                val cardAmountSpinner = view.findViewById<Spinner>(R.id.cards_amount_spinner)
-                                val isSearchLine = view.findViewById<CheckBox>(R.id.search_line)
-                                builder.setView(view)
-                                builder.setPositiveButton("Ok") { dialogInterface, i ->
-                                    saveCardAmount(this, (cardAmountSpinner.selectedItem as String).toInt())
-                                    saveIsSearch(this, isSearchLine.isChecked)
-                                    fragmentAdapter.notifyDataSetChanged()
-                                }
-                                builder.show()
-                            }
-                        }
-                    }
-                }
-                builder.show()
-            }
+            R.id.menu_common_settings-> { showPasswordAlert(item) }
             R.id.main_menu_search -> {
 
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showPasswordAlert(item: MenuItem?) {
+        val passwordBuilder = AlertDialog.Builder(this)
+        passwordBuilder.setTitle("Пароль")
+        val view = layoutInflater.inflate(R.layout.dialog_password, null)
+        val passwordTextView = view.findViewById<TextView>(R.id.password_text)
+        val inputPassword = view.findViewById<TextInputEditText>(R.id.password_input_text)
+        val password = Random.nextInt(10000, 99999)
+        passwordTextView.text = password.toString()
+        passwordBuilder.setView(view)
+        passwordBuilder.setPositiveButton("Ок", null)
+        val dialog = passwordBuilder.create()
+        dialog.show()
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            if (inputPassword.text.toString() == password.toString()) {
+                when (item?.itemId) {
+                    R.id.menu_pages_settings -> {
+                        val settingsActivity = Intent(this, SettingsActivity::class.java)
+                        startActivity(settingsActivity)
+                        dialog.dismiss()
+                    }
+                    R.id.menu_common_settings-> {
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Общие настройки")
+                        val alertView = layoutInflater.inflate(R.layout.dialog_common_settings, null)
+                        val cardAmountSpinner =alertView.findViewById<Spinner>(R.id.cards_amount_spinner)
+                        val isSearchLine = alertView.findViewById<CheckBox>(R.id.search_line)
+                        builder.setView(alertView)
+                        builder.setPositiveButton("Ok") { dialogInterface, i ->
+                            saveCardAmount(this, (cardAmountSpinner.selectedItem as String).toInt())
+                            saveIsSearch(this, isSearchLine.isChecked)
+                            fragmentAdapter.notifyDataSetChanged()
+                        }
+                        builder.show()
+                        dialog.dismiss()
+                    }
+                }
+            } else {
+                inputPassword.error = "Пароль не совпадает!"
+            }
+        }
     }
 
     override fun onResume() {

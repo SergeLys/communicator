@@ -42,22 +42,25 @@ class PageSettingsActivity : AppCompatActivity() {
                 val view = layoutInflater.inflate(R.layout.dialog_new_card, null)
                 val cardEditText = view.findViewById<TextInputEditText>(R.id.card_name)
                 builder.setView(view)
-                builder.setPositiveButton("Ok") { dialogInterface, i ->
-                    if (cardEditText.text.toString() != "") {
-                        SingletonCard.card = Card(cardEditText.text.toString(), baseContext)
-                        SingletonCard.card.page = pageNameEditText.text.toString()
-                        ActivityCompat.requestPermissions(this,
-                            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_CODE
-                        )
-                        val success = savePage(baseContext,  SingletonCard.card.page, SingletonCard.card)
-                        Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
-                        if (success) {
-                            val cardSettingsActivity = Intent(this, CardSettingsActivity::class.java)
-                            startActivity(cardSettingsActivity)
-                        }
+                builder.setPositiveButton("Ok", null)
+                val alert = builder.create()
+                alert.show()
+                alert.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setOnClickListener {
+                        if (cardEditText.text.toString() != "") {
+                            SingletonCard.card = Card(cardEditText.text.toString(), baseContext)
+                            SingletonCard.card.page = pageNameEditText.text.toString()
+                            ActivityCompat.requestPermissions(this,
+                                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_CODE
+                            )
+                            val success = savePage(baseContext,  SingletonCard.card.page, SingletonCard.card)
+                            Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
+                            if (success) {
+                                val cardSettingsActivity = Intent(this, CardSettingsActivity::class.java)
+                                startActivity(cardSettingsActivity)
+                            }
+                        } else cardEditText.error = "Введите название!"
                     }
-                }
-                builder.show()
             }
 
         findViewById<MaterialButton>(R.id.save_page_button)

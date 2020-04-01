@@ -67,167 +67,13 @@ class CardSettingsActivity : AppCompatActivity() {
                     val casesActivity = Intent(this, CasesActivity::class.java)
                     startActivity(casesActivity)
                 } else {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Озвучка")
-                    val view = layoutInflater.inflate(R.layout.dialog_case, null)
-                    val voiceBtn = view.findViewById<FloatingActionButton>(R.id.voice_button)
-                    val fileBtn = view.findViewById<FloatingActionButton>(R.id.file_button)
-                    val playBtn = view.findViewById<FloatingActionButton>(R.id.play_button)
-                    val mediaRecorder = MediaRecorder()
-                    voiceBtn.setOnClickListener {
-                        val builder = AlertDialog.Builder(this)
-                        builder.setTitle("Запись")
-                        val view = layoutInflater.inflate(R.layout.dialog_voice, null)
-                        val startBtn = view.findViewById<MaterialButton>(R.id.start_play)
-                        val stopBtn = view.findViewById<MaterialButton>(R.id.stop_play)
-
-                        startBtn.setOnClickListener {
-                            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO) ,
-                                123)
-                            createMediaRecorder(mediaRecorder)
-                            startBtn.isEnabled = false
-                            stopBtn.isEnabled = true
-                            mediaRecorder.setOutputFile(getPath(card))
-                            try {
-                                mediaRecorder.prepare()
-                                mediaRecorder.start()
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
-                        stopBtn.setOnClickListener {
-                            startBtn.isEnabled = true
-                            stopBtn.isEnabled = false
-                            mediaRecorder.stop()
-                            mediaRecorder.release()
-                        }
-                        builder.setView(view)
-                        builder.setPositiveButton("Ok") { dialogInterface, i ->
-                        }
-                        builder.show()
-                    }
-                    fileBtn.setOnClickListener {
-
-                    }
-                    playBtn.setOnClickListener {
-                        val mediaPlayer = MediaPlayer()
-                        try {
-                            mediaPlayer.setDataSource(getPath(card))
-                            mediaPlayer.prepare()
-                        } catch (e : Exception) {
-                            e.printStackTrace()
-                        }
-                        mediaPlayer.start()
-                        while (mediaPlayer.isPlaying) {}
-                        mediaPlayer.release()
-                    }
-                    builder.setView(view)
-                    builder.setPositiveButton("Ok") { dialogInterface, i ->
-                    }
-                    builder.show()
+                   showCasesDialog()
                 }
             }
 
-        cardImage.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Картинка")
-            val view = layoutInflater.inflate(R.layout.dialog_image, null)
-            view.findViewById<FloatingActionButton>(R.id.image_file_button)
-                .setOnClickListener {
-                    val fileintent = Intent(Intent.ACTION_GET_CONTENT)
-                    fileintent.type = "image/*"
-                    startActivityForResult(fileintent, FILE_BROWSER_REQUEST)
-                }
-
-            view.findViewById<FloatingActionButton>(R.id.image_camera_button)
-                .setOnClickListener {
-                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST)
-                }
-            builder.setView(view)
-            builder.setPositiveButton("Ok") { dialogInterface, i ->
-            }
-            builder.show()
-            true
-        }
-
-        cardText.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Текст")
-            val view = layoutInflater.inflate(R.layout.dialog_text_graphic, null)
-            val textColorLayout = view.findViewById<LinearLayout>(R.id.text_colour_btn)
-            val textSizeSlider = view.findViewById<Slider>(R.id.text_size_slider)
-            upCheckBox = view.findViewById(R.id.up_check_box)
-            bottomCheckBox = view.findViewById(R.id.bottom_check_box)
-            textColorPicker = ColorPicker(this, 0,0,0)
-            textColorPicker.enableAutoClose()
-            textColorPicker.setCallback(object : ColorPickerCallback {
-                override fun onColorChosen(color: Int) {
-                    card.image.textColour = color
-                    textColorLayout.setBackgroundColor(color)
-                    updateCardPreview(card)
-                }
-            })
-            upCheckBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
-                override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
-                    onCheckBoxClicked(p0 as CheckBox)
-                }
-
-            })
-            bottomCheckBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
-                override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
-                    onCheckBoxClicked(p0 as CheckBox)
-                }
-
-            })
-            textSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
-                override fun onValueChange(slider: Slider?, value: Float) {
-                    card.image.textSize = value
-                    updateCardPreview(card)
-                }
-
-            })
-            textColorLayout.setOnClickListener {
-                textColorPicker.show()
-            }
-            builder.setView(view)
-            builder.setPositiveButton("Ok") { dialogInterface, i ->
-            }
-            builder.show()
-            true
-        }
-
-        cardFrame.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Рамка")
-            val view = layoutInflater.inflate(R.layout.dialog_border_graphic, null)
-            val borderColorLayout = view.findViewById<LinearLayout>(R.id.border_color_button)
-            val  frameSizeSlider = view.findViewById<Slider>(R.id.frame_size_slider)
-            borderColorPicker = ColorPicker(this, 0,0,0)
-            borderColorPicker.enableAutoClose()
-            borderColorPicker.setCallback(object : ColorPickerCallback {
-                override fun onColorChosen(color: Int) {
-                    card.image.borderColour = color
-                    borderColorLayout.setBackgroundColor(color)
-                    updateCardPreview(card)
-                }
-            })
-            frameSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
-                override fun onValueChange(slider: Slider?, value: Float) {
-                    card.image.borderSize = value.toInt()
-                    updateCardPreview(card)
-                }
-
-            })
-            borderColorLayout.setOnClickListener {
-                borderColorPicker.show()
-            }
-            builder.setView(view)
-            builder.setPositiveButton("Ok") { dialogInterface, i ->
-            }
-            builder.show()
-            true
-        }
+        cardImage.setOnClickListener { showImageDialog() }
+        cardText.setOnClickListener { showCardTextDialog() }
+        cardFrame.setOnClickListener { showCardFrameDialog() }
 
         findViewById<MaterialButton>(R.id.save_card_button)
             .setOnClickListener {
@@ -357,6 +203,164 @@ class CardSettingsActivity : AppCompatActivity() {
         }
     }
 
+    private fun showCasesDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Озвучка")
+        val view = layoutInflater.inflate(R.layout.dialog_case, null)
+        val voiceBtn = view.findViewById<FloatingActionButton>(R.id.voice_button)
+        val fileBtn = view.findViewById<FloatingActionButton>(R.id.file_button)
+        val playBtn = view.findViewById<FloatingActionButton>(R.id.play_button)
+        val mediaRecorder = MediaRecorder()
+        voiceBtn.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Запись")
+            val view = layoutInflater.inflate(R.layout.dialog_voice, null)
+            val startBtn = view.findViewById<MaterialButton>(R.id.start_play)
+            val stopBtn = view.findViewById<MaterialButton>(R.id.stop_play)
+
+            startBtn.setOnClickListener {
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO) ,
+                    123)
+                createMediaRecorder(mediaRecorder)
+                startBtn.isEnabled = false
+                stopBtn.isEnabled = true
+                mediaRecorder.setOutputFile(getPath(card))
+                try {
+                    mediaRecorder.prepare()
+                    mediaRecorder.start()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            stopBtn.setOnClickListener {
+                startBtn.isEnabled = true
+                stopBtn.isEnabled = false
+                mediaRecorder.stop()
+                mediaRecorder.release()
+            }
+            builder.setView(view)
+            builder.setPositiveButton("Ok") { dialogInterface, i ->
+            }
+            builder.show()
+        }
+        fileBtn.setOnClickListener {
+
+        }
+        playBtn.setOnClickListener {
+            val mediaPlayer = MediaPlayer()
+            try {
+                mediaPlayer.setDataSource(getPath(card))
+                mediaPlayer.prepare()
+            } catch (e : Exception) {
+                e.printStackTrace()
+            }
+            mediaPlayer.start()
+            while (mediaPlayer.isPlaying) {}
+            mediaPlayer.release()
+        }
+        builder.setView(view)
+        builder.setPositiveButton("Ok") { dialogInterface, i ->
+        }
+        builder.show()
+    }
+
+    private fun showImageDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Картинка")
+        val view = layoutInflater.inflate(R.layout.dialog_image, null)
+        view.findViewById<FloatingActionButton>(R.id.image_file_button)
+            .setOnClickListener {
+                val fileintent = Intent(Intent.ACTION_GET_CONTENT)
+                fileintent.type = "image/*"
+                startActivityForResult(fileintent, FILE_BROWSER_REQUEST)
+            }
+
+        view.findViewById<FloatingActionButton>(R.id.image_camera_button)
+            .setOnClickListener {
+                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(cameraIntent, CAMERA_REQUEST)
+            }
+        builder.setView(view)
+        builder.setPositiveButton("Ok") { dialogInterface, i ->
+        }
+        builder.show()
+    }
+
+    fun showCardTextDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Текст")
+        val view = layoutInflater.inflate(R.layout.dialog_text_graphic, null)
+        val textColorLayout = view.findViewById<LinearLayout>(R.id.text_colour_btn)
+        val textSizeSlider = view.findViewById<Slider>(R.id.text_size_slider)
+        upCheckBox = view.findViewById(R.id.up_check_box)
+        bottomCheckBox = view.findViewById(R.id.bottom_check_box)
+        textColorPicker = ColorPicker(this, 0,0,0)
+        textColorPicker.enableAutoClose()
+        textColorPicker.setCallback(object : ColorPickerCallback {
+            override fun onColorChosen(color: Int) {
+                card.image.textColour = color
+                textColorLayout.setBackgroundColor(color)
+                updateCardPreview(card)
+            }
+        })
+        upCheckBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
+                onCheckBoxClicked(p0 as CheckBox)
+            }
+
+        })
+        bottomCheckBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
+                onCheckBoxClicked(p0 as CheckBox)
+            }
+
+        })
+        textSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
+            override fun onValueChange(slider: Slider?, value: Float) {
+                card.image.textSize = value
+                updateCardPreview(card)
+            }
+
+        })
+        textColorLayout.setOnClickListener {
+            textColorPicker.show()
+        }
+        builder.setView(view)
+        builder.setPositiveButton("Ok") { dialogInterface, i ->
+        }
+        builder.show()
+    }
+
+    private fun showCardFrameDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Рамка")
+        val view = layoutInflater.inflate(R.layout.dialog_border_graphic, null)
+        val borderColorLayout = view.findViewById<LinearLayout>(R.id.border_color_button)
+        val  frameSizeSlider = view.findViewById<Slider>(R.id.frame_size_slider)
+        borderColorPicker = ColorPicker(this, 0,0,0)
+        borderColorPicker.enableAutoClose()
+        borderColorPicker.setCallback(object : ColorPickerCallback {
+            override fun onColorChosen(color: Int) {
+                card.image.borderColour = color
+                borderColorLayout.setBackgroundColor(color)
+                updateCardPreview(card)
+            }
+        })
+        frameSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
+            override fun onValueChange(slider: Slider?, value: Float) {
+                card.image.borderSize = value.toInt()
+                updateCardPreview(card)
+            }
+
+        })
+        borderColorLayout.setOnClickListener {
+            borderColorPicker.show()
+        }
+        builder.setView(view)
+        builder.setPositiveButton("Ok") { dialogInterface, i ->
+        }
+        builder.show()
+    }
 //    fun setParameters(card: Card) {
 //        if (card.image != null) {
 //            if(card.image.borderColour != 0)
