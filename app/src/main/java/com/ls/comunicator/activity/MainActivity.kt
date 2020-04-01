@@ -86,6 +86,11 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.main_menu_search)?.isVisible = getIsSearch(this)
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when (item?.itemId) {
@@ -129,6 +134,7 @@ class MainActivity : AppCompatActivity() {
                             saveCardAmount(this, (cardAmountSpinner.selectedItem as String).toInt())
                             saveIsSearch(this, isSearchLine.isChecked)
                             fragmentAdapter.notifyDataSetChanged()
+                            invalidateOptionsMenu()
                         }
                         builder.show()
                         dialog.dismiss()
