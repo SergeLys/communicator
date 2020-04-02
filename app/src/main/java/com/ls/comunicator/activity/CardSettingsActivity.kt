@@ -81,6 +81,7 @@ class CardSettingsActivity : AppCompatActivity() {
                     val casesActivity = Intent(this, CasesActivity::class.java)
                     startActivity(casesActivity)
                 } else {
+                    card.cases = null
                     showCasesDialog()
                 }
             }

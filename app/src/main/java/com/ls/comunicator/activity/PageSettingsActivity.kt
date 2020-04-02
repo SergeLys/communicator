@@ -58,6 +58,7 @@ class PageSettingsActivity : AppCompatActivity() {
                             if (success) {
                                 val cardSettingsActivity = Intent(this, CardSettingsActivity::class.java)
                                 startActivity(cardSettingsActivity)
+                                alert.dismiss()
                             }
                         } else cardEditText.error = "Введите название!"
                     }
