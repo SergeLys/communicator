@@ -66,6 +66,7 @@ class CasesActivity : AppCompatActivity() {
         startBtn.setOnClickListener {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO) ,
                     123)
+            mediaRecorder = MediaRecorder()
             createMediaRecorder(mediaRecorder)
             startBtn.isEnabled = false
             stopBtn.isEnabled = true
@@ -148,10 +149,14 @@ class CasesActivity : AppCompatActivity() {
         try {
             mediaPlayer.setDataSource(getPath(view))
             mediaPlayer.prepare()
+            mediaPlayer.setOnPreparedListener {
+                it.start()
+                while (it.isPlaying) {}
+                it.release()
+            }
         } catch (e : Exception) {
             e.printStackTrace()
         }
-        mediaPlayer.start()
     }
 
 

@@ -22,6 +22,8 @@ import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
 import com.ls.comunicator.adapter.ViewPagerAdapter
 import com.ls.comunicator.core.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 
@@ -77,7 +79,9 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.play_button)
             .setOnClickListener {
-               cardAdapter.playAll()
+                val play = GlobalScope.launch {
+                    cardAdapter.playAll()
+                }
             }
     }
 

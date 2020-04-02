@@ -29,6 +29,8 @@ import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -39,6 +41,7 @@ class CardSettingsActivity : AppCompatActivity() {
     private lateinit var cardText: TextView
     private lateinit var cardName: TextInputEditText
     private lateinit var isCasesCheckBox: CheckBox
+    lateinit var mediaRecorder: MediaRecorder
     lateinit var card: Card
     lateinit var textColorPicker: ColorPicker
     lateinit var borderColorPicker: ColorPicker
@@ -226,7 +229,6 @@ class CardSettingsActivity : AppCompatActivity() {
         val voiceBtn = view.findViewById<FloatingActionButton>(R.id.voice_button)
         val fileBtn = view.findViewById<FloatingActionButton>(R.id.file_button)
         val playBtn = view.findViewById<FloatingActionButton>(R.id.play_button)
-        val mediaRecorder = MediaRecorder()
         voiceBtn.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Запись")
@@ -237,6 +239,7 @@ class CardSettingsActivity : AppCompatActivity() {
             startBtn.setOnClickListener {
                 ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO) ,
                     123)
+                mediaRecorder = MediaRecorder()
                 createMediaRecorder(mediaRecorder)
                 startBtn.isEnabled = false
                 stopBtn.isEnabled = true
@@ -267,12 +270,14 @@ class CardSettingsActivity : AppCompatActivity() {
             try {
                 mediaPlayer.setDataSource(getPath(card))
                 mediaPlayer.prepare()
+                mediaPlayer.setOnPreparedListener {
+                    it.start()
+                    while (it.isPlaying) {}
+                    it.release()
+                }
             } catch (e : Exception) {
                 e.printStackTrace()
             }
-            mediaPlayer.start()
-            while (mediaPlayer.isPlaying) {}
-            mediaPlayer.release()
         }
         builder.setView(view)
         builder.setPositiveButton("Ok") { dialogInterface, i ->
