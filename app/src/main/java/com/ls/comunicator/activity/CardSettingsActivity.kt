@@ -1,9 +1,10 @@
 package com.ls.comunicator.activity
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.media.ExifInterface
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
@@ -30,10 +31,9 @@ import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.*
 
 class CardSettingsActivity : AppCompatActivity() {
@@ -50,6 +50,7 @@ class CardSettingsActivity : AppCompatActivity() {
     lateinit var upCheckBox: CheckBox
     lateinit var bottomCheckBox: CheckBox
     lateinit var oldCardName: String
+    private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,16 +192,28 @@ class CardSettingsActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 CAMERA_REQUEST -> {
-                    val bitmap = data?.extras?.get("data") as Bitmap
-                    val bytes = ByteArrayOutputStream()
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-                    val path = MediaStore.Images.Media.insertImage(baseContext.contentResolver, bitmap, "Title", null)
                     Picasso.get()
-                        .load(Uri.parse(path))
+                        .load(imageUri)
                         .centerCrop()
                         .placeholder(R.drawable.ic_image_black_24dp)
                         .resize(400, 400)
-                        .into(card.image.imageView)
+                        .into(card.image.imageView, object: Callback {
+                            override fun onSuccess() {
+                                try {
+                                    val proj = arrayOf(MediaStore.Images.Media.DATA)
+                                    val cursor = managedQuery(imageUri, proj, null, null, null)
+                                    val columnIndex: Int = cursor
+                                        .getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                                    cursor.moveToFirst()
+                                    val img = File(cursor.getString(columnIndex))
+                                    if (img.exists())
+                                        img.delete()
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                            }
+                            override fun onError(e: java.lang.Exception?) {}
+                        })
                 }
                 FILE_BROWSER_REQUEST -> {
                     Picasso.get()
@@ -313,7 +326,15 @@ class CardSettingsActivity : AppCompatActivity() {
 
         view.findViewById<FloatingActionButton>(R.id.image_camera_button)
             .setOnClickListener {
+                val values = ContentValues()
+                values.put(MediaStore.Images.Media.TITLE, "${card.name}_picture")
+                values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera")
+                values.put(MediaStore.Images.Media.ORIENTATION, ExifInterface.ORIENTATION_ROTATE_90)
+                imageUri = contentResolver.insert(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values
+                )
                 val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
                 startActivityForResult(cameraIntent, CAMERA_REQUEST)
             }
         builder.setView(view)
