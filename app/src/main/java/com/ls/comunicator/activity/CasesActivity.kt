@@ -92,8 +92,12 @@ class CasesActivity : AppCompatActivity() {
             stopBtn.setOnClickListener {
                 startBtn.isEnabled = true
                 stopBtn.isEnabled = false
-                mediaRecorder.stop()
-                mediaRecorder.release()
+                try {
+                    mediaRecorder.stop()
+                    mediaRecorder.release()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
