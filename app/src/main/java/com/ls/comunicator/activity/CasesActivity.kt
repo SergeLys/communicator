@@ -1,5 +1,6 @@
 package com.ls.comunicator.activity
 
+import android.content.pm.PackageManager
 import android.media.*
 import android.os.Bundle
 import android.os.Environment
@@ -9,10 +10,12 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
+import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
 import java.lang.Exception
 import java.util.*
 
@@ -20,7 +23,7 @@ import java.util.*
 class CasesActivity : AppCompatActivity() {
 
     lateinit var card: Card
-    private val watcher: TextChange = TextChange()
+    private lateinit var watcher: TextChange
     lateinit var mediaRecorder: MediaRecorder
     lateinit var mediaPlayer: MediaPlayer
     lateinit var nEditText: TextInputEditText
@@ -34,20 +37,24 @@ class CasesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cases)
 
-        nEditText = findViewById(R.id.nominative_text)
-        nEditText.addTextChangedListener(watcher)
-        gEditText = findViewById(R.id.genitive_text)
-        gEditText.addTextChangedListener(watcher)
-        dEditText=  findViewById(R.id.dative_text)
-        dEditText.addTextChangedListener(watcher)
-        aEditText = findViewById(R.id.accusative_text)
-        aEditText.addTextChangedListener(watcher)
-        iEditText = findViewById(R.id.instrumental_text)
-        iEditText.addTextChangedListener(watcher)
-        pEditText = findViewById(R.id.prepositional_text)
-        pEditText.addTextChangedListener(watcher)
-
-        card = SingletonCard.card
+        card = Card()
+        val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+            card = MyApp.card
+            watcher = TextChange()
+            nEditText = findViewById(R.id.nominative_text)
+            nEditText.addTextChangedListener(watcher)
+            gEditText = findViewById(R.id.genitive_text)
+            gEditText.addTextChangedListener(watcher)
+            dEditText=  findViewById(R.id.dative_text)
+            dEditText.addTextChangedListener(watcher)
+            aEditText = findViewById(R.id.accusative_text)
+            aEditText.addTextChangedListener(watcher)
+            iEditText = findViewById(R.id.instrumental_text)
+            iEditText.addTextChangedListener(watcher)
+            pEditText = findViewById(R.id.prepositional_text)
+            pEditText.addTextChangedListener(watcher)
+        }
 
         findViewById<MaterialButton>(R.id.back_button)
             .setOnClickListener {
@@ -56,38 +63,39 @@ class CasesActivity : AppCompatActivity() {
     }
 
     fun onVoiceBtnClick(button: View) {
-
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Запись")
-        val view = layoutInflater.inflate(R.layout.dialog_voice, null)
-        val startBtn = view.findViewById<MaterialButton>(R.id.start_play)
-        val stopBtn = view.findViewById<MaterialButton>(R.id.stop_play)
-
-        startBtn.setOnClickListener {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO) ,
-                    123)
-            mediaRecorder = MediaRecorder()
-            createMediaRecorder(mediaRecorder)
-            startBtn.isEnabled = false
-            stopBtn.isEnabled = true
-            mediaRecorder.setOutputFile(getPath(button))
-           try {
-               mediaRecorder.prepare()
-               mediaRecorder.start()
-           } catch (e: Exception) {
-                e.printStackTrace()
-           }
+        val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
+        if (permissionStatus == PackageManager.PERMISSION_DENIED)
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), WRITE_CODE)
+        else {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Запись")
+            val view = layoutInflater.inflate(R.layout.dialog_voice, null)
+            val startBtn = view.findViewById<MaterialButton>(R.id.start_play)
+            val stopBtn = view.findViewById<MaterialButton>(R.id.stop_play)
+            builder.setView(view)
+            builder.setPositiveButton("Ok") { dialogInterface, i ->
+            }
+            builder.show()
+            startBtn.setOnClickListener {
+                mediaRecorder = MediaRecorder()
+                createMediaRecorder(mediaRecorder)
+                startBtn.isEnabled = false
+                stopBtn.isEnabled = true
+                mediaRecorder.setOutputFile(getPath(button))
+                try {
+                    mediaRecorder.prepare()
+                    mediaRecorder.start()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            stopBtn.setOnClickListener {
+                startBtn.isEnabled = true
+                stopBtn.isEnabled = false
+                mediaRecorder.stop()
+                mediaRecorder.release()
+            }
         }
-        stopBtn.setOnClickListener {
-            startBtn.isEnabled = true
-            stopBtn.isEnabled = false
-            mediaRecorder.stop()
-            mediaRecorder.release()
-        }
-        builder.setView(view)
-        builder.setPositiveButton("Ok") { dialogInterface, i ->
-        }
-        builder.show()
     }
 
     fun onFileBtnClick(view: View) {
@@ -164,5 +172,14 @@ class CasesActivity : AppCompatActivity() {
         super.onDestroy()
 //        mediaRecorder.release()
 //        mediaPlayer.release()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

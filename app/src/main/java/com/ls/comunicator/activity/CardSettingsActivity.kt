@@ -2,6 +2,7 @@ package com.ls.comunicator.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaPlayer
 import android.media.MediaRecorder
@@ -16,6 +17,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,6 +49,7 @@ class CardSettingsActivity : AppCompatActivity() {
     lateinit var borderColorPicker: ColorPicker
     lateinit var upCheckBox: CheckBox
     lateinit var bottomCheckBox: CheckBox
+    lateinit var oldCardName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +61,16 @@ class CardSettingsActivity : AppCompatActivity() {
         cardText = findViewById(R.id.card_text)
         isCasesCheckBox = findViewById(R.id.is_cases_check_box)
 
-        card = SingletonCard.card
-        val oldCardName = card.name
-        val isEdit = intent.getBooleanExtra("isEdit", false)
-        cardName.setText(card.name)
+        card = Card()
+        val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+            card = MyApp.card
+            oldCardName = card.name
+            cardName.setText(card.name)
+            updateCardPreview(card)
+        }
 
-        updateCardPreview(card)
+        val isEdit = intent.getBooleanExtra("isEdit", false)
 
         val openCasesBtn = findViewById<MaterialButton>(R.id.open_cases_button)
         if (isEdit) {
@@ -96,13 +103,11 @@ class CardSettingsActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.save_card_button)
             .setOnClickListener {
-                ActivityCompat.requestPermissions(this,
-                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_CODE
-                )
-                if (oldCardName != card.name)
-                    deletePage(card.page, oldCardName)
-                val success = savePage(baseContext, card.page, card)
-                Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
+                val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (permissionStatus == PackageManager.PERMISSION_DENIED)
+                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 45)
+                else
+                    saveCard()
             }
 
         cardName.addTextChangedListener(object : TextWatcher {
@@ -119,6 +124,13 @@ class CardSettingsActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
+    }
+
+    fun saveCard() {
+        if (oldCardName != card.name)
+            deletePage(card.page, oldCardName)
+        val success = savePage(baseContext, card.page, card)
+        Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
     }
 
     private fun getPath(card: Card): String {
@@ -223,66 +235,69 @@ class CardSettingsActivity : AppCompatActivity() {
     }
 
     private fun showCasesDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Озвучка")
-        val view = layoutInflater.inflate(R.layout.dialog_case, null)
-        val voiceBtn = view.findViewById<FloatingActionButton>(R.id.voice_button)
-        val fileBtn = view.findViewById<FloatingActionButton>(R.id.file_button)
-        val playBtn = view.findViewById<FloatingActionButton>(R.id.play_button)
-        voiceBtn.setOnClickListener {
+        val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
+        if (permissionStatus == PackageManager.PERMISSION_DENIED)
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), WRITE_CODE)
+        else {
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Запись")
-            val view = layoutInflater.inflate(R.layout.dialog_voice, null)
-            val startBtn = view.findViewById<MaterialButton>(R.id.start_play)
-            val stopBtn = view.findViewById<MaterialButton>(R.id.stop_play)
+            builder.setTitle("Озвучка")
+            val view = layoutInflater.inflate(R.layout.dialog_case, null)
+            val voiceBtn = view.findViewById<FloatingActionButton>(R.id.voice_button)
+            val fileBtn = view.findViewById<FloatingActionButton>(R.id.file_button)
+            val playBtn = view.findViewById<FloatingActionButton>(R.id.play_button)
+            voiceBtn.setOnClickListener {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Запись")
+                val view = layoutInflater.inflate(R.layout.dialog_voice, null)
+                val startBtn = view.findViewById<MaterialButton>(R.id.start_play)
+                val stopBtn = view.findViewById<MaterialButton>(R.id.stop_play)
 
-            startBtn.setOnClickListener {
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO) ,
-                    123)
-                mediaRecorder = MediaRecorder()
-                createMediaRecorder(mediaRecorder)
-                startBtn.isEnabled = false
-                stopBtn.isEnabled = true
-                mediaRecorder.setOutputFile(getPath(card))
+                startBtn.setOnClickListener {
+                    mediaRecorder = MediaRecorder()
+                    createMediaRecorder(mediaRecorder)
+                    startBtn.isEnabled = false
+                    stopBtn.isEnabled = true
+                    mediaRecorder.setOutputFile(getPath(card))
+                    try {
+                        mediaRecorder.prepare()
+                        mediaRecorder.start()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                stopBtn.setOnClickListener {
+                    startBtn.isEnabled = true
+                    stopBtn.isEnabled = false
+                    mediaRecorder.stop()
+                    mediaRecorder.release()
+                }
+                builder.setView(view)
+                builder.setPositiveButton("Ok") { dialogInterface, i ->
+                }
+                builder.show()
+            }
+            fileBtn.setOnClickListener {
+
+            }
+            playBtn.setOnClickListener {
+                val mediaPlayer = MediaPlayer()
                 try {
-                    mediaRecorder.prepare()
-                    mediaRecorder.start()
-                } catch (e: Exception) {
+                    mediaPlayer.setDataSource(getPath(card))
+                    mediaPlayer.prepare()
+                    mediaPlayer.setOnPreparedListener {
+                        it.start()
+                        while (it.isPlaying) {}
+                        it.release()
+                    }
+                } catch (e : Exception) {
                     e.printStackTrace()
                 }
-            }
-            stopBtn.setOnClickListener {
-                startBtn.isEnabled = true
-                stopBtn.isEnabled = false
-                mediaRecorder.stop()
-                mediaRecorder.release()
             }
             builder.setView(view)
             builder.setPositiveButton("Ok") { dialogInterface, i ->
             }
             builder.show()
         }
-        fileBtn.setOnClickListener {
-
-        }
-        playBtn.setOnClickListener {
-            val mediaPlayer = MediaPlayer()
-            try {
-                mediaPlayer.setDataSource(getPath(card))
-                mediaPlayer.prepare()
-                mediaPlayer.setOnPreparedListener {
-                    it.start()
-                    while (it.isPlaying) {}
-                    it.release()
-                }
-            } catch (e : Exception) {
-                e.printStackTrace()
-            }
-        }
-        builder.setView(view)
-        builder.setPositiveButton("Ok") { dialogInterface, i ->
-        }
-        builder.show()
     }
 
     private fun showImageDialog() {
@@ -381,6 +396,22 @@ class CardSettingsActivity : AppCompatActivity() {
         builder.setPositiveButton("Ok") { dialogInterface, i ->
         }
         builder.show()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode) {
+            45 -> {saveCard()}
+            33 -> {
+                card = MyApp.card
+                oldCardName = card.name
+                cardName.setText(card.name)
+                updateCardPreview(card)}
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 //    fun setParameters(card: Card) {
 //        if (card.image != null) {

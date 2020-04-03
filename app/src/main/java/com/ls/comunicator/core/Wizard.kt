@@ -124,23 +124,27 @@ fun loadPage(listName: String?): ArrayList<Card> {
     if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
         listDir = File(Environment.getExternalStorageDirectory().absoluteFile, listDirPath)
 
-    if (listDir.exists()) {
-        listDir.listFiles().forEach {
-            if (it.isDirectory) {
-                try {
-                    fis = FileInputStream(File("${it.absolutePath}/card_info"))
-                    ins = ObjectInputStream(fis)
-                    val card = ins.readObject() as Card
-                    card.page = listName
-                    cards.add(card)
+    try {
+        if (listDir.exists()) {
+            listDir.listFiles().forEach {
+                if (it.isDirectory) {
+                    try {
+                        fis = FileInputStream(File("${it.absolutePath}/card_info"))
+                        ins = ObjectInputStream(fis)
+                        val card = ins.readObject() as Card
+                        card.page = listName
+                        cards.add(card)
 
-                } catch (e: java.lang.Exception) {
-                } finally {
-                    ins.close()
-                    fis.close()
+                    } catch (e: java.lang.Exception) {
+                    } finally {
+                        ins.close()
+                        fis.close()
+                    }
                 }
             }
         }
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
     return cards
 }
@@ -165,13 +169,17 @@ fun renamePage(oldName: String, newName: String): Boolean {
     lateinit var oldPage: File
     lateinit var newPage: File
 
-    val oldPath = "/${Consts.LISTS_FOLDER}/${oldName.toLowerCase(Locale.getDefault())}"
-    val newPath = "/${Consts.LISTS_FOLDER}/${newName.toLowerCase(Locale.getDefault())}"
-    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-        oldPage = File(Environment.getExternalStorageDirectory().absoluteFile, oldPath)
-        newPage = File(Environment.getExternalStorageDirectory().absoluteFile, newPath)
+    return try {
+        val oldPath = "/${Consts.LISTS_FOLDER}/${oldName.toLowerCase(Locale.getDefault())}"
+        val newPath = "/${Consts.LISTS_FOLDER}/${newName.toLowerCase(Locale.getDefault())}"
+        if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+            oldPage = File(Environment.getExternalStorageDirectory().absoluteFile, oldPath)
+            newPage = File(Environment.getExternalStorageDirectory().absoluteFile, newPath)
+        }
+        oldPage.renameTo(newPage)
+    } catch (ex: Exception) {
+        false
     }
-    return oldPage.renameTo(newPage)
 }
 
 fun loadPagesList(): ArrayList<String> {
@@ -179,14 +187,16 @@ fun loadPagesList(): ArrayList<String> {
     val pagesList = ArrayList<String>()
     val pagesListPath = "/${Consts.LISTS_FOLDER}"
 
-    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-        listsFolder = File(Environment.getExternalStorageDirectory().absoluteFile, pagesListPath)
-    if (listsFolder.exists()) {
-        listsFolder.listFiles().forEach {
-            if (it.isDirectory)
-                pagesList.add(it.name)
+    try {
+        if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
+            listsFolder = File(Environment.getExternalStorageDirectory().absoluteFile, pagesListPath)
+        if (listsFolder.exists()) {
+            listsFolder.listFiles().forEach {
+                if (it.isDirectory)
+                    pagesList.add(it.name)
+            }
         }
-    }
+    } catch (ex: Exception) { }
     return  pagesList
 }
 

@@ -1,6 +1,7 @@
 package com.ls.comunicator.activity
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -11,6 +12,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -32,40 +34,42 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: TabLayout
     private lateinit var recyclerView: RecyclerView
+    private lateinit var cardAdapter: CardAdapter
     private lateinit var emptyRecyclerView: TextView
     private lateinit var fragmentAdapter: ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
         setContentView(R.layout.activity_main)
-
-        ActivityCompat.requestPermissions(this,
-                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-
-        val cards = ArrayList<Card>()
-
+        var mApp = MyApp()
         recyclerView = findViewById(R.id.communicative_line)
         emptyRecyclerView = findViewById(R.id.empty_communicative_line)
         tabLayout = findViewById(R.id.tab_layout)
         viewPager = findViewById(R.id.view_pager)
-
         recyclerView.visibility = View.GONE
         emptyRecyclerView.visibility = View.VISIBLE
 
+        val cards = ArrayList<Card>()
         recyclerView.layoutManager = LinearLayoutManager( this, RecyclerView.HORIZONTAL, false)
-        val cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE, null)
+        cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE, null)
         recyclerView.adapter = cardAdapter
-        SingletonCard.pages = loadPagesList()
         fragmentAdapter = ViewPagerAdapter(this, supportFragmentManager)
-        if (SingletonCard.pages.size >= 3)
-            fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
-        val  cardAmount = getCardAmount(this)
-        SingletonCard.pages.forEach {
-            fragmentAdapter.addFragment(PageFragment(cardAmount, cardAdapter, it), it)
+
+        val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (permissionStatus == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+        } else {
+            SingletonCard.pages = loadPagesList()
+            if (SingletonCard.pages.size >= 3)
+                fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
+            SingletonCard.pages.forEach {
+                fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, it), it)
+            }
+            viewPager.adapter = fragmentAdapter
+            tabLayout.setupWithViewPager(viewPager)
         }
 
-        viewPager.adapter = fragmentAdapter
-        tabLayout.setupWithViewPager(viewPager)
 
         findViewById<FloatingActionButton>(R.id.delete_all_button)
             .setOnClickListener {
@@ -100,9 +104,7 @@ class MainActivity : AppCompatActivity() {
         when (item?.itemId) {
             R.id.menu_pages_settings,
             R.id.menu_common_settings-> { showPasswordAlert(item) }
-            R.id.main_menu_search -> {
-
-            }
+            R.id.main_menu_search -> { }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -148,6 +150,22 @@ class MainActivity : AppCompatActivity() {
                 inputPassword.error = "Пароль не совпадает!"
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        SingletonCard.pages = loadPagesList()
+        if (SingletonCard.pages.size >= 3)
+            fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
+        SingletonCard.pages.forEach {
+            fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, it), it)
+        }
+        viewPager.adapter = fragmentAdapter
+        tabLayout.setupWithViewPager(viewPager)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onResume() {
