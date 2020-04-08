@@ -11,7 +11,6 @@ import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.core.graphics.drawable.toBitmap
-import com.ls.comunicator.R
 import com.ls.comunicator.core.Consts.Companion.CARD_CASES_WARNING
 import com.ls.comunicator.core.Consts.Companion.CARD_IMAGE_WARNING
 import com.ls.comunicator.core.Consts.Companion.CARD_NAME_WARNING
@@ -334,4 +333,10 @@ fun createMediaRecorder(mediaRecorder: MediaRecorder) {
     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
     mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
     mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB)
+}
+
+fun getExternalStoragePath(): String {
+    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
+        return Environment.getExternalStorageDirectory().absolutePath
+    return ""
 }

@@ -32,8 +32,8 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
 
     init {
         val parentActivity = context as Activity
-        recyclerView = parentActivity.findViewById(R.id.communicative_line)
-        emptyRecyclerView = parentActivity.findViewById(R.id.empty_communicative_line)
+        recyclerView = parentActivity.findViewById(R.id.speakLineRecyclerView)
+        emptyRecyclerView = parentActivity.findViewById(R.id.emptySpeakLine)
         mediaPlayer = MediaPlayer()
         mTTS = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
             if (status != TextToSpeech.ERROR){
