@@ -3,17 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_pages_settings"
-        android:title="@string/pages_settings"/>
-
-    <item
-        android:id="@+id/menu_common_settings"
-        android:title="@string/common_settings"/>
-
-    <item
-        android:id="@+id/main_menu_search"
-        android:title=""
-        android:icon="@drawable/ic_search_black_24dp"
-        app:showAsAction="always"/>
+        android:id="@+id/settings"
+        app:showAsAction="always"
+        android:title="@string/common_settings"
+        android:icon="@drawable/ic_settings_white_30dp"
+        />
 
 </menu>

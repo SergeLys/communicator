@@ -116,27 +116,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.main_menu_search)?.isVisible = getIsSearch(this)
         return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when (item?.itemId) {
-            R.id.menu_pages_settings,
-            R.id.menu_common_settings-> { showPasswordAlert(item) }
-            R.id.main_menu_search -> { }
+            R.id.settings -> {
+                if (getIsPassword(this)) {
+                    showPasswordAlert()
+                } else {
+                    val settingsActivity = Intent(this, SettingsActivity2::class.java)
+                    startActivity(settingsActivity)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showPasswordAlert(item: MenuItem?) {
+    private fun showPasswordAlert() {
         val passwordBuilder = AlertDialog.Builder(this)
         passwordBuilder.setTitle("Пароль")
         val view = layoutInflater.inflate(R.layout.dialog_password, null)
         val passwordTextView = view.findViewById<TextView>(R.id.password_text)
         val inputPassword = view.findViewById<TextInputEditText>(R.id.password_input_text)
-        val password = Random.nextInt(10000, 99999)
+        val password = Random.nextInt(1000, 9999)
         passwordTextView.text = password.toString()
         passwordBuilder.setView(view)
         passwordBuilder.setPositiveButton("Ок", null)
@@ -144,29 +148,9 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
             if (inputPassword.text.toString() == password.toString()) {
-                when (item?.itemId) {
-                    R.id.menu_pages_settings -> {
-                        val settingsActivity = Intent(this, SettingsActivity::class.java)
-                        startActivity(settingsActivity)
-                        dialog.dismiss()
-                    }
-                    R.id.menu_common_settings-> {
-                        val builder = AlertDialog.Builder(this)
-                        builder.setTitle("Общие настройки")
-                        val alertView = layoutInflater.inflate(R.layout.dialog_common_settings, null)
-                        val cardAmountSpinner =alertView.findViewById<Spinner>(R.id.cards_amount_spinner)
-                        val isSearchLine = alertView.findViewById<CheckBox>(R.id.search_line)
-                        builder.setView(alertView)
-                        builder.setPositiveButton("Ok") { dialogInterface, i ->
-                            saveCardAmount(this, (cardAmountSpinner.selectedItem as String).toInt())
-                            saveIsSearch(this, isSearchLine.isChecked)
-                            fragmentAdapter.notifyDataSetChanged()
-                            invalidateOptionsMenu()
-                        }
-                        builder.show()
-                        dialog.dismiss()
-                    }
-                }
+                val settingsActivity = Intent(this, SettingsActivity2::class.java)
+                startActivity(settingsActivity)
+                dialog.dismiss()
             } else {
                 inputPassword.error = "Пароль не совпадает!"
             }
