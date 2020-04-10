@@ -8,17 +8,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.CheckBox
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.CardAdapter
@@ -126,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                 if (getIsPassword(this)) {
                     showPasswordAlert()
                 } else {
-                    val settingsActivity = Intent(this, SettingsActivity2::class.java)
+                    val settingsActivity = Intent(this, SettingsActivity::class.java)
                     startActivity(settingsActivity)
                 }
             }
@@ -148,7 +143,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
             if (inputPassword.text.toString() == password.toString()) {
-                val settingsActivity = Intent(this, SettingsActivity2::class.java)
+                val settingsActivity = Intent(this, SettingsActivity::class.java)
                 startActivity(settingsActivity)
                 dialog.dismiss()
             } else {

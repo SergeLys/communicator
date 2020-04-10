@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SettingsActivity2"
+            android:name=".activity.SettingsActivity"
             android:label="@string/title_activity_settings2"></activity>
         <activity
             android:name=".activity.CardSettingsActivity"
@@ -24,15 +24,25 @@
         <activity
             android:name=".activity.PageSettingsActivity"
             android:label="@string/title_activity_page_settings"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="com.ls.comunicator.activity.PageSettingsActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.CasesActivity"
             android:label="@string/title_activity_cases"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".activity.ListsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="com.ls.comunicator.activity.ListActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

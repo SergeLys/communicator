@@ -61,7 +61,7 @@
     <string name="stop_voice">Стоп</string>
     <string name="sound_play">Воспроизвести</string>
     <string name="empty_com_line">Выберите карточку</string>
-    <string name="pages_list_text">Список страниц</string>
+    <string name="pages_list_text">Листы</string>
 
     <string-array name="cards_amount">
         <item>1</item>

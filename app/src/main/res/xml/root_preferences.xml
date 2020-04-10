@@ -26,10 +26,12 @@
         android:title="Листы"
         app:allowDividerAbove="true"
         android:icon="@drawable/ic_lists_24dp">
+        <intent android:action="com.ls.comunicator.activity.ListActivity"/>
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Добавить новый лист"
         android:icon="@drawable/ic_add_new_list_24dp">
+        <intent android:action="com.ls.comunicator.activity.PageSettingsActivity"/>
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Мои карточки"

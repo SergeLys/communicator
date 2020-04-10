@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.SettingsActivity">
+    tools:context=".activity.ListsActivity">
 
     <TextView
         android:id="@+id/page_list_text"
@@ -12,7 +12,9 @@
         android:layout_marginTop="15dp"
         android:layout_marginStart="20dp"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
         android:text="@string/pages_list_text"
         android:layout_alignParentTop="true"/>
 
@@ -22,17 +24,6 @@
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/my_border"
-        android:layout_above="@id/new_page_button"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/new_page_button"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="@string/new_page_button"
-        android:layout_marginBottom="20dp"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true">
-    </com.google.android.material.button.MaterialButton>
+        android:background="@drawable/my_border"/>
 
 </RelativeLayout>
