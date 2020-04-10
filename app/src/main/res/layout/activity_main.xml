@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/speakLineBackground"
     tools:context=".activity.MainActivity">
 
     <RelativeLayout
@@ -24,6 +25,7 @@
             android:layout_height="130dp"
             android:gravity="center"
             android:text="@string/empty_com_line"
+            android:textColor="@color/materialcolorpicker__white"
             android:textSize="25sp"
             android:layout_centerInParent="true"/>
 
@@ -36,46 +38,40 @@
         android:layout_below="@id/communicative_panel"
         android:layout_centerHorizontal="true">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/playButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            style="@style/PrimaryActionButton"
-            app:tint="#FFFFFF"
-            android:src="@drawable/ic_play_circle_outline_black_24dp"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            style="@style/PrimaryActionButton"
-            app:tint="#FFFFFF"
-            android:src="@drawable/ic_delete_black_24dp"
-            android:layout_toEndOf="@id/playButton" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
             android:id="@+id/deleteAllButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fabSize="mini"
-            style="@style/PrimaryActionButton"
-            app:tint="#FFFFFF"
-            android:src="@drawable/ic_delete_all_black_24dp"
-            android:layout_toEndOf="@id/deleteButton" />
+            android:backgroundTint="@color/speakLineBackground"
+            android:src="@drawable/ic_delete_all_24dp" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/speakLineBackground"
+            android:src="@drawable/ic_delete_24dp"
+            android:layout_toEndOf="@id/deleteAllButton"/>
+
+        <ImageButton
+            android:id="@+id/playButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/speakLineBackground"
+            android:src="@drawable/ic_play_24dp"
+            android:layout_toEndOf="@+id/deleteButton"/>
 
     </RelativeLayout>
 
     <com.google.android.material.tabs.TabLayout
         style="@style/Widget.Design.TabLayout"
-        android:id="@+id/TabLayout"
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        app:tabBackground="@color/title"
-        android:background="@color/title"
-        app:tabTextColor="#FFFFFF"
+        app:tabBackground="@color/materialcolorpicker__white"
+        android:background="#FFFFFF"
+        app:tabTextColor="#9E9E9E"
         app:tabMode="scrollable"
         android:layout_below="@id/play_panel"/>
 
@@ -83,7 +79,8 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/TabLayout">
+        android:background="@color/listBackground"
+        android:layout_below="@id/tabLayout">
 
     </androidx.viewpager.widget.ViewPager>
 
