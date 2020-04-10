@@ -1,121 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.CardSettingsActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:id="@+id/symbol_name"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/card_name"
-            android:inputType="text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/symbol_name_text" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <RelativeLayout
-        android:id="@+id/buttons_panel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/symbol_name">
-
-        <LinearLayout
-            android:id="@+id/is_cases"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
 
-            <CheckBox
-                android:id="@+id/is_cases_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cases_exists"/>
+                android:layout_margin="5dp"
+                app:strokeWidth="10dp"
+                app:strokeColor="@android:color/black"
+                android:layout_centerInParent="true">
 
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/open_cases_button"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/open_cases_button"
-            android:layout_toEndOf="@id/is_cases">
-        </com.google.android.material.button.MaterialButton>
+                    <ImageView
+                        android:id="@+id/card_image"
+                        android:layout_height="200dp"
+                        android:layout_width="200dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/ic_image_black_24dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/image_text" />
 
-    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/card_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/card_default_text"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_below="@id/card_image"
+                        android:autoSizeTextType="uniform"
+                        android:layout_centerInParent="true"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/buttons_panel"
-        android:layout_above="@id/save_card_button">
+                </RelativeLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:strokeWidth="10dp"
-            app:strokeColor="@android:color/black"
-            app:cardCornerRadius="10dp"
-            android:layout_centerInParent="true">
-
-            <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/card_image"
-                android:layout_height="200dp"
-                android:layout_width="200dp"
-                android:layout_margin="15dp"
-                android:src="@drawable/ic_image_black_24dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/image_text" />
-
-            <TextView
-                android:id="@+id/card_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/card_default_text"
-                android:textSize="20sp"
-                android:layout_marginBottom="30dp"
-                android:layout_below="@id/card_image"
-                android:autoSizeTextType="uniform"
-                android:layout_centerInParent="true"/>
+            </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_margin="16dp"
+            android:text="@string/car_name_text"/>
 
-    </RelativeLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:id="@+id/symbol_name"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/save_card_button"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/save_card_button"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true">
-    </com.google.android.material.button.MaterialButton>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/card_name"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/symbol_name_text" />
 
-</RelativeLayout>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:text="@string/open_cases_button"/>
+
+            <ImageButton
+                android:id="@+id/openCasesBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_arrow_forward_black_24dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:text="@string/test_settings"/>
+
+            <ImageButton
+                android:id="@+id/textSettingsBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_arrow_forward_black_24dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:text="@string/frame_settings"/>
+
+            <ImageButton
+                android:id="@+id/frameSettingsBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_arrow_forward_black_24dp" />
+
+        </RelativeLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveCardButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/buttonColour"
+            android:text="@string/save_card_button">
+        </com.google.android.material.button.MaterialButton>
+
+    </LinearLayout>
+
+</ScrollView>

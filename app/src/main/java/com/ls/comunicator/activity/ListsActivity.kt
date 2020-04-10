@@ -4,21 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
 import com.ls.comunicator.R
 import com.ls.comunicator.core.SingletonCard
 import com.ls.comunicator.core.deletePage
+import kotlinx.android.synthetic.main.lists_settings.*
 
 class ListsActivity : AppCompatActivity() {
 
-    lateinit var pageList: ListView
     lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.lists_settings)
 
-        pageList = findViewById(R.id.page_list)
         adapter = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, SingletonCard.pages)
         pageList.adapter = adapter
 
@@ -28,7 +26,7 @@ class ListsActivity : AppCompatActivity() {
             popupMenu.setOnMenuItemClickListener {
                 when(it.itemId) {
                     R.id.menu_edit -> {
-                        val editPageSettingsActivity = Intent(this, PageSettingsActivity::class.java)
+                        val editPageSettingsActivity = Intent(this, PageCreationActivity::class.java)
                         editPageSettingsActivity.putExtra("page", SingletonCard.pages[i])
                         startActivity(editPageSettingsActivity)
                         true
@@ -48,12 +46,10 @@ class ListsActivity : AppCompatActivity() {
             popupMenu.show()
             true
         }
-
-//        findViewById<MaterialButton>(R.id.new_page_button)
-////            .setOnClickListener {
-////                val newPageSettingsActivity = Intent(this, PageSettingsActivity::class.java)
-////                startActivity(newPageSettingsActivity)
-////            }
+        addNewList.setOnClickListener {
+                val newPageSettingsActivity = Intent(this, PageCreationActivity::class.java)
+                startActivity(newPageSettingsActivity)
+            }
     }
 
     override fun onResume() {

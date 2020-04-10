@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:weightSum="3"
-    tools:context=".activity.PageSettingsActivity">
+    android:orientation="vertical"
+    tools:context=".activity.PageCreationActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/page_activity_header"/>
 
     <LinearLayout
-        android:id="@+id/right_layout"
-        android:layout_weight="2"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/listIconBtn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_photo_library_black_24dp"
+            android:background="@drawable/my_border"
+            android:contentDescription="TODO" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -21,53 +38,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center_vertical">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pageNameEditText"
+                android:inputType="text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="@string/input_page_name" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_symbol_button"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:text="@string/add_symbol_button"
-            android:layout_gravity="center"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_page_button"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:text="@string/save_button"
-            android:layout_gravity="center">
-        </com.google.android.material.button.MaterialButton>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/left_layout"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/page_list"
-            android:layout_margin="10dp"
-            android:background="@drawable/my_border"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:text="@string/lists_card_btn_text"/>
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/listCardsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="#FFFFFF"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_arrow_forward_black_24dp" />
+
+    </RelativeLayout>
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/savePageButton"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        android:backgroundTint="@color/buttonColour"
+        android:text="@string/save_button">
+    </com.google.android.material.button.MaterialButton>
 
 </LinearLayout>

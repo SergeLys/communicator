@@ -2,10 +2,10 @@
     <string name="app_name">Comunicator</string>
     <string name="text">Text</string>
     <string name="title_activity_settings_password">SettingsPasswordActivity</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Листы</string>
     <string name="title_activity_cases">CasesActivity</string>
     <string name="title_activity_page_settings">PageSettingsActivity</string>
-    <string name="title_activity_card_settings">CardSettingsActivity</string>
+    <string name="title_activity_card_settings">Добавить карточку</string>
     <string name="NOMINATIVE">Именительный падеж</string>
     <string name="CASE">Озвучка</string>
     <string name="save_cases_button">Сохранить</string>
@@ -13,10 +13,10 @@
     <string name="edit_page_button">Редактировать лист</string>
     <string name="search_line_text">Строка поиска</string>
     <string name="recent_symbol_text">Строка недавних символов</string>
-    <string name="symbol_name_text">Введите название символа</string>
+    <string name="symbol_name_text">Введите текст</string>
     <string name="open_cases_button">Озвучка</string>
     <string name="preview_button">Предпросмотр</string>
-    <string name="save_card_button">Сохранить</string>
+    <string name="save_card_button">Сохранить карточку</string>
     <string name="type_size">Размер шрифта</string>
     <string name="text_place">Расположение надписи</string>
     <string name="text_colour">Цвет надписи</string>
@@ -35,8 +35,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_symbol_button">Добавить символ</string>
-    <string name="save_button">Сохранить</string>
-    <string name="input_page_name">Введите имя страницы</string>
+    <string name="save_button">Сохранить лист</string>
+    <string name="input_page_name">Введите текст</string>
     <string name="title_activity_graphic_parameters">GraphicParameters</string>
     <string name="graphic_parameters_button">Графика</string>
     <string name="page_list_hint_text">Выберите лист</string>
@@ -135,5 +135,12 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="amount_summary">В строке может быть различное количество карточек. По умолчанию в ряд расположены три карточки.</string>
     <string name="memory_summary">Выберите где будете хранить данные: в памяти устройства или на съемной карте памяти</string>
+    <string name="title_activity_page_creation">Добавить лист</string>
+    <string name="page_activity_header">Иконка и название листа</string>
+    <string name="lists_card_btn_text">Карточки листа</string>
+    <string name="title_activity_card_list">Карточки листа</string>
+    <string name="car_name_text">Название карточки</string>
+    <string name="test_settings">Настройка текста</string>
+    <string name="frame_settings">Настройки рамки</string>
 
 </resources>

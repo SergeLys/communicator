@@ -8,4 +8,5 @@
     <color name="speakLineBackground">#0C103A</color>
     <color name="title2">#1A237E</color>
     <color name="listBackground">#E0E0E0</color>
+    <color name="buttonColour">#009688</color>
 </resources>

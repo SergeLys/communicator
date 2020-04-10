@@ -19,14 +19,15 @@
             android:label="@string/title_activity_settings2"></activity>
         <activity
             android:name=".activity.CardSettingsActivity"
-            android:label="@string/title_activity_card_settings"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_card_settings"/>
         <activity
-            android:name=".activity.PageSettingsActivity"
-            android:label="@string/title_activity_page_settings"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".activity.ListCardsActivity"
+            android:label="@string/title_activity_card_list"/>
+        <activity
+            android:name=".activity.PageCreationActivity"
+            android:label="@string/title_activity_page_creation">
             <intent-filter>
-                <action android:name="com.ls.comunicator.activity.PageSettingsActivity"/>
+                <action android:name="com.ls.comunicator.activity.PageCreationActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -36,8 +37,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ListsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_activity_settings">
             <intent-filter>
                 <action android:name="com.ls.comunicator.activity.ListActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>

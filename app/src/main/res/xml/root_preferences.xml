@@ -19,28 +19,17 @@
     <SwitchPreference
         android:key="password"
         android:title="Защита от детей"
-        app:allowDividerBelow="true"
-        android:icon="@drawable/ic_child_key_black_24dp">
+        app:allowDividerBelow="true">
     </SwitchPreference>
     <PreferenceScreen
         android:title="Листы"
-        app:allowDividerAbove="true"
-        android:icon="@drawable/ic_lists_24dp">
+        app:allowDividerAbove="true">
         <intent android:action="com.ls.comunicator.activity.ListActivity"/>
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Добавить новый лист"
-        android:icon="@drawable/ic_add_new_list_24dp">
-        <intent android:action="com.ls.comunicator.activity.PageSettingsActivity"/>
-    </PreferenceScreen>
-    <PreferenceScreen
-        android:title="Мои карточки"
-        android:icon="@drawable/ic_my_cards_24dp">
-    </PreferenceScreen>
-    <PreferenceScreen
-        android:title="Добавить новую карточку"
-        app:allowDividerBelow="true"
-        android:icon="@drawable/ic_add_new_card_24dp">
+        app:allowDividerBelow="true">
+        <intent android:action="com.ls.comunicator.activity.PageCreationActivity"/>
     </PreferenceScreen>
     <ListPreference
         android:key="amount"
@@ -48,15 +37,13 @@
         android:entries="@array/cards_amount"
         android:entryValues="@array/cards_amount"
         android:title="Количество карточек в строке"
-        app:allowDividerAbove="true"
-        android:icon="@drawable/ic_card_amount_24dp">
+        app:allowDividerAbove="true">
     </ListPreference>
     <ListPreference
         android:key="memory"
         android:summary="@string/memory_summary"
         android:entries="@array/memory_entries"
         android:entryValues="@array/memory_values"
-        android:title="Место хранения"
-        app:allowDividerAbove="true">
+        android:title="Место хранения">
     </ListPreference>
 </PreferenceScreen>

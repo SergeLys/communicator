@@ -2,7 +2,6 @@ package com.ls.comunicator.activity
 
 import android.app.Activity
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.ExifInterface
@@ -10,11 +9,9 @@ import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +31,7 @@ import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_card_settings.*
 import java.io.File
 import java.util.*
 
@@ -61,7 +59,7 @@ class CardSettingsActivity : AppCompatActivity() {
         cardFrame = findViewById(R.id.card_preview)
         cardImage = findViewById(R.id.card_image)
         cardText = findViewById(R.id.card_text)
-        isCasesCheckBox = findViewById(R.id.is_cases_check_box)
+//        isCasesCheckBox = findViewById(R.id.is_cases_check_box)
 
         card = Card()
         val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -74,9 +72,8 @@ class CardSettingsActivity : AppCompatActivity() {
 
         val isEdit = intent.getBooleanExtra("isEdit", false)
 
-        val openCasesBtn = findViewById<MaterialButton>(R.id.open_cases_button)
         if (isEdit) {
-            findViewById<LinearLayout>(R.id.is_cases).visibility = View.GONE
+//            findViewById<LinearLayout>(R.id.is_cases).visibility = View.GONE
             openCasesBtn.setOnClickListener {
                 if (card.cases != null) {
                     val casesActivity = Intent(this, CasesActivity::class.java)
@@ -103,14 +100,13 @@ class CardSettingsActivity : AppCompatActivity() {
         cardText.setOnClickListener { showCardTextDialog() }
         cardFrame.setOnClickListener { showCardFrameDialog() }
 
-        findViewById<MaterialButton>(R.id.save_card_button)
-            .setOnClickListener {
-                val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                if (permissionStatus == PackageManager.PERMISSION_DENIED)
-                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 45)
-                else
-                    saveCard()
-            }
+        saveCardButton.setOnClickListener {
+            val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (permissionStatus == PackageManager.PERMISSION_DENIED)
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 45)
+            else
+                saveCard()
+        }
 
         cardName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
