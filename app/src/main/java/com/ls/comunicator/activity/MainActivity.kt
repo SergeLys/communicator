@@ -52,21 +52,27 @@ class MainActivity : AppCompatActivity() {
                 cardAdapter.playAll()
             }
         }
-
-        if ( ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
             ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.RECORD_AUDIO), 1)
+                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.RECORD_AUDIO), 1)
         }
         else {
-            SingletonCard.pages = loadPagesList()
-            if (SingletonCard.pages.size >= 3)
+            getFilesDir(this)
+            SingletonCard.pages = loadPagesList(baseContext)
+            if (SingletonCard.pages.size >= 1)
                 fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
-            SingletonCard.pages.forEach {
-                fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, it), it)
+            SingletonCard.pages.forEachIndexed { index, s ->
+                fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, s), s)
+                tabLayout.getTabAt(index+1)?.setIcon(R.drawable.ic_table_content_24dp)
             }
             viewPager.adapter = fragmentAdapter
             tabLayout?.setupWithViewPager(viewPager)
+//            tabLayout.getTabAt(0)?.setIcon(resources.getIdentifier("ic_table_content_24dp.xml", "drawable", packageName))
+//            SingletonCard.pages.forEachIndexed { index, s ->
+//                fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, s), s)
+//                tabLayout.getTabAt(index+1)?.setIcon(R.drawable.ic_table_content_24dp)
+//            }
         }
     }
 
@@ -79,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             1 -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    SingletonCard.pages = loadPagesList()
+                    SingletonCard.pages = loadPagesList(baseContext)
                     if (SingletonCard.pages.size >= 3)
                         fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
                     SingletonCard.pages.forEach {
@@ -88,19 +94,22 @@ class MainActivity : AppCompatActivity() {
                     viewPager.adapter = fragmentAdapter
                     tabLayout?.setupWithViewPager(viewPager)
                 }
-                else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-                        finishAffinity()
-                    else
-                        finish()
-                }
+                else
+                    closeApp()
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    fun closeApp() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            finishAffinity()
+        else
+            finish()
+    }
+
     override fun onResume() {
-        SingletonCard.pages = loadPagesList()
+        SingletonCard.pages = loadPagesList(baseContext)
         fragmentAdapter.notifyDataSetChanged()
         super.onResume()
     }

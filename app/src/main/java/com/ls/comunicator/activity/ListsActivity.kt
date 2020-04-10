@@ -34,7 +34,7 @@ class ListsActivity : AppCompatActivity() {
                         true
                     }
                     R.id.menu_delete -> {
-                        val success = deletePage(SingletonCard.pages[i], null)
+                        val success = deletePage(baseContext ,SingletonCard.pages[i], null)
                         if (success) {
                             SingletonCard.pages.removeAt(i)
                             adapter.notifyDataSetChanged()

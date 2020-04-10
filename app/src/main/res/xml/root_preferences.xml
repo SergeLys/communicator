@@ -51,4 +51,12 @@
         app:allowDividerAbove="true"
         android:icon="@drawable/ic_card_amount_24dp">
     </ListPreference>
+    <ListPreference
+        android:key="memory"
+        android:summary="@string/memory_summary"
+        android:entries="@array/memory_entries"
+        android:entryValues="@array/memory_values"
+        android:title="Место хранения"
+        app:allowDividerAbove="true">
+    </ListPreference>
 </PreferenceScreen>

@@ -134,7 +134,7 @@ class CasesActivity : AppCompatActivity() {
             R.id.instrumental_play_button -> {case = CaseEnum.INSTRUMENTAL}
             R.id.prepositional_play_button -> {case = CaseEnum.PREPOSITIONAL}
         }
-        return Environment.getExternalStorageDirectory().absolutePath +
+        return getFilesDir(baseContext)?.absolutePath +
                 "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/${case.text}.3gp"
     }
 

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
+import com.ls.comunicator.core.Card
 import com.ls.comunicator.core.loadPage
 
 class PageFragment(val cardAmount: Int, val communicate : CardAdapter, val page: String) : Fragment() {
@@ -22,8 +23,10 @@ class PageFragment(val cardAmount: Int, val communicate : CardAdapter, val page:
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_page, container, false)
-
-        val cards = loadPage(page)
+        var cards : ArrayList<Card> = arrayListOf()
+        if (context != null) {
+            cards = loadPage(context!!,page)
+        }
 
         recyclerView = view.findViewById(R.id.page_list)
         layoutManager = StaggeredGridLayoutManager(cardAmount, StaggeredGridLayoutManager.VERTICAL)

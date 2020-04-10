@@ -70,6 +70,16 @@
         <item>4</item>
     </string-array>
 
+    <string-array name="memory_entries">
+        <item>Память устройства</item>
+        <item>SD карта</item>
+    </string-array>
+
+    <string-array name="memory_values">
+        <item>internal</item>
+        <item>external</item>
+    </string-array>
+
     <string-array name="genitive">
         <item>от</item>
         <item>без</item>
@@ -124,5 +134,6 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="amount_summary">В строке может быть различное количество карточек. По умолчанию в ряд расположены три карточки.</string>
+    <string name="memory_summary">Выберите где будете хранить данные: в памяти устройства или на съемной карте памяти</string>
 
 </resources>

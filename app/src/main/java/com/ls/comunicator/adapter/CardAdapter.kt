@@ -115,7 +115,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
             cardFrame.strokeColor = card.image.borderColour
             cardFrame.strokeWidth = card.image.borderSize
             Picasso.get()
-                .load(File(Environment.getExternalStorageDirectory().absoluteFile, "/${Consts.LISTS_FOLDER}" +
+                .load(File(getFilesDir(context), "/${Consts.LISTS_FOLDER}" +
                         "/${card.page.toLowerCase(Locale.getDefault())}" +
                         "/${card.name.toLowerCase(Locale.getDefault())}/image.jpg"))
                 .centerCrop()
@@ -179,7 +179,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                                 true
                             }
                             R.id.menu_delete -> {
-                                val success = deletePage(card.page, card.name)
+                                val success = deletePage(context, card.page, card.name)
                                 if (success) {
                                     cards.remove(card)
                                     notifyDataSetChanged()

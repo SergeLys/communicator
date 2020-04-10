@@ -35,7 +35,7 @@ class PageSettingsActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this,
                 arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
         } else
-            cards = loadPage(intent.getStringExtra("page"))
+            cards = loadPage(baseContext, intent.getStringExtra("page"))
 
         pageNameEditText = findViewById(R.id.page_name)
         pageNameEditText.setText(intent.getStringExtra("page"))
@@ -118,7 +118,7 @@ class PageSettingsActivity : AppCompatActivity() {
         Toast.makeText(baseContext, "oldPageName: {$oldPageName}", Toast.LENGTH_SHORT).show()
         val pageName  = pageNameEditText.text.toString()
         Toast.makeText(baseContext, "pageName: {$pageName}", Toast.LENGTH_SHORT).show()
-        val success = renamePage(oldPageName, pageName)
+        val success = renamePage(baseContext, oldPageName, pageName)
         Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
     }
 
@@ -131,7 +131,7 @@ class PageSettingsActivity : AppCompatActivity() {
             54 -> {saveCard()}
             55 -> {savePage()}
             56 -> {renamePage()}
-            1 -> {cards = loadPage(intent.getStringExtra("page"))}
+            1 -> {cards = loadPage(baseContext, intent.getStringExtra("page"))}
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

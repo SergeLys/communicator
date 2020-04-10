@@ -2,6 +2,7 @@ package com.ls.comunicator.activity
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.ExifInterface
@@ -129,7 +130,7 @@ class CardSettingsActivity : AppCompatActivity() {
 
     fun saveCard() {
         if (oldCardName != card.name)
-            deletePage(card.page, oldCardName)
+            deletePage(baseContext ,card.page, oldCardName)
         val success = savePage(baseContext, card.page, card)
         Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
     }
@@ -137,7 +138,7 @@ class CardSettingsActivity : AppCompatActivity() {
     private fun getPath(card: Card): String {
         val page = card.page.toLowerCase(Locale.getDefault())
         val name = card.name.toLowerCase(Locale.getDefault())
-        return Environment.getExternalStorageDirectory().absolutePath +
+        return getFilesDir(baseContext)?.absolutePath +
                 "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/sound.3gp"
     }
 

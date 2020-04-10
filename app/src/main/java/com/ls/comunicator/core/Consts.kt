@@ -5,8 +5,7 @@ class Consts {
 
         const val CARD = "card"
         const val PAGE = "page"
-        const val LISTS_FOLDER = "Communicator/lists"
-        const val APP_FOLDER = "Communicator"
+        const val LISTS_FOLDER = "lists"
         const val CARD_NAME_WARNING = "Введите имя карточки !"
         const val CARD_CASES_WARNING = "Озвучьте карточку !"
         const val CARD_IMAGE_WARNING = "Выберите картинку !"

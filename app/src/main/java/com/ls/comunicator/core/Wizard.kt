@@ -64,7 +64,7 @@ fun savePage(context: Context, listName: String, card: Card?): Boolean {
     lateinit var pageData: File
     lateinit var fos: FileOutputStream
     lateinit var os: ObjectOutputStream
-    val pageDirPath  = "/${Consts.LISTS_FOLDER}/${listName.toLowerCase(Locale.getDefault())}"
+    val pageDirPath  = "/lists/${listName.toLowerCase(Locale.getDefault())}"
     val cardDirPath = "$pageDirPath/${card?.name?.toLowerCase(Locale.getDefault())}"
     val cardSoundDirPath = "$cardDirPath/sound"
     val cardInfo = "card_info"
@@ -72,8 +72,8 @@ fun savePage(context: Context, listName: String, card: Card?): Boolean {
     var success = true
 
     if (checkCard(context, card, false) || true) {
-        if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-            pageData = File(Environment.getExternalStorageDirectory().absoluteFile, pageDirPath)
+
+        pageData = File(getFilesDir(context), pageDirPath)
 
         if (!pageData.exists()) success = pageData.mkdirs()
 
@@ -112,16 +112,15 @@ fun savePage(context: Context, listName: String, card: Card?): Boolean {
     return success
 }
 
-fun loadPage(listName: String?): ArrayList<Card> {
+fun loadPage(context: Context, listName: String?): ArrayList<Card> {
 
     lateinit var fis: FileInputStream
     lateinit var ins:  ObjectInputStream
     lateinit var listDir: File
     val cards = arrayListOf<Card>()
-    val listDirPath = "/${Consts.LISTS_FOLDER}/${listName?.toLowerCase(Locale.getDefault())}"
+    val listDirPath = "/lists/${listName?.toLowerCase(Locale.getDefault())}"
 
-    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-        listDir = File(Environment.getExternalStorageDirectory().absoluteFile, listDirPath)
+    listDir = File(getFilesDir(context), listDirPath)
 
     try {
         if (listDir.exists()) {
@@ -148,47 +147,47 @@ fun loadPage(listName: String?): ArrayList<Card> {
     return cards
 }
 
-fun deletePage(page: String, card: String?): Boolean {
+fun deletePage(context: Context, page: String, card: String?): Boolean {
     lateinit var pageData: File
     lateinit var path: String
 
-    if (card == null)
-        path = "/${Consts.LISTS_FOLDER}/${page.toLowerCase(Locale.getDefault())}"
-    else
-        path = "/${Consts.LISTS_FOLDER}/${page.toLowerCase(Locale.getDefault())}/${card.toLowerCase(Locale.getDefault())}"
+    return try {
+        path = if (card == null)
+            "/lists}/${page.toLowerCase(Locale.getDefault())}"
+        else
+            "/lists/${page.toLowerCase(Locale.getDefault())}/${card.toLowerCase(Locale.getDefault())}"
+        pageData = File(getFilesDir(context), path)
 
-    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-        pageData = File(Environment.getExternalStorageDirectory().absoluteFile, path)
-
-    pageData.deleteRecursively()
-    return (!pageData.exists())
+        pageData.deleteRecursively()
+        (!pageData.exists())
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
+    }
 }
 
-fun renamePage(oldName: String, newName: String): Boolean {
+fun renamePage(context: Context ,oldName: String, newName: String): Boolean {
     lateinit var oldPage: File
     lateinit var newPage: File
 
     return try {
-        val oldPath = "/${Consts.LISTS_FOLDER}/${oldName.toLowerCase(Locale.getDefault())}"
-        val newPath = "/${Consts.LISTS_FOLDER}/${newName.toLowerCase(Locale.getDefault())}"
-        if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-            oldPage = File(Environment.getExternalStorageDirectory().absoluteFile, oldPath)
-            newPage = File(Environment.getExternalStorageDirectory().absoluteFile, newPath)
-        }
+        val oldPath = "/lists/${oldName.toLowerCase(Locale.getDefault())}"
+        val newPath = "/lists/${newName.toLowerCase(Locale.getDefault())}"
+        val files = getFilesDir(context)
+        oldPage = File(files, oldPath)
+        newPage = File(files, newPath)
         oldPage.renameTo(newPage)
     } catch (ex: Exception) {
         false
     }
 }
 
-fun loadPagesList(): ArrayList<String> {
+fun loadPagesList(context: Context): ArrayList<String> {
     lateinit var listsFolder: File
     val pagesList = ArrayList<String>()
-    val pagesListPath = "/${Consts.LISTS_FOLDER}"
 
     try {
-        if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-            listsFolder = File(Environment.getExternalStorageDirectory().absoluteFile, pagesListPath)
+        listsFolder = File(getFilesDir(context), "/lists")
         if (listsFolder.exists()) {
             listsFolder.listFiles().forEach {
                 if (it.isDirectory)
@@ -333,10 +332,4 @@ fun createMediaRecorder(mediaRecorder: MediaRecorder) {
     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
     mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
     mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB)
-}
-
-fun getExternalStoragePath(): String {
-    if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
-        return Environment.getExternalStorageDirectory().absolutePath
-    return ""
 }
