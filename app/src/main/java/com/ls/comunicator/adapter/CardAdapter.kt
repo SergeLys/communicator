@@ -101,10 +101,6 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
         }
     }
 
-    fun playAll() {
-        play(cards, mediaPlayer , mTTS)
-    }
-
     inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
         val cardFrame = view.card_frame

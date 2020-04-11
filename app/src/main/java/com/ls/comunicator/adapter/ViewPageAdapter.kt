@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.ls.comunicator.activity.PageFragment
-import com.ls.comunicator.core.SingletonCard
 import com.ls.comunicator.core.getCardAmount
 
 class ViewPagerAdapter(val context: Context, manager: FragmentManager) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -22,8 +21,10 @@ class ViewPagerAdapter(val context: Context, manager: FragmentManager) : Fragmen
     }
 
     override fun getItemPosition(`object`: Any): Int {
-        val fragment = `object` as PageFragment
-        fragment.updateSpanCount(getCardAmount(context))
+        if (`object` is PageFragment) {
+            val fragment = `object` as PageFragment
+            fragment.updateSpanCount(getCardAmount(context))
+        }
         return super.getItemPosition(`object`)
     }
 
