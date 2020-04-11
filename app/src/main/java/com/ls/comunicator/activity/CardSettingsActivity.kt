@@ -369,13 +369,13 @@ class CardSettingsActivity : AppCompatActivity() {
             }
 
         })
-        textSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
-            override fun onValueChange(slider: Slider?, value: Float) {
-                card.image.textSize = value
-                updateCardPreview(card)
-            }
-
-        })
+//        textSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
+//            override fun onValueChange(slider: Slider?, value: Float) {
+//                card.image.textSize = value
+//                updateCardPreview(card)
+//            }
+//
+//        })
         textColorLayout.setOnClickListener {
             textColorPicker.show()
         }
@@ -400,13 +400,13 @@ class CardSettingsActivity : AppCompatActivity() {
                 updateCardPreview(card)
             }
         })
-        frameSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
-            override fun onValueChange(slider: Slider?, value: Float) {
-                card.image.borderSize = value.toInt()
-                updateCardPreview(card)
-            }
-
-        })
+//        frameSizeSlider.setOnFocusChangeListener(object : Slider.OnChangeListener{
+//            override fun onValueChange(slider: Slider?, value: Float) {
+//                card.image.borderSize = value.toInt()
+//                updateCardPreview(card)
+//            }
+//
+//        })
         borderColorLayout.setOnClickListener {
             borderColorPicker.show()
         }

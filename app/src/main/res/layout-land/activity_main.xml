@@ -1,102 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:weightSum="2"
     android:background="@color/speakLineBackground"
     tools:context=".activity.MainActivity">
 
     <LinearLayout
-        android:id="@+id/left_layout"
-        android:orientation="vertical"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/left_layout"
+            android:orientation="vertical"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/speakLineRecyclerView"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/speakLineRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+                <TextView
+                    android:id="@+id/emptySpeakLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="130dp"
+                    android:gravity="center"
+                    android:text="@string/empty_com_line"
+                    android:textSize="25sp"
+                    android:textColor="@color/materialcolorpicker__white"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/play_panel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageButton
+                    android:id="@+id/deleteAllButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/speakLineBackground"
+                    android:src="@drawable/ic_delete_all_24dp" />
+
+                <ImageButton
+                    android:id="@+id/deleteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/speakLineBackground"
+                    android:src="@drawable/ic_delete_24dp"
+                    android:layout_toEndOf="@id/deleteAllButton"/>
+
+                <ImageButton
+                    android:id="@+id/playButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/speakLineBackground"
+                    android:src="@drawable/ic_play_24dp"
+                    android:layout_toEndOf="@+id/deleteButton"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/right_layout"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.tabs.TabLayout
+                style="@style/Widget.Design.TabLayout"
+                android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" />
+                android:layout_gravity="top"
+                app:tabBackground="@color/materialcolorpicker__white"
+                android:background="#FFFFFF"
+                app:tabTextColor="#9E9E9E"
+                app:tabMode="scrollable"/>
 
-            <TextView
-                android:id="@+id/emptySpeakLine"
-                android:layout_width="wrap_content"
-                android:layout_height="130dp"
-                android:gravity="center"
-                android:text="@string/empty_com_line"
-                android:textSize="25sp"
-                android:textColor="@color/materialcolorpicker__white"
-                android:layout_centerInParent="true"/>
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/listBackground">
 
-        </RelativeLayout>
+            </androidx.viewpager.widget.ViewPager>
 
-        <RelativeLayout
-            android:id="@+id/play_panel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <ImageButton
-                android:id="@+id/deleteAllButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/speakLineBackground"
-                android:src="@drawable/ic_delete_all_24dp" />
-
-            <ImageButton
-                android:id="@+id/deleteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/speakLineBackground"
-                android:src="@drawable/ic_delete_24dp"
-                android:layout_toEndOf="@id/deleteAllButton"/>
-
-            <ImageButton
-                android:id="@+id/playButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/speakLineBackground"
-                android:src="@drawable/ic_play_24dp"
-                android:layout_toEndOf="@+id/deleteButton"/>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/right_layout"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <FrameLayout
+        android:id="@+id/shadowView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-        <com.google.android.material.tabs.TabLayout
-            style="@style/Widget.Design.TabLayout"
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            app:tabBackground="@color/materialcolorpicker__white"
-            android:background="#FFFFFF"
-            app:tabTextColor="#9E9E9E"
-            app:tabMode="scrollable"/>
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
+        <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/listBackground">
+            android:alpha="0.7"
+            android:background="#000000"/>
 
-        </androidx.viewpager.widget.ViewPager>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/ic_speaker"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
-</LinearLayout>
+</RelativeLayout>
