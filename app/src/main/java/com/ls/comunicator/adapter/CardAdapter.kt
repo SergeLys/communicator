@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
-import android.os.Environment
 import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
@@ -24,8 +23,8 @@ import kotlin.collections.ArrayList
 
 class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: CardAdapterEnum, val communicate: CardAdapter?) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
-    private lateinit var mTTS: TextToSpeech
-    private var mediaPlayer: MediaPlayer
+    lateinit var mTTS: TextToSpeech
+    var mediaPlayer: MediaPlayer
     private var recyclerView: RecyclerView?
     private var emptyRecyclerView: TextView?
 
@@ -154,10 +153,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                         true
                     }
                     itemView.setOnClickListener{
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                            mTTS.speak(card.name,TextToSpeech.QUEUE_FLUSH,null,null)
-                        else
-                            mTTS.speak(card.name, TextToSpeech.QUEUE_FLUSH, null)
+                        play(context, arrayListOf(card), mediaPlayer, mTTS)
                     }
                 }
                 CardAdapterEnum.EDIT_PAGE -> {

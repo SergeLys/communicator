@@ -198,7 +198,7 @@ fun loadPagesList(context: Context): ArrayList<String> {
     return  pagesList
 }
 
-fun play(cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {
+fun play(context: Context, cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {
     var case: CaseEnum = CaseEnum.NOMINATIVE
     var current: CaseEnum
     cards.forEach {
@@ -210,7 +210,7 @@ fun play(cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {
             case = current
 
         if (it.cases != null) {
-            if (!hasSound(case, it)) {
+            if (!hasSound(context, case, it)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     mTTS.speak(getCase(case, it.cases), TextToSpeech.QUEUE_FLUSH,null,null)
                 else
@@ -218,7 +218,7 @@ fun play(cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {
                 while (mTTS.isSpeaking) {}
             } else {
                 try {
-                    mediaPlayer.setDataSource(getPath(case, it))
+                    mediaPlayer.setDataSource(getPath(context, case, it))
                     mediaPlayer.prepare()
                 } catch (e : Exception) {
                     e.printStackTrace()
@@ -227,7 +227,7 @@ fun play(cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {
                 while(mediaPlayer.isPlaying) {}
             }
         } else {
-            if (!hasSound(case, it)) {
+            if (!hasSound(context, case, it)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     mTTS.speak(it.name, TextToSpeech.QUEUE_FLUSH,null,null)
                 else
@@ -235,7 +235,7 @@ fun play(cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {
                 while (mTTS.isSpeaking) {}
             } else {
                 try {
-                    mediaPlayer.setDataSource(getPath(case, it))
+                    mediaPlayer.setDataSource(getPath(context, case, it))
                     mediaPlayer.prepare()
                 } catch (e : Exception) {
                     e.printStackTrace()
@@ -300,20 +300,17 @@ fun checkEnding(text: String): CaseEnum {
     return case
 }
 
-fun hasSound(case: CaseEnum, card: Card): Boolean {
-    return File(getPath(case, card)).exists()
+fun hasSound(context: Context, case: CaseEnum, card: Card): Boolean {
+    return File(getPath(context, case, card)).exists()
 }
 
-fun getPath(case: CaseEnum, card: Card): String {
+fun getPath(context: Context, case: CaseEnum, card: Card): String {
     val page = card.page.toLowerCase(Locale.getDefault())
     val name = card.name.toLowerCase(Locale.getDefault())
-    return if (card.cases == null) {
-        Environment.getExternalStorageDirectory().absolutePath +
-                "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/sound.3gp"
-    } else {
-        Environment.getExternalStorageDirectory().absolutePath +
-                "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/${case.text}.3gp"
-    }
+    return if (card.cases == null)
+        getFilesDir(context)?.absolutePath + "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/sound.3gp"
+     else
+        getFilesDir(context)?.absolutePath + "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/${case.text}.3gp"
 }
 
 fun getCase(case: CaseEnum, cases: Card.Cases): String {

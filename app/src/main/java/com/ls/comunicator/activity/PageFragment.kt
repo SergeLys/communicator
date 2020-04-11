@@ -16,6 +16,7 @@ import com.ls.comunicator.core.loadPage
 class PageFragment(val cardAmount: Int, val communicate : CardAdapter, val page: String) : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: CardAdapter
     private lateinit var layoutManager: StaggeredGridLayoutManager
 
     override fun onCreateView(
@@ -31,13 +32,20 @@ class PageFragment(val cardAmount: Int, val communicate : CardAdapter, val page:
         recyclerView = view.findViewById(R.id.page_list)
         layoutManager = StaggeredGridLayoutManager(cardAmount, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = CardAdapter(cards, view.context, CardAdapterEnum.PAGE, communicate)
-
+        adapter = CardAdapter(cards, view.context, CardAdapterEnum.PAGE, communicate)
+        recyclerView.adapter = adapter
         return view
     }
 
     fun updateSpanCount(spanCount: Int) {
         layoutManager.spanCount = spanCount
+    }
+
+    override fun onDestroy() {
+        adapter.mTTS.stop()
+        adapter.mTTS.shutdown()
+        adapter.mediaPlayer.release()
+        super.onDestroy()
     }
 
 }

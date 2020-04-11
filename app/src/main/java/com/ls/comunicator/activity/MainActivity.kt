@@ -233,7 +233,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun doInBackground(vararg params: Int?): String? {
                 try {
-                    play(cards, mediaPlayer , mTTS)
+                    val activity = activityReference.get()
+                    if (activity != null)
+                        play(activity.baseContext, cards, mediaPlayer , mTTS)
                 } catch (e: InterruptedException) {
 
                 } finally {
