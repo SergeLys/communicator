@@ -33,8 +33,7 @@
         </activity>
         <activity
             android:name=".activity.CasesActivity"
-            android:label="@string/title_activity_cases"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_cases"/>
         <activity
             android:name=".activity.ListsActivity"
             android:label="@string/title_activity_settings">

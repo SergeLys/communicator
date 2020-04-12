@@ -3,7 +3,7 @@
     <string name="text">Text</string>
     <string name="title_activity_settings_password">SettingsPasswordActivity</string>
     <string name="title_activity_settings">Листы</string>
-    <string name="title_activity_cases">CasesActivity</string>
+    <string name="title_activity_cases">Падежи</string>
     <string name="title_activity_page_settings">PageSettingsActivity</string>
     <string name="title_activity_card_settings">Добавить карточку</string>
     <string name="NOMINATIVE">Именительный падеж</string>

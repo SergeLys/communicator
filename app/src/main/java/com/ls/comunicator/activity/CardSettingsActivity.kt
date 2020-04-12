@@ -97,8 +97,8 @@ class CardSettingsActivity : AppCompatActivity() {
         }
 
         cardImage.setOnClickListener { showImageDialog() }
-        cardText.setOnClickListener { showCardTextDialog() }
-        cardFrame.setOnClickListener { showCardFrameDialog() }
+        textSettingsBtn.setOnClickListener { showCardTextDialog() }
+        frameSettingsBtn.setOnClickListener { showCardFrameDialog() }
 
         saveCardButton.setOnClickListener {
             val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -312,7 +312,7 @@ class CardSettingsActivity : AppCompatActivity() {
 
     private fun showImageDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Картинка")
+        builder.setTitle("Настройки картинки")
         val view = layoutInflater.inflate(R.layout.dialog_image, null)
         view.findViewById<FloatingActionButton>(R.id.image_file_button)
             .setOnClickListener {
@@ -342,7 +342,7 @@ class CardSettingsActivity : AppCompatActivity() {
 
     fun showCardTextDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Текст")
+        builder.setTitle("Настройки текста")
         val view = layoutInflater.inflate(R.layout.dialog_text_graphic, null)
         val textColorLayout = view.findViewById<LinearLayout>(R.id.text_colour_btn)
         val textSizeSlider = view.findViewById<Slider>(R.id.text_size_slider)
@@ -369,13 +369,13 @@ class CardSettingsActivity : AppCompatActivity() {
             }
 
         })
-//        textSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
-//            override fun onValueChange(slider: Slider?, value: Float) {
-//                card.image.textSize = value
-//                updateCardPreview(card)
-//            }
-//
-//        })
+        textSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
+            override fun onValueChange(slider: Slider?, value: Float) {
+                card.image.textSize = value
+                updateCardPreview(card)
+            }
+
+        })
         textColorLayout.setOnClickListener {
             textColorPicker.show()
         }
@@ -387,7 +387,7 @@ class CardSettingsActivity : AppCompatActivity() {
 
     private fun showCardFrameDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Рамка")
+        builder.setTitle("Настройки рамки")
         val view = layoutInflater.inflate(R.layout.dialog_border_graphic, null)
         val borderColorLayout = view.findViewById<LinearLayout>(R.id.border_color_button)
         val  frameSizeSlider = view.findViewById<Slider>(R.id.frame_size_slider)

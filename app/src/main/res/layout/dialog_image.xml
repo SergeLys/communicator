@@ -1,44 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/image_text"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/image_file_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/card_image"
-        android:textSize="20sp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="30dp"/>
+        app:fabSize="mini"
+        android:src="@drawable/ic_folder_black_24dp"
+        style="@style/PrimaryActionButton"
+        app:tint="#FFFFFF"/>
 
-    <RelativeLayout
-        android:id="@+id/card_image"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/image_camera_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/image_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="mini"
-            android:src="@drawable/ic_folder_black_24dp"
-            style="@style/PrimaryActionButton"
-            app:tint="#FFFFFF"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/image_camera_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/image_file_button"
-            app:fabSize="mini"
-            android:src="@drawable/ic_photo_camera_black_24dp"
-            style="@style/PrimaryActionButton"
-            app:tint="#FFFFFF" />
-
-    </RelativeLayout>
+        app:fabSize="mini"
+        android:src="@drawable/ic_photo_camera_black_24dp"
+        style="@style/PrimaryActionButton"
+        app:tint="#FFFFFF" />
 
 </LinearLayout>

@@ -18,7 +18,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="PrimaryActionButton">
-        <item name="android:backgroundTint">#8cacd0</item>
+        <item name="android:backgroundTint">#009688</item>
     </style>
 
 </resources>

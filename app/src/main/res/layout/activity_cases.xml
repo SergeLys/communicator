@@ -379,6 +379,7 @@
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="25dp"
+                android:backgroundTint="@color/buttonColour"
                 android:text="@string/back_button">
             </com.google.android.material.button.MaterialButton>
 
