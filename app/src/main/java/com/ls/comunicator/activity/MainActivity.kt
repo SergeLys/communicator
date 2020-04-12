@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         speakLineRecyclerView.visibility = View.GONE
         emptySpeakLine.visibility = View.VISIBLE
 
-        cards = ArrayList<Card>()
+        cards = ArrayList()
         speakLineRecyclerView.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE, null)
@@ -119,20 +119,17 @@ class MainActivity : AppCompatActivity() {
     ) {
         when (requestCode) {
             1 -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                if (grantResults.isNotEmpty()
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[2] == PackageManager.PERMISSION_GRANTED
                 ) {
                     SingletonCard.pages = loadPagesList(baseContext)
                     if (SingletonCard.pages.size >= 3)
                         fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
                     SingletonCard.pages.forEach {
                         fragmentAdapter.addFragment(
-                            PageFragment(
-                                getCardAmount(this),
-                                cardAdapter,
-                                it
-                            ), it
-                        )
+                            PageFragment(getCardAmount(this), cardAdapter, it), it)
                     }
                     viewPager.adapter = fragmentAdapter
                     tabLayout?.setupWithViewPager(viewPager)

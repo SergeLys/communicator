@@ -103,9 +103,8 @@ class CardSettingsActivity : AppCompatActivity() {
         frameSettingsBtn.setOnClickListener { showCardFrameDialog() }
 
         saveCardButton.setOnClickListener {
-            val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            if (permissionStatus == PackageManager.PERMISSION_DENIED)
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 45)
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
             else
                 saveCard()
         }
@@ -127,10 +126,15 @@ class CardSettingsActivity : AppCompatActivity() {
     }
 
     fun saveCard() {
-        if (oldCardName != card.name)
-            deletePage(baseContext ,card.page, oldCardName)
-        val success = savePage(baseContext, card.page, card)
-        Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
+        try {
+            if (oldCardName != card.name)
+                deletePage(baseContext ,card.page, oldCardName)
+            val success = savePage(baseContext, card.page, card)
+            Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(baseContext,"Ошибка при сохранении", Toast.LENGTH_SHORT).show()
+            onBackPressed()
+        }
     }
 
     private fun getPath(card: Card): String {
@@ -342,7 +346,7 @@ class CardSettingsActivity : AppCompatActivity() {
         builder.show()
     }
 
-    fun showCardTextDialog() {
+    private fun showCardTextDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Настройки текста")
         val view = layoutInflater.inflate(R.layout.dialog_text_graphic, null)
@@ -424,12 +428,13 @@ class CardSettingsActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when(requestCode) {
-            45 -> {saveCard()}
-            33 -> {
-                card = MyApp.card
-                oldCardName = card.name
-                cardName.setText(card.name)
-                updateCardPreview(card)}
+            1 -> {
+                if (grantResults.isNotEmpty()
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                saveCard()
+                else
+                    Toast.makeText(baseContext,"Ошибка при сохранении", Toast.LENGTH_SHORT).show()
+            }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

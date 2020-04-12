@@ -3,6 +3,7 @@ package com.ls.comunicator.activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,26 +16,28 @@ import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
 import com.ls.comunicator.core.*
 import kotlinx.android.synthetic.main.activity_page_cards.*
+import kotlinx.android.synthetic.main.lists_settings.*
 
 
 class ListCardsActivity : AppCompatActivity() {
 
     private var cards = ArrayList<Card>()
     private lateinit var createNewCardAlert: AlertDialog
+    private lateinit var adapter: CardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_page_cards)
 
-        val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-        if (permissionStatus == PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this,
                 arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
         } else
             cards = loadPage(baseContext, intent.getStringExtra("page"))
 
         pageCardList.layoutManager = GridLayoutManager( this, 3)
-        pageCardList.adapter = CardAdapter(cards, this, CardAdapterEnum.EDIT_PAGE, null)
+        adapter = CardAdapter(cards, this, CardAdapterEnum.EDIT_PAGE, null)
+        pageCardList.adapter = adapter
 
         addNewCard.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -77,13 +80,24 @@ class ListCardsActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when(requestCode) {
-            1 -> {cards = loadPage(baseContext, intent.getStringExtra("page"))}
+            1 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    cards = loadPage(baseContext, intent.getStringExtra("page"))
+                    adapter = CardAdapter(cards, this, CardAdapterEnum.EDIT_PAGE, null)
+                    pageCardList.adapter = adapter
+                }
+            }
             2 -> {saveCard()}
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onResume() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            cards = loadPage(baseContext, intent.getStringExtra("page"))
+            adapter = CardAdapter(cards, this, CardAdapterEnum.EDIT_PAGE, null)
+            pageCardList.adapter = adapter
+        }
         super.onResume()
     }
 
