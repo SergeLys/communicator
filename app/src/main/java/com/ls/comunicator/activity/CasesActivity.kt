@@ -37,23 +37,26 @@ class CasesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cases)
 
-        card = Card()
-        val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-        if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
-            card = MyApp.card
-            watcher = TextChange()
-            nEditText = findViewById(R.id.nominative_text)
-            nEditText.addTextChangedListener(watcher)
-            gEditText = findViewById(R.id.genitive_text)
-            gEditText.addTextChangedListener(watcher)
-            dEditText=  findViewById(R.id.dative_text)
-            dEditText.addTextChangedListener(watcher)
-            aEditText = findViewById(R.id.accusative_text)
-            aEditText.addTextChangedListener(watcher)
-            iEditText = findViewById(R.id.instrumental_text)
-            iEditText.addTextChangedListener(watcher)
-            pEditText = findViewById(R.id.prepositional_text)
-            pEditText.addTextChangedListener(watcher)
+        try {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                card = MyApp.card
+                if (card.cases == null) throw Exception()
+                watcher = TextChange()
+                nEditText = findViewById(R.id.nominative_text)
+                nEditText.addTextChangedListener(watcher)
+                gEditText = findViewById(R.id.genitive_text)
+                gEditText.addTextChangedListener(watcher)
+                dEditText=  findViewById(R.id.dative_text)
+                dEditText.addTextChangedListener(watcher)
+                aEditText = findViewById(R.id.accusative_text)
+                aEditText.addTextChangedListener(watcher)
+                iEditText = findViewById(R.id.instrumental_text)
+                iEditText.addTextChangedListener(watcher)
+                pEditText = findViewById(R.id.prepositional_text)
+                pEditText.addTextChangedListener(watcher)
+            }
+        } catch (e: Exception) {
+            onBackPressed()
         }
 
         findViewById<MaterialButton>(R.id.back_button)

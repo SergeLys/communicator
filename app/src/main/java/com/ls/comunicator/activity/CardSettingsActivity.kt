@@ -60,14 +60,16 @@ class CardSettingsActivity : AppCompatActivity() {
         cardImage = findViewById(R.id.card_image)
         cardText = findViewById(R.id.card_text)
 //        isCasesCheckBox = findViewById(R.id.is_cases_check_box)
-
-        card = Card()
-        val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-        if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+        try {
             card = MyApp.card
-            oldCardName = card.name
-            cardName.setText(card.name)
-            updateCardPreview(card)
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                card = MyApp.card
+                oldCardName = card.name
+                cardName.setText(card.name)
+                updateCardPreview(card)
+            }
+        } catch (e: Exception) {
+            onBackPressed()
         }
 
         val isEdit = intent.getBooleanExtra("isEdit", false)
