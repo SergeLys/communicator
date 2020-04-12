@@ -176,8 +176,6 @@ class CasesActivity : AppCompatActivity() {
 
 
     override fun onDestroy() {
-        mediaRecorder.release()
-        mediaPlayer.release()
         super.onDestroy()
     }
 

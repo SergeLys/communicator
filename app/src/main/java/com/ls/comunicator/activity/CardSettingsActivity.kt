@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -28,7 +29,6 @@ import com.ls.comunicator.core.Consts.Companion.CAMERA_REQUEST
 import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
-import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_card_settings.*
@@ -41,7 +41,6 @@ class CardSettingsActivity : AppCompatActivity() {
     private lateinit var cardImage: ImageView
     private lateinit var cardText: TextView
     private lateinit var cardName: TextInputEditText
-    private lateinit var isCasesCheckBox: CheckBox
     lateinit var mediaRecorder: MediaRecorder
     lateinit var card: Card
     lateinit var textColorPicker: ColorPicker
@@ -59,7 +58,6 @@ class CardSettingsActivity : AppCompatActivity() {
         cardFrame = findViewById(R.id.card_preview)
         cardImage = findViewById(R.id.card_image)
         cardText = findViewById(R.id.card_text)
-//        isCasesCheckBox = findViewById(R.id.is_cases_check_box)
         try {
             card = MyApp.card
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -75,7 +73,7 @@ class CardSettingsActivity : AppCompatActivity() {
         val isEdit = intent.getBooleanExtra("isEdit", false)
 
         if (isEdit) {
-//            findViewById<LinearLayout>(R.id.is_cases).visibility = View.GONE
+            isHasCasesLayout.visibility = View.GONE
             openCasesBtn.setOnClickListener {
                 if (card.cases != null) {
                     val casesActivity = Intent(this, CasesActivity::class.java)
@@ -86,7 +84,7 @@ class CardSettingsActivity : AppCompatActivity() {
             }
         } else {
             openCasesBtn.setOnClickListener {
-                if (isCasesCheckBox.isChecked) {
+                if (isHasCases.isChecked) {
                     if (card.cases == null)
                         card.addCases()
                     val casesActivity = Intent(this, CasesActivity::class.java)
@@ -231,7 +229,7 @@ class CardSettingsActivity : AppCompatActivity() {
         }
     }
 
-    fun onCheckBoxClicked(checkBox: CheckBox) {
+    private fun onCheckBoxClicked(checkBox: CheckBox) {
         if (checkBox.isChecked) {
 
             when(checkBox.id) {
@@ -356,32 +354,17 @@ class CardSettingsActivity : AppCompatActivity() {
         bottomCheckBox = view.findViewById(R.id.bottom_check_box)
         textColorPicker = ColorPicker(this, 0,0,0)
         textColorPicker.enableAutoClose()
-        textColorPicker.setCallback(object : ColorPickerCallback {
-            override fun onColorChosen(color: Int) {
-                card.image.textColour = color
-                textColorLayout.setBackgroundColor(color)
-                updateCardPreview(card)
-            }
-        })
-        upCheckBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
-                onCheckBoxClicked(p0 as CheckBox)
-            }
-
-        })
-        bottomCheckBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
-                onCheckBoxClicked(p0 as CheckBox)
-            }
-
-        })
-        textSizeSlider.setOnChangeListener(object : Slider.OnChangeListener{
-            override fun onValueChange(slider: Slider?, value: Float) {
-                card.image.textSize = value
-                updateCardPreview(card)
-            }
-
-        })
+        textColorPicker.setCallback { color ->
+            card.image.textColour = color
+            textColorLayout.setBackgroundColor(color)
+            updateCardPreview(card)
+        }
+        upCheckBox.setOnCheckedChangeListener { p0, isChecked -> onCheckBoxClicked(p0 as CheckBox) }
+        bottomCheckBox.setOnCheckedChangeListener { p0, isChecked -> onCheckBoxClicked(p0 as CheckBox) }
+        textSizeSlider.setOnChangeListener { slider, value ->
+            card.image.textSize = value
+            updateCardPreview(card)
+        }
         textColorLayout.setOnClickListener {
             textColorPicker.show()
         }
@@ -399,20 +382,15 @@ class CardSettingsActivity : AppCompatActivity() {
         val  frameSizeSlider = view.findViewById<Slider>(R.id.frame_size_slider)
         borderColorPicker = ColorPicker(this, 0,0,0)
         borderColorPicker.enableAutoClose()
-        borderColorPicker.setCallback(object : ColorPickerCallback {
-            override fun onColorChosen(color: Int) {
-                card.image.borderColour = color
-                borderColorLayout.setBackgroundColor(color)
-                updateCardPreview(card)
-            }
-        })
-//        frameSizeSlider.setOnFocusChangeListener(object : Slider.OnChangeListener{
-//            override fun onValueChange(slider: Slider?, value: Float) {
-//                card.image.borderSize = value.toInt()
-//                updateCardPreview(card)
-//            }
-//
-//        })
+        borderColorPicker.setCallback { color ->
+            card.image.borderColour = color
+            borderColorLayout.setBackgroundColor(color)
+            updateCardPreview(card)
+        }
+        frameSizeSlider.setOnChangeListener { slider, value ->
+            card.image.borderSize = value.toInt()
+            updateCardPreview(card)
+        }
         borderColorLayout.setOnClickListener {
             borderColorPicker.show()
         }
