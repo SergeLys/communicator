@@ -9,4 +9,5 @@
     <color name="title2">#1A237E</color>
     <color name="listBackground">#E0E0E0</color>
     <color name="buttonColour">#009688</color>
+    <color name="tab_white">#FFFFFF</color>
 </resources>

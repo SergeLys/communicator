@@ -43,11 +43,11 @@
     <string name="speech_part_list_hint_text">Выберите часть речи</string>
     <string name="image_text">image_text</string>
     <string name="back_button">Назад</string>
-    <string name="border_color_button">Выбрать цвет рамки</string>
-    <string name="text_color_button">Выберите цвет текста</string>
-    <string name="bottom_text">Низ</string>
+    <string name="border_color_button">Цвет рамки</string>
+    <string name="text_color_button">Цвет текста</string>
+    <string name="bottom_text">Снизу</string>
     <string name="cases_exists">Наличие падежей</string>
-    <string name="up_place">Верх</string>
+    <string name="up_place">Сверху</string>
     <string name="card_default_text">Надпись</string>
     <string name="card_menu_delete">Удалить</string>
     <string name="card_menu_edit">Редактировать</string>
@@ -142,5 +142,6 @@
     <string name="car_name_text">Название карточки</string>
     <string name="test_settings">Настройка текста</string>
     <string name="frame_settings">Настройки рамки</string>
+    <string name="border_description">Настройка используется\nдля людей с нарушением зрения.\nПо умолчанию рамка серая\nи равна единице</string>
 
 </resources>

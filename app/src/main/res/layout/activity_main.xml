@@ -25,7 +25,7 @@
             android:layout_height="130dp"
             android:gravity="center"
             android:text="@string/empty_com_line"
-            android:textColor="@color/materialcolorpicker__white"
+            android:textColor="#FFFFFF"
             android:textSize="25sp"
             android:layout_centerInParent="true"/>
 
@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        app:tabBackground="@color/materialcolorpicker__white"
+        app:tabBackground="@color/tab_white"
         android:background="#FFFFFF"
         app:tabTextColor="#9E9E9E"
         app:tabMode="scrollable"

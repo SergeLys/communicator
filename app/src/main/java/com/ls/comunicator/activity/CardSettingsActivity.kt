@@ -28,9 +28,9 @@ import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.CAMERA_REQUEST
 import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
-import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.activity_card_settings.*
 import java.io.File
 import java.util.*
@@ -43,10 +43,8 @@ class CardSettingsActivity : AppCompatActivity() {
     private lateinit var cardName: TextInputEditText
     lateinit var mediaRecorder: MediaRecorder
     lateinit var card: Card
-    lateinit var textColorPicker: ColorPicker
-    lateinit var borderColorPicker: ColorPicker
-    lateinit var upCheckBox: CheckBox
-    lateinit var bottomCheckBox: CheckBox
+    lateinit var upCheckBox: RadioButton
+    lateinit var bottomCheckBox: RadioButton
     lateinit var oldCardName: String
     private var imageUri: Uri? = null
 
@@ -286,8 +284,8 @@ class CardSettingsActivity : AppCompatActivity() {
                     mediaRecorder.release()
                 }
                 builder.setView(view)
-                builder.setPositiveButton("Ok") { dialogInterface, i ->
-                }
+                builder.setPositiveButton("Ok") { dialogInterface, i -> }
+                builder.setNegativeButton("Отмена") {dialogInterface, i ->  }
                 builder.show()
             }
             fileBtn.setOnClickListener {
@@ -308,8 +306,8 @@ class CardSettingsActivity : AppCompatActivity() {
                 }
             }
             builder.setView(view)
-            builder.setPositiveButton("Ok") { dialogInterface, i ->
-            }
+            builder.setPositiveButton("Ok") { dialogInterface, i -> }
+            builder.setNegativeButton("Отмена") {dialogInterface, i ->  }
             builder.show()
         }
     }
@@ -339,8 +337,8 @@ class CardSettingsActivity : AppCompatActivity() {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST)
             }
         builder.setView(view)
-        builder.setPositiveButton("Ok") { dialogInterface, i ->
-        }
+        builder.setPositiveButton("Ok") { dialogInterface, i -> }
+        builder.setNegativeButton("Отмена") {dialogInterface, i ->  }
         builder.show()
     }
 
@@ -352,13 +350,6 @@ class CardSettingsActivity : AppCompatActivity() {
         val textSizeSlider = view.findViewById<Slider>(R.id.text_size_slider)
         upCheckBox = view.findViewById(R.id.up_check_box)
         bottomCheckBox = view.findViewById(R.id.bottom_check_box)
-        textColorPicker = ColorPicker(this, 0,0,0)
-        textColorPicker.enableAutoClose()
-        textColorPicker.setCallback { color ->
-            card.image.textColour = color
-            textColorLayout.setBackgroundColor(color)
-            updateCardPreview(card)
-        }
         upCheckBox.setOnCheckedChangeListener { p0, isChecked -> onCheckBoxClicked(p0 as CheckBox) }
         bottomCheckBox.setOnCheckedChangeListener { p0, isChecked -> onCheckBoxClicked(p0 as CheckBox) }
         textSizeSlider.setOnChangeListener { slider, value ->
@@ -366,11 +357,18 @@ class CardSettingsActivity : AppCompatActivity() {
             updateCardPreview(card)
         }
         textColorLayout.setOnClickListener {
-            textColorPicker.show()
+            ColorSheet().colorPicker(
+                colors = baseContext.resources.getIntArray(R.array.colors),
+                listener = { color ->
+                    card.image.textColour = color
+                    textColorLayout.setBackgroundColor(color)
+                    updateCardPreview(card)
+                })
+                .show(supportFragmentManager)
         }
         builder.setView(view)
-        builder.setPositiveButton("Ok") { dialogInterface, i ->
-        }
+        builder.setPositiveButton("Ok") { dialogInterface, i -> }
+        builder.setNegativeButton("Отмена") {dialogInterface, i ->  }
         builder.show()
     }
 
@@ -380,23 +378,23 @@ class CardSettingsActivity : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.dialog_border_graphic, null)
         val borderColorLayout = view.findViewById<LinearLayout>(R.id.border_color_button)
         val  frameSizeSlider = view.findViewById<Slider>(R.id.frame_size_slider)
-        borderColorPicker = ColorPicker(this, 0,0,0)
-        borderColorPicker.enableAutoClose()
-        borderColorPicker.setCallback { color ->
-            card.image.borderColour = color
-            borderColorLayout.setBackgroundColor(color)
-            updateCardPreview(card)
-        }
         frameSizeSlider.setOnChangeListener { slider, value ->
             card.image.borderSize = value.toInt()
             updateCardPreview(card)
         }
         borderColorLayout.setOnClickListener {
-            borderColorPicker.show()
+            ColorSheet().colorPicker(
+                colors = baseContext.resources.getIntArray(R.array.colors),
+                listener = { color ->
+                    card.image.borderColour = color
+                    borderColorLayout.setBackgroundColor(color)
+                    updateCardPreview(card)
+                })
+                .show(supportFragmentManager)
         }
         builder.setView(view)
-        builder.setPositiveButton("Ok") { dialogInterface, i ->
-        }
+        builder.setPositiveButton("Ok") { dialogInterface, i -> }
+        builder.setNegativeButton("Отмена") {dialogInterface, i ->  }
         builder.show()
     }
 
