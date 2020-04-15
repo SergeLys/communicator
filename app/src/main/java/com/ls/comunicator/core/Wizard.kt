@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Build
-import android.os.Environment
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
@@ -78,7 +77,7 @@ fun savePage(context: Context, listName: String, card: Card?): Boolean {
         if (!pageData.exists()) success = pageData.mkdirs()
 
         if (success && card != null) {
-            val cardDir =  File(Environment.getExternalStorageDirectory().absoluteFile, cardDirPath)
+            val cardDir =  File(getFilesDir(context), cardDirPath)
             cardDir.mkdirs()
             val cardInfoFile = File(cardDir, cardInfo) // save card_info
             if (cardInfoFile.exists()) cardInfoFile.delete() else cardInfoFile.createNewFile()
@@ -106,7 +105,7 @@ fun savePage(context: Context, listName: String, card: Card?): Boolean {
             } finally {
                 fos.close()
             }
-            File(Environment.getExternalStorageDirectory().absoluteFile, cardSoundDirPath).mkdirs()
+            File(getFilesDir(context), cardSoundDirPath).mkdirs()
         }
     }
     return success
@@ -153,7 +152,7 @@ fun deletePage(context: Context, page: String, card: String?): Boolean {
 
     return try {
         path = if (card == null)
-            "/lists}/${page.toLowerCase(Locale.getDefault())}"
+            "/lists/${page.toLowerCase(Locale.getDefault())}"
         else
             "/lists/${page.toLowerCase(Locale.getDefault())}/${card.toLowerCase(Locale.getDefault())}"
         pageData = File(getFilesDir(context), path)

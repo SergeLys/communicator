@@ -16,6 +16,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
@@ -251,14 +252,14 @@ class CardSettingsActivity : AppCompatActivity() {
         if (permissionStatus == PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), WRITE_CODE)
         else {
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
             builder.setTitle("Озвучка")
             val view = layoutInflater.inflate(R.layout.dialog_case, null)
             val voiceBtn = view.findViewById<FloatingActionButton>(R.id.voice_button)
             val fileBtn = view.findViewById<FloatingActionButton>(R.id.file_button)
             val playBtn = view.findViewById<FloatingActionButton>(R.id.play_button)
             voiceBtn.setOnClickListener {
-                val builder = AlertDialog.Builder(this)
+                val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
                 builder.setTitle("Запись")
                 val view = layoutInflater.inflate(R.layout.dialog_voice, null)
                 val startBtn = view.findViewById<MaterialButton>(R.id.start_play)
@@ -313,7 +314,7 @@ class CardSettingsActivity : AppCompatActivity() {
     }
 
     private fun showImageDialog() {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
         builder.setTitle("Настройки картинки")
         val view = layoutInflater.inflate(R.layout.dialog_image, null)
         view.findViewById<FloatingActionButton>(R.id.image_file_button)
@@ -343,7 +344,7 @@ class CardSettingsActivity : AppCompatActivity() {
     }
 
     private fun showCardTextDialog() {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
         builder.setTitle("Настройки текста")
         val view = layoutInflater.inflate(R.layout.dialog_text_graphic, null)
         val textColorLayout = view.findViewById<LinearLayout>(R.id.text_colour_btn)
@@ -373,7 +374,7 @@ class CardSettingsActivity : AppCompatActivity() {
     }
 
     private fun showCardFrameDialog() {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
         builder.setTitle("Настройки рамки")
         val view = layoutInflater.inflate(R.layout.dialog_border_graphic, null)
         val borderColorLayout = view.findViewById<LinearLayout>(R.id.border_color_button)

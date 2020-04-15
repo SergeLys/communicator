@@ -14,6 +14,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -184,7 +185,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPasswordAlert() {
-        val passwordBuilder = AlertDialog.Builder(this)
+        val passwordBuilder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
         passwordBuilder.setTitle("Пароль")
         val view = layoutInflater.inflate(R.layout.dialog_password, null)
         val passwordTextView = view.findViewById<TextView>(R.id.password_text)

@@ -4,8 +4,10 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#1A237E</item>
+        <item name="colorSecondary">@color/buttonColour</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorOnBackground">#e2d7d1</item>
+        <item name="colorAccent">@color/buttonColour</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,6 +21,31 @@
 
     <style name="PrimaryActionButton">
         <item name="android:backgroundTint">#009688</item>
+    </style>
+
+    <style name="slider_custom">
+        <item name="colorPrimary">#009688</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/buttonColour</item>
+        <item name="hintTextColor">@color/buttonColour</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Neutral</item>
+    </style>
+
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/buttonColour</item>
+    </style>
+
+    <style name="Alert.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/buttonColour</item>
     </style>
 
 </resources>

@@ -3,10 +3,10 @@ package com.ls.comunicator.activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,8 +16,6 @@ import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
 import com.ls.comunicator.core.*
 import kotlinx.android.synthetic.main.activity_page_cards.*
-import kotlinx.android.synthetic.main.lists_settings.*
-
 
 class ListCardsActivity : AppCompatActivity() {
 
@@ -40,7 +38,7 @@ class ListCardsActivity : AppCompatActivity() {
         pageCardList.adapter = adapter
 
         addNewCard.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
             builder.setTitle("Название карты")
             val view = layoutInflater.inflate(R.layout.dialog_new_card, null)
             val cardEditText = view.findViewById<TextInputEditText>(R.id.card_name)

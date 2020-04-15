@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
@@ -70,7 +71,7 @@ class CasesActivity : AppCompatActivity() {
         if (permissionStatus == PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), WRITE_CODE)
         else {
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
             builder.setTitle("Запись")
             val view = layoutInflater.inflate(R.layout.dialog_voice, null)
             val startBtn = view.findViewById<MaterialButton>(R.id.start_play)

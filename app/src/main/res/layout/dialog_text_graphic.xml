@@ -35,16 +35,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:clipToPadding="false"
-                android:clipChildren="false"
+                android:clipToPadding="true"
+                android:clipChildren="true"
                 android:layout_below="@id/text_size_view">
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/text_size_slider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:theme="@style/slider_custom"
                 android:valueFrom="10"
                 android:valueTo="30"
+                android:stepSize="1"
                 app:floatingLabel="false"/>
 
             </LinearLayout>
