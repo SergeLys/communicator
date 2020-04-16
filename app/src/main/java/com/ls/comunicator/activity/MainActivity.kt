@@ -19,6 +19,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.CardAdapter
@@ -34,7 +36,6 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     private lateinit var cardAdapter: CardAdapter
-    private lateinit var fragmentAdapter: ViewPagerAdapter
     private lateinit var cards: ArrayList<Card>
     private lateinit var mTTS: TextToSpeech
 
@@ -70,7 +71,6 @@ class MainActivity : AppCompatActivity() {
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         cardAdapter = CardAdapter(cards, this, CardAdapterEnum.COMMUNICATIVE_LINE, null)
         speakLineRecyclerView.adapter = cardAdapter
-        fragmentAdapter = ViewPagerAdapter(this, supportFragmentManager)
 
         deleteAllButton.setOnClickListener { cardAdapter.deleteAll() }
         deleteButton.setOnClickListener { cardAdapter.delete() }
@@ -95,21 +95,25 @@ class MainActivity : AppCompatActivity() {
                 ), 1
             )
         } else {
-            getFilesDir(this)
-            SingletonCard.pages = loadPagesList(baseContext)
-            if (SingletonCard.pages.size >= 1)
-                fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
-            SingletonCard.pages.forEachIndexed { index, s ->
-                fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, s), s)
-                tabLayout.getTabAt(index + 1)?.setIcon(R.drawable.ic_table_content_24dp)
-            }
-            viewPager.adapter = fragmentAdapter
-            tabLayout?.setupWithViewPager(viewPager)
-//            tabLayout.getTabAt(0)?.setIcon(resources.getIdentifier("ic_table_content_24dp.xml", "drawable", packageName))
-//            SingletonCard.pages.forEachIndexed { index, s ->
-//                fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, s), s)
-//                tabLayout.getTabAt(index+1)?.setIcon(R.drawable.ic_table_content_24dp)
-//            }
+            initTabs()
+        }
+    }
+
+    private fun initTabs() {
+        val viewPager: ViewPager = findViewById(R.id.viewPager)
+        val tabs: TabLayout = findViewById(R.id.tabLayout)
+        val fragmentAdapter = ViewPagerAdapter(this, supportFragmentManager)
+        SingletonCard.pages = loadPagesList(baseContext)
+        if (SingletonCard.pages.size >= 1)
+            fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
+        SingletonCard.pages.forEachIndexed { index, s ->
+            fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, s), s)
+        }
+        viewPager.adapter = fragmentAdapter
+        tabs.setupWithViewPager(viewPager)
+        tabs.getTabAt(0)?.setIcon(R.drawable.ic_table_content_24dp)
+        SingletonCard.pages.forEachIndexed { index, s ->
+            tabs.getTabAt(index + 1)?.setIcon(R.drawable.ic_table_content_24dp)
         }
     }
 
@@ -125,15 +129,7 @@ class MainActivity : AppCompatActivity() {
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED
                     && grantResults[2] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    SingletonCard.pages = loadPagesList(baseContext)
-                    if (SingletonCard.pages.size >= 3)
-                        fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
-                    SingletonCard.pages.forEach {
-                        fragmentAdapter.addFragment(
-                            PageFragment(getCardAmount(this), cardAdapter, it), it)
-                    }
-                    viewPager.adapter = fragmentAdapter
-                    tabLayout?.setupWithViewPager(viewPager)
+                    initTabs()
                 } else
                     closeApp()
             }
@@ -149,8 +145,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        SingletonCard.pages = loadPagesList(baseContext)
-        fragmentAdapter.notifyDataSetChanged()
+        initTabs()
         super.onResume()
     }
 
