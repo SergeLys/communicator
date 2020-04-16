@@ -17,6 +17,7 @@ public class Card implements Serializable {
 
     private String name;
     private Image image;
+    private boolean isHasCases;
     private Cases cases;
     private transient String page;
 
@@ -27,6 +28,7 @@ public class Card implements Serializable {
         this.image = new Image(20, BLACK, 10, BLACK, TextPositionEnum.BOTTOM);
         this.image.setImageView(new ImageView(context));
         this.image.getImageView().setImageResource(R.drawable.ic_image_black_24dp);
+        this.isHasCases = false;
     }
 
     public void addCases() {
@@ -63,6 +65,14 @@ public class Card implements Serializable {
 
     public void setCases(Cases cases) {
         this.cases = cases;
+    }
+
+    public boolean isHasCases() {
+        return isHasCases;
+    }
+
+    public void setHasCases(boolean hasCases) {
+        isHasCases = hasCases;
     }
 
     public class Cases implements Serializable {

@@ -46,7 +46,7 @@
     <string name="border_color_button">Цвет рамки</string>
     <string name="text_color_button">Цвет текста</string>
     <string name="bottom_text">Снизу</string>
-    <string name="cases_exists">Наличие падежей</string>
+    <string name="cases_exists">Добавить озвучку в остальных\nпадежах</string>
     <string name="up_place">Сверху</string>
     <string name="card_default_text">Надпись</string>
     <string name="card_menu_delete">Удалить</string>
@@ -143,5 +143,8 @@
     <string name="test_settings">Настройка текста</string>
     <string name="frame_settings">Настройки рамки</string>
     <string name="border_description">Настройка используется\nдля людей с нарушением зрения.\nПо умолчанию рамка серая\nи равна единице</string>
+    <string name="nominative_case_text">Добавить озвучку в И.п.</string>
+    <string name="camera_btn_text">Сделать фото</string>
+    <string name="img_file_btn_text">Выбрать на устройстве</string>
 
 </resources>

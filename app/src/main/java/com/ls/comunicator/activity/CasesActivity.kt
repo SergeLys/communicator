@@ -7,6 +7,7 @@ import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
@@ -17,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
+import kotlinx.android.synthetic.main.activity_cases.*
 import java.lang.Exception
 import java.util.*
 
@@ -37,6 +39,8 @@ class CasesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cases)
+
+        casesLayout.visibility = View.GONE
 
         try {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -59,6 +63,19 @@ class CasesActivity : AppCompatActivity() {
         } catch (e: Exception) {
             onBackPressed()
         }
+
+        isHasCases.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
+            override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
+                if (isChecked){
+                    casesLayout.visibility = View.VISIBLE
+                    card.isHasCases = true
+                }
+                else {
+                    casesLayout.visibility = View.GONE
+                    card.isHasCases = false
+                }
+            }
+        })
 
         findViewById<MaterialButton>(R.id.back_button)
             .setOnClickListener {

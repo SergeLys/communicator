@@ -69,30 +69,10 @@ class CardSettingsActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        val isEdit = intent.getBooleanExtra("isEdit", false)
-
-        if (isEdit) {
-            isHasCasesLayout.visibility = View.GONE
-            openCasesBtn.setOnClickListener {
-                if (card.cases != null) {
-                    val casesActivity = Intent(this, CasesActivity::class.java)
-                    startActivity(casesActivity)
-                } else {
-                    showCasesDialog()
-                }
-            }
-        } else {
-            openCasesBtn.setOnClickListener {
-                if (isHasCases.isChecked) {
-                    if (card.cases == null)
-                        card.addCases()
-                    val casesActivity = Intent(this, CasesActivity::class.java)
-                    startActivity(casesActivity)
-                } else {
-                    card.cases = null
-                    showCasesDialog()
-                }
-            }
+        openCasesBtn.setOnClickListener {
+            if (card.cases == null) card.addCases()
+            val casesActivity = Intent(this, CasesActivity::class.java)
+            startActivity(casesActivity)
         }
 
         cardImage.setOnClickListener { showImageDialog() }
