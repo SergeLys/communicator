@@ -107,13 +107,23 @@ class MainActivity : AppCompatActivity() {
         if (SingletonCard.pages.size >= 1)
             fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
         SingletonCard.pages.forEachIndexed { index, s ->
-            fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, s), s)
+            try {
+                val page = s.split("_")[0]
+                fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, s), page)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
         viewPager.adapter = fragmentAdapter
         tabs.setupWithViewPager(viewPager)
-        tabs.getTabAt(0)?.setIcon(R.drawable.ic_table_content_24dp)
+        tabs.getTabAt(0)?.setIcon(baseContext.resources.getIdentifier("i59", "drawable", packageName))
         SingletonCard.pages.forEachIndexed { index, s ->
-            tabs.getTabAt(index + 1)?.setIcon(R.drawable.ic_table_content_24dp)
+            try {
+                val icon = s.split("_")[1]
+                tabs.getTabAt(index + 1)?.setIcon(baseContext.resources.getIdentifier(icon, "drawable", packageName))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

@@ -28,10 +28,18 @@ class ContentTableAdapter(val pages: ArrayList<String>, val tabLayout: TabLayout
     inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
         var pageText = view.page_text
+        var icon = view.icon
 
         fun bind(page: String, i: Int) {
-            val text = "${i+1}. $page"
-            pageText.text = text
+            try {
+                val pageName = page.split("_")[0]
+                pageText.text = pageName
+            } catch (e: Exception) { e.printStackTrace() }
+            try {
+                val iconCode = page.split("_")[1]
+                icon.setImageResource(itemView.context.resources.getIdentifier(iconCode,
+                    "drawable", itemView.context.packageName))
+            } catch (e: Exception) {e.printStackTrace()}
             itemView.setOnClickListener {
                 tabLayout.getTabAt(i+1)?.select()
             }

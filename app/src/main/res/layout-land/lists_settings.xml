@@ -8,7 +8,7 @@
     tools:context=".activity.ListsActivity"
     android:baselineAligned="false">
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pageList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
