@@ -27,6 +27,8 @@ import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
 import com.ls.comunicator.adapter.ViewPagerAdapter
 import com.ls.comunicator.core.*
+import com.ls.comunicator.model.CardModel
+import com.ls.comunicator.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.ref.WeakReference
 import java.util.*
@@ -42,6 +44,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
         setContentView(R.layout.activity_main)
+
+        val presenter = MainPresenter(CardModel())
+        presenter.loadPagesList(baseContext)
 
         mTTS = TextToSpeech(this, TextToSpeech.OnInitListener { status ->
             if (status != TextToSpeech.ERROR){
