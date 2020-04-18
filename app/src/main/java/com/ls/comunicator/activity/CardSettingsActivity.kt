@@ -5,21 +5,17 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.ExifInterface
-import android.media.MediaPlayer
-import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
@@ -28,13 +24,13 @@ import com.ls.comunicator.R
 import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.CAMERA_REQUEST
 import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
-import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
+import com.ls.comunicator.model.CardModel
+import com.ls.comunicator.presenter.CardSettingsPresenter
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.activity_card_settings.*
 import java.io.File
-import java.util.*
 
 class CardSettingsActivity : AppCompatActivity() {
 
@@ -42,25 +38,29 @@ class CardSettingsActivity : AppCompatActivity() {
     private lateinit var cardImage: ImageView
     private lateinit var cardText: TextView
     private lateinit var cardName: TextInputEditText
-    lateinit var mediaRecorder: MediaRecorder
     lateinit var card: Card
     lateinit var upCheckBox: RadioButton
     lateinit var bottomCheckBox: RadioButton
     lateinit var oldCardName: String
     private var imageUri: Uri? = null
+    private lateinit var presenter: CardSettingsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card_settings)
 
+        presenter = CardSettingsPresenter(this, CardModel())
+
+    }
+
+    fun init(c: Card) {
         cardName = findViewById(R.id.card_name)
         cardFrame = findViewById(R.id.card_preview)
         cardImage = findViewById(R.id.card_image)
         cardText = findViewById(R.id.card_text)
         try {
-            card = MyApp.card
+            card = c
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                card = MyApp.card
                 oldCardName = card.name
                 cardName.setText(card.name)
                 updateCardPreview(card)
@@ -83,7 +83,7 @@ class CardSettingsActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
                 ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
             else
-                saveCard()
+                presenter.saveCard(oldCardName, card)
         }
 
         cardName.addTextChangedListener(object : TextWatcher {
@@ -100,25 +100,6 @@ class CardSettingsActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
-    }
-
-    fun saveCard() {
-        try {
-            if (oldCardName != card.name)
-                deletePage(baseContext ,card.page, oldCardName)
-            val success = savePage(baseContext, card.page, card)
-            Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Toast.makeText(baseContext,"Ошибка при сохранении", Toast.LENGTH_SHORT).show()
-            onBackPressed()
-        }
-    }
-
-    private fun getPath(card: Card): String {
-        val page = card.page.toLowerCase(Locale.getDefault())
-        val name = card.name.toLowerCase(Locale.getDefault())
-        return getFilesDir(baseContext)?.absolutePath +
-                "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/sound.3gp"
     }
 
     private fun updateCardPreview(card: Card) {
@@ -227,72 +208,6 @@ class CardSettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun showCasesDialog() {
-        val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
-        if (permissionStatus == PackageManager.PERMISSION_DENIED)
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), WRITE_CODE)
-        else {
-            val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
-            builder.setTitle("Озвучка")
-            val view = layoutInflater.inflate(R.layout.dialog_case, null)
-            val voiceBtn = view.findViewById<FloatingActionButton>(R.id.voice_button)
-            val fileBtn = view.findViewById<FloatingActionButton>(R.id.file_button)
-            val playBtn = view.findViewById<FloatingActionButton>(R.id.play_button)
-            voiceBtn.setOnClickListener {
-                val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
-                builder.setTitle("Запись")
-                val view = layoutInflater.inflate(R.layout.dialog_voice, null)
-                val startBtn = view.findViewById<MaterialButton>(R.id.start_play)
-                val stopBtn = view.findViewById<MaterialButton>(R.id.stop_play)
-
-                startBtn.setOnClickListener {
-                    mediaRecorder = MediaRecorder()
-                    createMediaRecorder(mediaRecorder)
-                    startBtn.isEnabled = false
-                    stopBtn.isEnabled = true
-                    mediaRecorder.setOutputFile(getPath(card))
-                    try {
-                        mediaRecorder.prepare()
-                        mediaRecorder.start()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-                stopBtn.setOnClickListener {
-                    startBtn.isEnabled = true
-                    stopBtn.isEnabled = false
-                    mediaRecorder.stop()
-                    mediaRecorder.release()
-                }
-                builder.setView(view)
-                builder.setPositiveButton("Ok") { dialogInterface, i -> }
-                builder.setNegativeButton("Отмена") {dialogInterface, i ->  }
-                builder.show()
-            }
-            fileBtn.setOnClickListener {
-
-            }
-            playBtn.setOnClickListener {
-                val mediaPlayer = MediaPlayer()
-                try {
-                    mediaPlayer.setDataSource(getPath(card))
-                    mediaPlayer.prepare()
-                    mediaPlayer.setOnPreparedListener {
-                        it.start()
-                        while (it.isPlaying) {}
-                        it.release()
-                    }
-                } catch (e : Exception) {
-                    e.printStackTrace()
-                }
-            }
-            builder.setView(view)
-            builder.setPositiveButton("Ok") { dialogInterface, i -> }
-            builder.setNegativeButton("Отмена") {dialogInterface, i ->  }
-            builder.show()
-        }
-    }
-
     private fun showImageDialog() {
         val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
         builder.setTitle("Настройки картинки")
@@ -388,34 +303,11 @@ class CardSettingsActivity : AppCompatActivity() {
             1 -> {
                 if (grantResults.isNotEmpty()
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                saveCard()
+                    presenter.saveCard(oldCardName, card)
                 else
                     Toast.makeText(baseContext,"Ошибка при сохранении", Toast.LENGTH_SHORT).show()
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
-//    fun setParameters(card: Card) {
-//        if (card.image != null) {
-//            if(card.image.borderColour != 0)
-//                borderColorLayout.setBackgroundColor(card.image.borderColour)
-//            if(card.image.textColour != 0)
-//                textColorLayout.setBackgroundColor(card.image.textColour)
-//            if(!card.image.textSize.equals(0F))
-//                textSizeSlider.value = card.image.textSize
-//            if(card.image.borderSize != 0)
-//                frameSizeSlider.value = card.image.borderSize.toFloat()
-//            if(card.image.textPlace != null) {
-//                when(card.image.textPlace) {
-//                    TextPositionEnum.UP -> {
-//                        upCheckBox.isChecked = true
-//                    }
-//                    TextPositionEnum.BOTTOM -> {
-//                        bottomCheckBox.isChecked = true
-//                    }
-//                    else -> {}
-//                }
-//            }
-//        }
-//    }
 }

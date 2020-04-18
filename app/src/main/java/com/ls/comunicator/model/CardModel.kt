@@ -120,7 +120,7 @@ class CardModel {
 
             override fun doInBackground(vararg params: Any?): Boolean? {
                 val listName = params[0] as String
-                val card = params[1] as Card
+                val card = params[1] as Card?
                 lateinit var pageData: File
                 lateinit var fos: FileOutputStream
                 lateinit var os: ObjectOutputStream
@@ -182,7 +182,7 @@ class CardModel {
 
             override fun doInBackground(vararg params: Any?): Boolean? {
                 val page = params[0] as String
-                val card = params[1] as String
+                val card = params[1] as String?
                 lateinit var pageData: File
                 lateinit var path: String
                 return try {

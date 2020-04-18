@@ -12,6 +12,7 @@ import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
 import com.ls.comunicator.core.Card
 import com.ls.comunicator.core.loadPage
+import com.ls.comunicator.model.CardModel
 
 class PageFragment(val cardAmount: Int, val communicate : CardAdapter, val page: String) : Fragment() {
 
@@ -24,16 +25,20 @@ class PageFragment(val cardAmount: Int, val communicate : CardAdapter, val page:
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_page, container, false)
-        var cards : ArrayList<Card> = arrayListOf()
         if (context != null) {
-            cards = loadPage(context!!,page)
-        }
+            CardModel().loadPage(context!!, page, object: CardModel.Companion.LoadPageCardsCallback {
+                override fun onLoad(cards: ArrayList<Card>?) {
+                    if (cards != null) {
+                        recyclerView = view.findViewById(R.id.page_list)
+                        layoutManager = StaggeredGridLayoutManager(cardAmount, StaggeredGridLayoutManager.VERTICAL)
+                        recyclerView.layoutManager = layoutManager
+                        adapter = CardAdapter(cards, view.context, CardAdapterEnum.PAGE, communicate)
+                        recyclerView.adapter = adapter
+                    }
+                }
+            })
 
-        recyclerView = view.findViewById(R.id.page_list)
-        layoutManager = StaggeredGridLayoutManager(cardAmount, StaggeredGridLayoutManager.VERTICAL)
-        recyclerView.layoutManager = layoutManager
-        adapter = CardAdapter(cards, view.context, CardAdapterEnum.PAGE, communicate)
-        recyclerView.adapter = adapter
+        }
         return view
     }
 

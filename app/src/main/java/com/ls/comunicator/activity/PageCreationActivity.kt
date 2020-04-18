@@ -6,14 +6,14 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.GridLayout
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.ls.comunicator.R
-import com.ls.comunicator.core.*
+import com.ls.comunicator.model.CardModel
+import com.ls.comunicator.presenter.PageCreationPresenter
 import kotlinx.android.synthetic.main.activity_page_settings.*
 import kotlinx.android.synthetic.main.dialog_list_image.view.*
 import kotlin.Exception
@@ -23,10 +23,12 @@ class PageCreationActivity : AppCompatActivity() {
 
     private var iconCode: String = ""
     private var pageName: String = ""
+    private lateinit var presenter: PageCreationPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_page_settings)
+        presenter = PageCreationPresenter(this, CardModel())
         getIconCode()
         if (iconCode != "")
             listIconBtn.setImageResource(baseContext.resources.getIdentifier(iconCode, "drawable", packageName))
@@ -34,13 +36,13 @@ class PageCreationActivity : AppCompatActivity() {
         savePageButton.setOnClickListener {
             val oldPageName = intent.getStringExtra("page")
             val pageName  = "${pageNameEditText.text.toString()}_${iconCode}"
-            if (oldPageName == "") {
+            if (oldPageName == null) {
                 if (pageName != "") {
                     val permissionStatus = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     if (permissionStatus == PackageManager.PERMISSION_DENIED) {
                         ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 55)
                     } else {
-                        savePage()
+                        presenter.savePage("${pageNameEditText.text.toString()}_${iconCode}")
                     }
                 } else pageNameEditText.error = "Имя страницы пустое!"
             }
@@ -57,7 +59,7 @@ class PageCreationActivity : AppCompatActivity() {
         }
         listCardsBtn.setOnClickListener {
             val listCardsActivity = Intent(this, ListCardsActivity::class.java)
-            listCardsActivity.putExtra("page", pageNameEditText.text.toString())
+            listCardsActivity.putExtra("page", "${pageNameEditText.text.toString()}_${iconCode}")
             startActivity(listCardsActivity)
         }
 
@@ -76,18 +78,10 @@ class PageCreationActivity : AppCompatActivity() {
         }
     }
 
-    private fun savePage() {
-        val success = savePage(baseContext,  "${pageNameEditText.text.toString()}_${iconCode}", null)
-        Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
-        if (success)
-            SingletonCard.pages.add(pageNameEditText.text.toString())
-    }
-
     private fun renamePage() {
         val oldPageName = intent.getStringExtra("page")
         val pageName  = pageNameEditText.text.toString()
-        val success = renamePage(baseContext, oldPageName, "${pageName}_${iconCode}")
-        Toast.makeText(baseContext, if (success) "Сохранено" else "Ошибка при сохранении", Toast.LENGTH_SHORT).show()
+        presenter.renamePage(oldPageName, "${pageName}_${iconCode}")
     }
 
     private fun showIconsListDialog() {
@@ -135,7 +129,7 @@ class PageCreationActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when(requestCode) {
-            55 -> {savePage()}
+            55 -> {presenter.savePage("${pageNameEditText.text.toString()}_${iconCode}")}
             56 -> {renamePage()}
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

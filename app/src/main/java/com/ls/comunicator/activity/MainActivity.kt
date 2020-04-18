@@ -19,13 +19,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
-import com.ls.comunicator.adapter.ViewPagerAdapter
 import com.ls.comunicator.core.*
 import com.ls.comunicator.model.CardModel
 import com.ls.comunicator.presenter.MainPresenter
@@ -40,14 +37,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cardAdapter: CardAdapter
     private lateinit var cards: ArrayList<Card>
     private lateinit var mTTS: TextToSpeech
+    private lateinit var presenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
         setContentView(R.layout.activity_main)
 
-        val presenter = MainPresenter(CardModel())
-        presenter.loadPagesList(baseContext)
-
+        presenter = MainPresenter(this, CardModel())
         mTTS = TextToSpeech(this, TextToSpeech.OnInitListener { status ->
             if (status != TextToSpeech.ERROR){
                 //if there is no error then set language
@@ -67,7 +63,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        var mApp = MyApp()
         speakLineRecyclerView.visibility = View.GONE
         emptySpeakLine.visibility = View.VISIBLE
 
@@ -100,35 +95,7 @@ class MainActivity : AppCompatActivity() {
                 ), 1
             )
         } else {
-            initTabs()
-        }
-    }
-
-    private fun initTabs() {
-        val viewPager: ViewPager = findViewById(R.id.viewPager)
-        val tabs: TabLayout = findViewById(R.id.tabLayout)
-        val fragmentAdapter = ViewPagerAdapter(this, supportFragmentManager)
-        SingletonCard.pages = loadPagesList(baseContext)
-        if (SingletonCard.pages.size >= 1)
-            fragmentAdapter.addFragment(TableContentFragment(tabLayout), "Оглавление")
-        SingletonCard.pages.forEachIndexed { index, s ->
-            try {
-                val page = s.split("_")[0]
-                fragmentAdapter.addFragment(PageFragment(getCardAmount(this), cardAdapter, s), page)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        viewPager.adapter = fragmentAdapter
-        tabs.setupWithViewPager(viewPager)
-        tabs.getTabAt(0)?.setIcon(baseContext.resources.getIdentifier("i59", "drawable", packageName))
-        SingletonCard.pages.forEachIndexed { index, s ->
-            try {
-                val icon = s.split("_")[1]
-                tabs.getTabAt(index + 1)?.setIcon(baseContext.resources.getIdentifier(icon, "drawable", packageName))
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            presenter.loadPagesList(cardAdapter)
         }
     }
 
@@ -144,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED
                     && grantResults[2] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    initTabs()
+                    presenter.loadPagesList(cardAdapter)
                 } else
                     closeApp()
             }
@@ -160,7 +127,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        initTabs()
+        presenter.loadPagesList(cardAdapter)
         super.onResume()
     }
 
@@ -173,10 +140,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

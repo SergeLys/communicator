@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.ContentTableAdapter
-import com.ls.comunicator.core.SingletonCard
 import kotlinx.android.synthetic.main.fragment_table_content.view.contentTableList
+import java.util.ArrayList
 
 
-class TableContentFragment(val tabLayout: TabLayout) : Fragment() {
+class TableContentFragment(private val tabs: TabLayout,private val pages: ArrayList<String>) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,7 @@ class TableContentFragment(val tabLayout: TabLayout) : Fragment() {
         val view = inflater.inflate(R.layout.fragment_table_content, container, false)
         val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         view.contentTableList.layoutManager = layoutManager
-        view.contentTableList.adapter = ContentTableAdapter(SingletonCard.pages, tabLayout, context)
+        view.contentTableList.adapter = ContentTableAdapter(pages, tabs, context)
         val itemDecor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         view.contentTableList.addItemDecoration(itemDecor)
         return view
