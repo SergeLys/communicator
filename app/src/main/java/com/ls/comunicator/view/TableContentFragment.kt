@@ -23,7 +23,7 @@ class TableContentFragment(private val tabs: TabLayout) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_table_content, container, false)
-        CardModel().loadPagesList(view.context, object: CardModel.Companion.LoadPagesCallback {
+        CardModel.loadPagesList(view.context, object: CardModel.LoadPagesCallback {
             override fun onLoad(pages: ArrayList<String>?) {
                 if (pages != null) {
                     val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)

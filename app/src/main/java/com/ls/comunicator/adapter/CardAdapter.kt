@@ -172,7 +172,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                                 true
                             }
                             R.id.menu_delete -> {
-                                CardModel().deletePage(context, card.page, card.name, object : CardModel.Companion.CompleteCallback {
+                                CardModel.deletePage(context, card.page, card.name, object : CardModel.CompleteCallback {
                                     override fun onComplete(success: Boolean) {
                                         if (success) {
                                             cards.remove(card)

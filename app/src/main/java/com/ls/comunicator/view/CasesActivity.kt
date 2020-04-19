@@ -42,7 +42,7 @@ class CasesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cases)
 
-        presenter = CasesPresenter(this, CardModel())
+        presenter = CasesPresenter(this, CardModel)
         presenter.loadCard(intent.getStringExtra("page"), intent.getStringExtra("name"))
     }
 

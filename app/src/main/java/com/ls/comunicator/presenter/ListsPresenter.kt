@@ -26,7 +26,7 @@ class ListsPresenter(private val view: ListsActivity, private val model: CardMod
     private lateinit var pagesList: ArrayList<String>
 
     fun loadPagesList() {
-        model.loadPagesList(view.baseContext, object: CardModel.Companion.LoadPagesCallback {
+        model.loadPagesList(view.baseContext, object: CardModel.LoadPagesCallback {
             override fun onLoad(pages: ArrayList<String>?) {
                 if (pages != null) {
                     pagesList = pages
@@ -37,7 +37,7 @@ class ListsPresenter(private val view: ListsActivity, private val model: CardMod
     }
 
     fun deletePage(id: Int, card: String?) {
-        model.deletePage(view.baseContext, pagesList[id], card, object: CardModel.Companion.CompleteCallback {
+        model.deletePage(view.baseContext, pagesList[id], card, object: CardModel.CompleteCallback {
             override fun onComplete(result: Boolean) {
                 if (result)
                     pageAdapter.showSucces(id)

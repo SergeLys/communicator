@@ -25,7 +25,7 @@ class PageFragment(val cardAmount: Int, val communicate : CardAdapter, val page:
     ): View? {
         val view = inflater.inflate(R.layout.fragment_page, container, false)
         if (context != null) {
-            CardModel().loadPage(context!!, page, object: CardModel.Companion.LoadPageCardsCallback {
+            CardModel.loadPage(context!!, page, object: CardModel.LoadPageCardsCallback {
                 override fun onLoad(cards: ArrayList<Card>?) {
                     if (cards != null) {
                         recyclerView = view.findViewById(R.id.page_list)

@@ -28,7 +28,7 @@ class PageCreationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_page_settings)
-        presenter = PageCreationPresenter(this, CardModel())
+        presenter = PageCreationPresenter(this, CardModel)
         getIconCode()
         if (iconCode != "")
             listIconBtn.setImageResource(baseContext.resources.getIdentifier(iconCode, "drawable", packageName))

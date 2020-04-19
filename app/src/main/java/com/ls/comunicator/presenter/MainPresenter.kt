@@ -15,7 +15,7 @@ import java.util.ArrayList
 class MainPresenter(private val view: MainActivity, private val model: CardModel) {
 
     fun loadPagesList(adapter: CardAdapter) {
-        model.loadPagesList(view.baseContext, object: CardModel.Companion.LoadPagesCallback {
+        model.loadPagesList(view.baseContext, object: CardModel.LoadPagesCallback {
             override fun onLoad(pages: ArrayList<String>?) {
                 initTabs(pages, adapter)
             }

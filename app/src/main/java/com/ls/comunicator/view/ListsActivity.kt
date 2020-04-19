@@ -19,7 +19,7 @@ class ListsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.lists_settings)
 
-        presenter = ListsPresenter(this, CardModel())
+        presenter = ListsPresenter(this, CardModel)
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this,

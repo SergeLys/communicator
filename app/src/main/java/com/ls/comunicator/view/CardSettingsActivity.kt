@@ -50,7 +50,7 @@ class CardSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card_settings)
 
-        presenter = CardSettingsPresenter(this, CardModel())
+        presenter = CardSettingsPresenter(this, CardModel)
         presenter.loadCard(intent.getStringExtra("page"), intent.getStringExtra("name"))
     }
 

@@ -18,7 +18,7 @@ class ListCardsPresenter(private val view: ListCardsActivity, private val model:
     private lateinit var adapter: CardAdapter
 
     fun loadPageCards(page: String) {
-        model.loadPage(view.baseContext, page, object : CardModel.Companion.LoadPageCardsCallback {
+        model.loadPage(view.baseContext, page, object : CardModel.LoadPageCardsCallback {
             override fun onLoad(cards: ArrayList<Card>?) {
                 if (cards != null) {
                     view.pageCardList.layoutManager = GridLayoutManager( view.baseContext, 3)
@@ -30,7 +30,7 @@ class ListCardsPresenter(private val view: ListCardsActivity, private val model:
     }
 
     fun saveCard(card: Card) {
-        model.savePage(view.baseContext, card.page, card, object: CardModel.Companion.CompleteCallback {
+        model.savePage(view.baseContext, card.page, card, object: CardModel.CompleteCallback {
             override fun onComplete(result: Boolean) {
                 Toast.makeText(view.baseContext, if (result) "Карточка создана!" else "Ошибка при создании!", Toast.LENGTH_SHORT).show()
                 if (result) {

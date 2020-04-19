@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(null)
         setContentView(R.layout.activity_main)
 
-        presenter = MainPresenter(this, CardModel())
+        presenter = MainPresenter(this, CardModel)
         mTTS = TextToSpeech(this, TextToSpeech.OnInitListener { status ->
             if (status != TextToSpeech.ERROR){
                 //if there is no error then set language
