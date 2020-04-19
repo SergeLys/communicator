@@ -16,6 +16,7 @@ class Consts {
         const val TEXT_SIZE_WARNING = "Выберите размер текста !"
         const val CAMERA_REQUEST = 0
         const val FILE_BROWSER_REQUEST = 1
+        const val AUDIO_BROWSER_REQUEST = 2
         const val WRITE_CODE = 2
     }
 }

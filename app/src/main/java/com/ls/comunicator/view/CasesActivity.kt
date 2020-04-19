@@ -1,12 +1,20 @@
 package com.ls.comunicator.view
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.*
+import android.database.Cursor
+import android.media.MediaPlayer
+import android.media.MediaRecorder
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
@@ -16,12 +24,13 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
+import com.ls.comunicator.core.Consts.Companion.AUDIO_BROWSER_REQUEST
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
 import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
 import com.ls.comunicator.presenter.CasesPresenter
 import kotlinx.android.synthetic.main.activity_cases.*
-import java.lang.Exception
+import java.io.File
 import java.util.*
 
 class CasesActivity : AppCompatActivity() {
@@ -37,6 +46,7 @@ class CasesActivity : AppCompatActivity() {
     lateinit var aEditText: TextInputEditText
     lateinit var iEditText: TextInputEditText
     lateinit var pEditText: TextInputEditText
+    private lateinit var fileBtn: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,14 +147,48 @@ class CasesActivity : AppCompatActivity() {
     }
 
     fun onFileBtnClick(view: View) {
-        when (view.id) {
-            R.id.nominative_file_button -> {}
-            R.id.genitive_file_button -> {}
-            R.id.dative_file_button -> {}
-            R.id.accusative_file_button -> {}
-            R.id.instrumental_file_button -> {}
-            R.id.prepositional_file_button -> {}
+        fileBtn = view
+        val fileIntent = Intent(Intent.ACTION_GET_CONTENT)
+        fileIntent.type = "audio/*"
+        startActivityForResult(fileIntent, AUDIO_BROWSER_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                AUDIO_BROWSER_REQUEST -> {
+                    try {
+                        copyFile(File(getPathForAudio(baseContext, data?.data)), File(getPath(fileBtn)))
+                    } catch (e: Exception) {
+                        Toast.makeText(baseContext, "Ошибка копирования", Toast.LENGTH_SHORT)
+                    }
+                }
+            }
         }
+    }
+
+    fun getPathForAudio(context: Context, uri: Uri?): String? {
+        var result: String? = null
+        var cursor: Cursor? = null
+        try {
+            val proj =
+                arrayOf(MediaStore.Audio.Media.DATA)
+            cursor = context.contentResolver.query(uri, proj, null, null, null)
+            if (cursor == null) {
+                result = uri?.path
+            } else {
+                cursor.moveToFirst()
+                val column_index = cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA)
+                result = cursor.getString(column_index)
+                cursor.close()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            cursor?.close()
+        }
+        return result
     }
 
     fun getPath(view: View): String {
@@ -160,16 +204,10 @@ class CasesActivity : AppCompatActivity() {
             R.id.instrumental_voice_button -> {case = CaseEnum.INSTRUMENTAL}
             R.id.prepositional_voice_button -> {case = CaseEnum.PREPOSITIONAL}
         }
-        when (view.id) {
-            R.id.nominative_play_button -> {case = CaseEnum.NOMINATIVE}
-            R.id.genitive_play_button -> {case = CaseEnum.GENITVIE}
-            R.id.dative_play_button -> {case = CaseEnum.DATIVE}
-            R.id.accusative_play_button -> {case = CaseEnum.ACCUSATIVE}
-            R.id.instrumental_play_button -> {case = CaseEnum.INSTRUMENTAL}
-            R.id.prepositional_play_button -> {case = CaseEnum.PREPOSITIONAL}
-        }
         return getFilesDir(baseContext)?.absolutePath +
                 "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/${case.text}.3gp"
+//        return getFilesDir(baseContext)?.absolutePath +
+//                "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/${case.text}"
     }
 
     inner class TextChange : TextWatcher {

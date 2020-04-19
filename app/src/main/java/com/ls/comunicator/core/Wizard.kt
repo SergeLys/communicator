@@ -14,45 +14,12 @@ import com.ls.comunicator.core.Consts.Companion.CARD_NAME_WARNING
 import com.ls.comunicator.core.Consts.Companion.TEXT_PLACE_WARNING
 import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.Image
-import java.io.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.nio.channels.FileChannel
 import java.util.*
-import kotlin.collections.ArrayList
-
-
-fun checkCard(appContext: Context, card: Card?, isToast: Boolean): Boolean {
-
-    var isValid = true
-    if (card?.name == null) {
-        if (isToast) showToast(appContext ,CARD_NAME_WARNING)
-        isValid = false
-    }
-    if (card?.cases == null) {
-        if (isToast) showToast(appContext, CARD_CASES_WARNING)
-        isValid = false
-    }
-    if (card?.image == null) {
-        if (isToast) showToast(appContext, CARD_IMAGE_WARNING)
-        isValid = false
-    }
-    else
-        isValid = checkImage(appContext, card.image, isToast)
-
-    return isValid
-}
-
-fun checkImage(appContext: Context, image: Image, isToast: Boolean): Boolean {
-
-    var isValid = true
-    if (image.imageView == null) {
-        if (isToast) showToast(appContext, CARD_IMAGE_WARNING)
-        isValid = false
-    }
-    if (image.textPlace == null) {
-        if (isToast) showToast(appContext, TEXT_PLACE_WARNING)
-        isValid = false
-    }
-    return  isValid
-}
 
 fun showToast(appContext: Context,message: String) {
     Toast.makeText(appContext, message, LENGTH_SHORT).show()
@@ -189,4 +156,22 @@ fun createMediaRecorder(mediaRecorder: MediaRecorder) {
     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
     mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
     mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB)
+}
+
+@Throws(IOException::class)
+fun copyFile(sourceFile: File?, destFile: File) {
+    if (!destFile.parentFile.exists()) destFile.parentFile.mkdirs()
+    if (!destFile.exists()) {
+        destFile.createNewFile()
+    }
+    var source: FileChannel? = null
+    var destination: FileChannel? = null
+    try {
+        source = FileInputStream(sourceFile).channel
+        destination = FileOutputStream(destFile).channel
+        destination.transferFrom(source, 0, source.size())
+    } finally {
+        source?.close()
+        destination?.close()
+    }
 }
