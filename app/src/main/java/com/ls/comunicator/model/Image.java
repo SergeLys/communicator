@@ -1,6 +1,8 @@
-package com.ls.comunicator.core;
+package com.ls.comunicator.model;
 
 import android.widget.ImageView;
+
+import com.ls.comunicator.core.TextPositionEnum;
 
 import java.io.Serializable;
 
@@ -9,7 +11,7 @@ public class Image implements Serializable {
     private transient ImageView imageView;
     private float textSize;
     private int textColour, borderSize, borderColour;
-    private  TextPositionEnum textPlace;
+    private TextPositionEnum textPlace;
 
     public Image() {}
 

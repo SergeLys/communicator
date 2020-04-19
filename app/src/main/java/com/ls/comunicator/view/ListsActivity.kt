@@ -1,4 +1,4 @@
-package com.ls.comunicator.activity
+package com.ls.comunicator.view
 
 import android.content.Intent
 import android.content.pm.PackageManager

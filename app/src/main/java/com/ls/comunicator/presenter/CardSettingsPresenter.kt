@@ -1,8 +1,8 @@
 package com.ls.comunicator.presenter
 
 import android.widget.Toast
-import com.ls.comunicator.activity.CardSettingsActivity
-import com.ls.comunicator.core.Card
+import com.ls.comunicator.view.CardSettingsActivity
+import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
 
 class CardSettingsPresenter(private val view: CardSettingsActivity, private val model: CardModel) {
@@ -22,6 +22,11 @@ class CardSettingsPresenter(private val view: CardSettingsActivity, private val 
     }
 
     fun loadCard(page: String, card: String) {
-
+        model.loadCard(view.baseContext, page, card, object: CardModel.Companion.LoadCardCallback {
+            override fun onLoad(card: Card?) {
+                if (card != null)
+                    view.init(card)
+            }
+        })
     }
 }

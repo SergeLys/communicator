@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name=".core.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,16 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".view.SettingsActivity"
             android:label="@string/title_activity_settings2"></activity>
         <activity
-            android:name=".activity.CardSettingsActivity"
+            android:name=".view.CardSettingsActivity"
             android:label="@string/title_activity_card_settings"/>
         <activity
-            android:name=".activity.ListCardsActivity"
+            android:name=".view.ListCardsActivity"
             android:label="@string/title_activity_card_list"/>
         <activity
-            android:name=".activity.PageCreationActivity"
+            android:name=".view.PageCreationActivity"
             android:label="@string/title_activity_page_creation">
             <intent-filter>
                 <action android:name="com.ls.comunicator.activity.PageCreationActivity"/>
@@ -32,17 +31,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CasesActivity"
+            android:name=".view.CasesActivity"
             android:label="@string/title_activity_cases"/>
         <activity
-            android:name=".activity.ListsActivity"
+            android:name=".view.ListsActivity"
             android:label="@string/title_activity_settings">
             <intent-filter>
                 <action android:name="com.ls.comunicator.activity.ListActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

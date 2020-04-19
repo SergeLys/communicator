@@ -1,4 +1,4 @@
-package com.ls.comunicator.activity
+package com.ls.comunicator.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
-import com.ls.comunicator.core.Card
-import com.ls.comunicator.core.loadPage
+import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
 
 class PageFragment(val cardAmount: Int, val communicate : CardAdapter, val page: String) : Fragment() {

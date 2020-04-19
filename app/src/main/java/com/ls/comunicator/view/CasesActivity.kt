@@ -1,9 +1,8 @@
-package com.ls.comunicator.activity
+package com.ls.comunicator.view
 
 import android.content.pm.PackageManager
 import android.media.*
 import android.os.Bundle
-import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -18,14 +17,17 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.WRITE_CODE
+import com.ls.comunicator.model.Card
+import com.ls.comunicator.model.CardModel
+import com.ls.comunicator.presenter.CasesPresenter
 import kotlinx.android.synthetic.main.activity_cases.*
 import java.lang.Exception
 import java.util.*
 
-
 class CasesActivity : AppCompatActivity() {
 
     lateinit var card: Card
+    lateinit var presenter: CasesPresenter
     private lateinit var watcher: TextChange
     lateinit var mediaRecorder: MediaRecorder
     lateinit var mediaPlayer: MediaPlayer
@@ -40,11 +42,22 @@ class CasesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cases)
 
-        casesLayout.visibility = View.GONE
+        presenter = CasesPresenter(this, CardModel())
+        presenter.loadCard(intent.getStringExtra("page"), intent.getStringExtra("name"))
+    }
 
+    fun init(c: Card) {
+        card = c
+        if (card.cases == null) card.addCases()
+        if (card.isHasCases) {
+            casesLayout.visibility = View.VISIBLE
+            isHasCases.isChecked = true
+        } else {
+            casesLayout.visibility = View.GONE
+            isHasCases.isChecked = false
+        }
         try {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                card = MyApp.card
                 if (card.cases == null) throw Exception()
                 watcher = TextChange()
                 nEditText = findViewById(R.id.nominative_text)
@@ -79,7 +92,7 @@ class CasesActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.back_button)
             .setOnClickListener {
-                onBackPressed()
+                presenter.saveCard(card)
             }
     }
 
@@ -202,7 +215,6 @@ class CasesActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

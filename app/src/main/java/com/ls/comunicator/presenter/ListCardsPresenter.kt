@@ -4,11 +4,11 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.ls.comunicator.activity.CardSettingsActivity
-import com.ls.comunicator.activity.ListCardsActivity
+import com.ls.comunicator.view.CardSettingsActivity
+import com.ls.comunicator.view.ListCardsActivity
 import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
-import com.ls.comunicator.core.Card
+import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
 import kotlinx.android.synthetic.main.activity_page_cards.*
 import java.util.ArrayList
@@ -35,6 +35,8 @@ class ListCardsPresenter(private val view: ListCardsActivity, private val model:
                 Toast.makeText(view.baseContext, if (result) "Карточка создана!" else "Ошибка при создании!", Toast.LENGTH_SHORT).show()
                 if (result) {
                     val cardSettingsActivity = Intent(view.baseContext, CardSettingsActivity::class.java)
+                    cardSettingsActivity.putExtra("page", card.page)
+                    cardSettingsActivity.putExtra("name", card.name)
                     startActivity(view.baseContext, cardSettingsActivity, null)
                     view.closeNewCardAlert()
                 }

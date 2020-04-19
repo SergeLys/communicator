@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.AsyncTask
 import androidx.core.graphics.drawable.toBitmap
-import com.ls.comunicator.core.Card
-import com.ls.comunicator.core.checkCard
 import com.ls.comunicator.core.getFilesDir
 import java.io.*
 import java.util.*
@@ -19,6 +17,10 @@ class CardModel {
 
     fun loadPage(context: Context, page: String?, callback: LoadPageCardsCallback) {
         LoadPageCardsTask(context, callback).execute(page)
+    }
+
+    fun loadCard(context: Context, page: String?, card: String?, callback: LoadCardCallback) {
+        LoadCardTask(context, callback).execute(page, card)
     }
 
     fun deletePage(context: Context, page: String, card: String?, callback : CompleteCallback) {
@@ -39,6 +41,10 @@ class CardModel {
             fun onLoad(cards: ArrayList<Card>?)
         }
 
+        interface LoadCardCallback {
+            fun onLoad(card: Card?)
+        }
+
         interface LoadPagesCallback {
             fun onLoad(pages: ArrayList<String>?)
         }
@@ -51,12 +57,12 @@ class CardModel {
             AsyncTask<Any , Void,  ArrayList<Card>>() {
 
             override fun doInBackground(vararg params: Any?): ArrayList<Card>? {
-                val listName = params[0] as String
+                val pageName = params[0] as String
                 lateinit var fis: FileInputStream
                 lateinit var ins: ObjectInputStream
                 lateinit var listDir: File
                 val cards = arrayListOf<Card>()
-                val listDirPath = "/lists/${listName?.toLowerCase(Locale.getDefault())}"
+                val listDirPath = "/lists/${pageName.toLowerCase(Locale.getDefault())}"
 
                 listDir = File(getFilesDir(context), listDirPath)
 
@@ -68,7 +74,7 @@ class CardModel {
                                     fis = FileInputStream(File("${it.absolutePath}/card_info"))
                                     ins = ObjectInputStream(fis)
                                     val card = ins.readObject() as Card
-                                    card.page = listName
+                                    card.page = pageName
                                     cards.add(card)
 
                                 } catch (e: java.lang.Exception) {
@@ -89,6 +95,44 @@ class CardModel {
                 callback?.onLoad(cards)
             }
 
+        }
+
+        internal class LoadCardTask(val context: Context, private val callback: LoadCardCallback?) :
+            AsyncTask<Any , Void,  Card>() {
+
+            override fun doInBackground(vararg params: Any?): Card? {
+                val page = params[0] as String
+                val cardName = params[1] as String
+                lateinit var fis: FileInputStream
+                lateinit var ins: ObjectInputStream
+                lateinit var listDir: File
+                var card: Card? = null
+                val listDirPath = "/lists/" +
+                        "${page.toLowerCase(Locale.getDefault())}/" +
+                        cardName.toLowerCase(Locale.getDefault())
+                listDir = File(getFilesDir(context), listDirPath)
+                try {
+                    if (listDir.exists() && listDir.isDirectory) {
+                        try {
+                            fis = FileInputStream(File("${listDir.absolutePath}/card_info"))
+                            ins = ObjectInputStream(fis)
+                            card = ins.readObject() as Card
+                            card.page = page
+                        } catch (e: java.lang.Exception) {
+                        } finally {
+                            ins.close()
+                            fis.close()
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                return card
+            }
+
+            override fun onPostExecute(card: Card) {
+                callback?.onLoad(card)
+            }
         }
 
         internal class LoadPagesListTask(val context: Context, private val callback: LoadPagesCallback?) :
@@ -131,12 +175,8 @@ class CardModel {
                 val cardImage = "image.jpg"
                 var success = true
 
-                if (checkCard(context, card, false) || true) {
-
-                    pageData = File(getFilesDir(context), pageDirPath)
-
-                    if (!pageData.exists()) success = pageData.mkdirs()
-
+                pageData = File(getFilesDir(context), pageDirPath)
+                if (!pageData.exists()) success = pageData.mkdirs()
                     if (success && card != null) {
                         val cardDir =  File(getFilesDir(context), cardDirPath)
                         cardDir.mkdirs()
@@ -158,7 +198,7 @@ class CardModel {
                         if (cardImageFile.exists()) cardImageFile.delete()
                         try {
                             fos = FileOutputStream(cardImageFile)
-                            card?.image?.imageView?.drawable?.toBitmap()
+                            card.image?.imageView?.drawable?.toBitmap()
                                 ?.compress(Bitmap.CompressFormat.PNG, 50, fos)
                         } catch (e : Exception) {
                             success = false
@@ -168,7 +208,6 @@ class CardModel {
                         }
                         File(getFilesDir(context), cardSoundDirPath).mkdirs()
                     }
-                }
                 return success
             }
 

@@ -1,15 +1,12 @@
-package com.ls.comunicator.core;
+package com.ls.comunicator.model;
 
 import android.content.Context;
 import android.widget.ImageView;
 
 import com.ls.comunicator.R;
+import com.ls.comunicator.core.TextPositionEnum;
 
 import java.io.Serializable;
-import java.util.EnumMap;
-import java.util.HashMap;
-
-import kotlin.UByteArray;
 
 import static android.graphics.Color.BLACK;
 

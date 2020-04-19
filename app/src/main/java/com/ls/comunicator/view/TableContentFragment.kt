@@ -1,4 +1,4 @@
-package com.ls.comunicator.activity
+package com.ls.comunicator.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

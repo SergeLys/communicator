@@ -2,18 +2,18 @@ package com.ls.comunicator.core
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Build
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
-import androidx.core.graphics.drawable.toBitmap
 import com.ls.comunicator.core.Consts.Companion.CARD_CASES_WARNING
 import com.ls.comunicator.core.Consts.Companion.CARD_IMAGE_WARNING
 import com.ls.comunicator.core.Consts.Companion.CARD_NAME_WARNING
 import com.ls.comunicator.core.Consts.Companion.TEXT_PLACE_WARNING
+import com.ls.comunicator.model.Card
+import com.ls.comunicator.model.Image
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -56,145 +56,6 @@ fun checkImage(appContext: Context, image: Image, isToast: Boolean): Boolean {
 
 fun showToast(appContext: Context,message: String) {
     Toast.makeText(appContext, message, LENGTH_SHORT).show()
-}
-
-fun savePage(context: Context, listName: String, card: Card?): Boolean {
-
-    lateinit var pageData: File
-    lateinit var fos: FileOutputStream
-    lateinit var os: ObjectOutputStream
-    val pageDirPath  = "/lists/${listName.toLowerCase(Locale.getDefault())}"
-    val cardDirPath = "$pageDirPath/${card?.name?.toLowerCase(Locale.getDefault())}"
-    val cardSoundDirPath = "$cardDirPath/sound"
-    val cardInfo = "card_info"
-    val cardImage = "image.jpg"
-    var success = true
-
-    if (checkCard(context, card, false) || true) {
-
-        pageData = File(getFilesDir(context), pageDirPath)
-
-        if (!pageData.exists()) success = pageData.mkdirs()
-
-        if (success && card != null) {
-            val cardDir =  File(getFilesDir(context), cardDirPath)
-            cardDir.mkdirs()
-            val cardInfoFile = File(cardDir, cardInfo) // save card_info
-            if (cardInfoFile.exists()) cardInfoFile.delete() else cardInfoFile.createNewFile()
-            try {
-                fos = FileOutputStream(cardInfoFile)
-                os = ObjectOutputStream(fos)
-                os.writeObject(card)
-            } catch (e : Exception) {
-                success = false
-                e.printStackTrace()
-            } finally {
-                os.flush()
-                os.close()
-                fos.close()
-            }
-            val cardImageFile = File(cardDir, cardImage) // save card image
-            if (cardImageFile.exists()) cardImageFile.delete()
-            try {
-                fos = FileOutputStream(cardImageFile)
-                card?.image?.imageView?.drawable?.toBitmap()
-                    ?.compress(Bitmap.CompressFormat.PNG, 50, fos)
-            } catch (e : Exception) {
-                success = false
-                e.printStackTrace()
-            } finally {
-                fos.close()
-            }
-            File(getFilesDir(context), cardSoundDirPath).mkdirs()
-        }
-    }
-    return success
-}
-
-fun loadPage(context: Context, listName: String?): ArrayList<Card> {
-
-    lateinit var fis: FileInputStream
-    lateinit var ins:  ObjectInputStream
-    lateinit var listDir: File
-    val cards = arrayListOf<Card>()
-    val listDirPath = "/lists/${listName?.toLowerCase(Locale.getDefault())}"
-
-    listDir = File(getFilesDir(context), listDirPath)
-
-    try {
-        if (listDir.exists()) {
-            listDir.listFiles().forEach {
-                if (it.isDirectory) {
-                    try {
-                        fis = FileInputStream(File("${it.absolutePath}/card_info"))
-                        ins = ObjectInputStream(fis)
-                        val card = ins.readObject() as Card
-                        card.page = listName
-                        cards.add(card)
-
-                    } catch (e: java.lang.Exception) {
-                    } finally {
-                        ins.close()
-                        fis.close()
-                    }
-                }
-            }
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-    return cards
-}
-
-fun deletePage(context: Context, page: String, card: String?): Boolean {
-    lateinit var pageData: File
-    lateinit var path: String
-
-    return try {
-        path = if (card == null)
-            "/lists/${page.toLowerCase(Locale.getDefault())}"
-        else
-            "/lists/${page.toLowerCase(Locale.getDefault())}/${card.toLowerCase(Locale.getDefault())}"
-        pageData = File(getFilesDir(context), path)
-
-        pageData.deleteRecursively()
-        (!pageData.exists())
-    } catch (e: Exception) {
-        e.printStackTrace()
-        false
-    }
-}
-
-fun renamePage(context: Context ,oldName: String, newName: String): Boolean {
-    lateinit var oldPage: File
-    lateinit var newPage: File
-
-    return try {
-        val oldPath = "/lists/${oldName.toLowerCase(Locale.getDefault())}"
-        val newPath = "/lists/${newName.toLowerCase(Locale.getDefault())}"
-        val files = getFilesDir(context)
-        oldPage = File(files, oldPath)
-        newPage = File(files, newPath)
-        oldPage.renameTo(newPage)
-    } catch (ex: Exception) {
-        false
-    }
-}
-
-fun loadPagesList(context: Context): ArrayList<String> {
-    lateinit var listsFolder: File
-    val pagesList = ArrayList<String>()
-
-    try {
-        listsFolder = File(getFilesDir(context), "/lists")
-        if (listsFolder.exists()) {
-            listsFolder.listFiles().forEach {
-                if (it.isDirectory)
-                    pagesList.add(it.name)
-            }
-        }
-    } catch (ex: Exception) { }
-    return  pagesList
 }
 
 fun play(context: Context, cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {

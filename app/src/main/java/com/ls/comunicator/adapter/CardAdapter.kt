@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
-import android.os.Build
 import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +12,10 @@ import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
-import com.ls.comunicator.activity.CardSettingsActivity
+import com.ls.comunicator.view.CardSettingsActivity
 import com.ls.comunicator.core.*
+import com.ls.comunicator.model.Card
+import com.ls.comunicator.model.CardModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_list_item.view.*
 import java.io.File
@@ -164,19 +165,22 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                             R.id.menu_edit -> {
                                 card.image.imageView = ImageView(context)
                                 card.image.imageView.setImageDrawable(cardImage.drawable)
-                                MyApp.card = card
                                 val cardSettingsActivity = Intent(context, CardSettingsActivity::class.java)
-                                cardSettingsActivity.putExtra("isEdit", true)
+                                cardSettingsActivity.putExtra("page", card.page)
+                                cardSettingsActivity.putExtra("name", card.name)
                                 startActivity(context, cardSettingsActivity, null)
                                 true
                             }
                             R.id.menu_delete -> {
-                                val success = deletePage(context, card.page, card.name)
-                                if (success) {
-                                    cards.remove(card)
-                                    notifyDataSetChanged()
-                                }
-                                Toast.makeText(context, if (success) "Удалено" else "Не удалось", Toast.LENGTH_SHORT).show()
+                                CardModel().deletePage(context, card.page, card.name, object : CardModel.Companion.CompleteCallback {
+                                    override fun onComplete(success: Boolean) {
+                                        if (success) {
+                                            cards.remove(card)
+                                            notifyDataSetChanged()
+                                        }
+                                        Toast.makeText(context, if (success) "Удалено" else "Не удалось", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
                                 true
                             }
                             else -> false

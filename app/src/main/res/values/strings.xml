@@ -42,7 +42,6 @@
     <string name="page_list_hint_text">Выберите лист</string>
     <string name="speech_part_list_hint_text">Выберите часть речи</string>
     <string name="image_text">image_text</string>
-    <string name="back_button">Назад</string>
     <string name="border_color_button">Цвет рамки</string>
     <string name="text_color_button">Цвет текста</string>
     <string name="bottom_text">Снизу</string>

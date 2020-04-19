@@ -1,4 +1,4 @@
-package com.ls.comunicator.activity
+package com.ls.comunicator.view
 
 import android.app.Activity
 import android.content.ContentValues
@@ -24,6 +24,7 @@ import com.ls.comunicator.R
 import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.CAMERA_REQUEST
 import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
+import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
 import com.ls.comunicator.presenter.CardSettingsPresenter
 import com.squareup.picasso.Callback
@@ -50,7 +51,7 @@ class CardSettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_card_settings)
 
         presenter = CardSettingsPresenter(this, CardModel())
-
+        presenter.loadCard(intent.getStringExtra("page"), intent.getStringExtra("name"))
     }
 
     fun init(c: Card) {
@@ -70,8 +71,9 @@ class CardSettingsActivity : AppCompatActivity() {
         }
 
         openCasesBtn.setOnClickListener {
-            if (card.cases == null) card.addCases()
             val casesActivity = Intent(this, CasesActivity::class.java)
+            casesActivity.putExtra("page", card.page)
+            casesActivity.putExtra("name", card.name)
             startActivity(casesActivity)
         }
 

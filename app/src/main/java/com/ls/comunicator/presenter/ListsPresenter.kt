@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ls.comunicator.R
-import com.ls.comunicator.activity.ListsActivity
-import com.ls.comunicator.activity.PageCreationActivity
+import com.ls.comunicator.view.ListsActivity
+import com.ls.comunicator.view.PageCreationActivity
 import com.ls.comunicator.model.CardModel
 import kotlinx.android.synthetic.main.lists_settings.*
 import kotlinx.android.synthetic.main.page_list_item.view.*

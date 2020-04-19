@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/speakLineBackground"
-    tools:context=".activity.MainActivity">
+    tools:context=".view.MainActivity">
 
     <RelativeLayout
         android:id="@+id/communicative_panel"

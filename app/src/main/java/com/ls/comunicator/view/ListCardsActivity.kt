@@ -1,4 +1,4 @@
-package com.ls.comunicator.activity
+package com.ls.comunicator.view
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
+import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
 import com.ls.comunicator.presenter.ListCardsPresenter
 import kotlinx.android.synthetic.main.activity_page_cards.*
@@ -18,6 +19,7 @@ class ListCardsActivity : AppCompatActivity() {
 
     private lateinit var createNewCardAlert: AlertDialog
     private lateinit var presenter: ListCardsPresenter
+    private lateinit var card: Card
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,13 +45,13 @@ class ListCardsActivity : AppCompatActivity() {
             createNewCardAlert.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener {
                     if (cardEditText.text.toString() != "") {
-                        MyApp.card = Card(cardEditText.text.toString(), baseContext)
-                        MyApp.card.page =  intent.getStringExtra("page")
+                        card.name = cardEditText.text.toString()
+                        card.page =  intent.getStringExtra("page")
                         if (ContextCompat.checkSelfPermission(this,
                                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 2)
                         } else {
-                            presenter.saveCard(MyApp.card)
+                            presenter.saveCard(card)
                         }
                     } else cardEditText.error = "Введите название!"
                 }
@@ -69,7 +71,7 @@ class ListCardsActivity : AppCompatActivity() {
                     presenter.loadPageCards(intent.getStringExtra("page"))
                 }
             }
-            2 -> { presenter.saveCard(MyApp.card) }
+            2 -> { presenter.saveCard(card) }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

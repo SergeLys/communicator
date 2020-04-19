@@ -1,4 +1,4 @@
-package com.ls.comunicator.activity
+package com.ls.comunicator.view
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -24,6 +24,7 @@ import com.ls.comunicator.R
 import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.CardAdapterEnum
 import com.ls.comunicator.core.*
+import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
 import com.ls.comunicator.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -75,7 +76,10 @@ class MainActivity : AppCompatActivity() {
         deleteAllButton.setOnClickListener { cardAdapter.deleteAll() }
         deleteButton.setOnClickListener { cardAdapter.delete() }
         playButton.setOnClickListener {
-            PlayAllTask(this, mTTS).execute()
+            PlayAllTask(
+                this,
+                mTTS
+            ).execute()
         }
         if (ContextCompat.checkSelfPermission(
                 this,
