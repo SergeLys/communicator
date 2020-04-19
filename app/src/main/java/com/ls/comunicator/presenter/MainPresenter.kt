@@ -29,8 +29,7 @@ class MainPresenter(private val view: MainActivity, private val model: CardModel
         if (pages != null && pages.size >= 1)
             fragmentAdapter.addFragment(
                 TableContentFragment(
-                    tabs,
-                    pages
+                    tabs
                 ), "Оглавление")
         pages?.forEachIndexed { index, s ->
             try {

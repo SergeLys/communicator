@@ -11,22 +11,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.ls.comunicator.R
 import com.ls.comunicator.adapter.ContentTableAdapter
+import com.ls.comunicator.model.CardModel
 import kotlinx.android.synthetic.main.fragment_table_content.view.contentTableList
 import java.util.ArrayList
 
 
-class TableContentFragment(private val tabs: TabLayout,private val pages: ArrayList<String>) : Fragment() {
+class TableContentFragment(private val tabs: TabLayout) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_table_content, container, false)
-        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        view.contentTableList.layoutManager = layoutManager
-        view.contentTableList.adapter = ContentTableAdapter(pages, tabs, context)
-        val itemDecor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        view.contentTableList.addItemDecoration(itemDecor)
+        CardModel().loadPagesList(view.context, object: CardModel.Companion.LoadPagesCallback {
+            override fun onLoad(pages: ArrayList<String>?) {
+                if (pages != null) {
+                    val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                    view.contentTableList.layoutManager = layoutManager
+                    view.contentTableList.adapter = ContentTableAdapter(pages, tabs, context)
+                    val itemDecor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+                    view.contentTableList.addItemDecoration(itemDecor)
+                }
+            }
+        })
         return view
     }
 
