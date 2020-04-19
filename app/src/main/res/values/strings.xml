@@ -145,5 +145,7 @@
     <string name="nominative_case_text">Добавить озвучку в И.п.</string>
     <string name="camera_btn_text">Сделать фото</string>
     <string name="img_file_btn_text">Выбрать на устройстве</string>
+    <string name="camera_web_text">Скачать из интернета</string>
+    <string name="uri_insert_text">URI</string>
 
 </resources>

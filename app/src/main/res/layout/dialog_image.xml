@@ -36,6 +36,32 @@
         android:orientation="horizontal">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/image_web_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:src="@drawable/ic_internet_black_24dp"
+            style="@style/PrimaryActionButton"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:text="@string/camera_web_text"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/image_camera_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

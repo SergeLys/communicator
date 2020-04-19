@@ -26,11 +26,13 @@ import com.ls.comunicator.core.Consts.Companion.CAMERA_REQUEST
 import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
 import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
+import com.ls.comunicator.model.Image
 import com.ls.comunicator.presenter.CardSettingsPresenter
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.activity_card_settings.*
+import kotlinx.android.synthetic.main.dialog_uri.view.*
 import java.io.File
 
 class CardSettingsActivity : AppCompatActivity() {
@@ -61,6 +63,7 @@ class CardSettingsActivity : AppCompatActivity() {
         cardText = findViewById(R.id.card_text)
         try {
             card = c
+            if (card.image.imageView == null) card.image.imageView = ImageView(baseContext)
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 oldCardName = card.name
                 cardName.setText(card.name)
@@ -219,6 +222,31 @@ class CardSettingsActivity : AppCompatActivity() {
                 val fileintent = Intent(Intent.ACTION_GET_CONTENT)
                 fileintent.type = "image/*"
                 startActivityForResult(fileintent, FILE_BROWSER_REQUEST)
+            }
+
+        view.findViewById<FloatingActionButton>(R.id.image_web_button)
+            .setOnClickListener {
+                val uriBuilder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
+                uriBuilder.setTitle("URI изображения")
+                val uriView = layoutInflater.inflate(R.layout.dialog_uri, null)
+                val uriText = uriView.uri
+                uriBuilder.setView(uriView)
+                uriBuilder.setPositiveButton("Ok", null)
+                uriBuilder.setNegativeButton("Отмена", null)
+                val uriAlert = uriBuilder.create()
+                uriAlert.show()
+                uriAlert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                    Picasso.get().load(Uri.parse(uriText.text.toString()))
+                        .into(card.image.imageView, object: Callback {
+                        override fun onSuccess() {
+                            Toast.makeText(baseContext,"Загружено", Toast.LENGTH_SHORT).show()
+                        }
+
+                        override fun onError(e: java.lang.Exception?) {
+                            Toast.makeText(baseContext,"Ошибка загрузки", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                }
             }
 
         view.findViewById<FloatingActionButton>(R.id.image_camera_button)
