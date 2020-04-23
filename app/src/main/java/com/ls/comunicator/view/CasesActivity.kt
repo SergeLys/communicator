@@ -56,6 +56,36 @@ class CasesActivity : AppCompatActivity() {
         presenter.loadCard(intent.getStringExtra("page"), intent.getStringExtra("name"))
     }
 
+    fun isFullCases(): Boolean {
+        var isFull = true
+        val error = "Заполните падеж"
+        if (nEditText.text.isNullOrEmpty()) {
+            nEditText.error = error
+            isFull = false
+        }
+        if (gEditText.text.isNullOrEmpty()){
+            gEditText.error = error
+            isFull = false
+        }
+        if (dEditText.text.isNullOrEmpty()){
+            dEditText.error = error
+            isFull = false
+        }
+        if (aEditText.text.isNullOrEmpty()){
+            aEditText.error = error
+            isFull = false
+        }
+        if (iEditText.text.isNullOrEmpty()){
+            iEditText.error = error
+            isFull = false
+        }
+        if (pEditText.text.isNullOrEmpty()){
+            pEditText.error = error
+            isFull = false
+        }
+        return isFull
+    }
+
     fun init(c: Card) {
         card = c
         if (card.cases == null) card.addCases()
@@ -102,7 +132,7 @@ class CasesActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.back_button)
             .setOnClickListener {
-                presenter.saveCard(card)
+                if (isFullCases()) presenter.saveCard(card)
             }
     }
 

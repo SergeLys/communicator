@@ -63,7 +63,9 @@ class CardSettingsActivity : AppCompatActivity() {
         cardText = findViewById(R.id.card_text)
         try {
             card = c
-            if (card.image.imageView == null) card.image.imageView = ImageView(baseContext)
+            if (card.image == null) card.image = Image()
+            card.image.imageView = ImageView(baseContext)
+            card.image.imageView.setImageDrawable(cardImage.drawable)
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 oldCardName = card.name
                 cardName.setText(card.name)

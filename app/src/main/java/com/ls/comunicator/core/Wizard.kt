@@ -8,12 +8,7 @@ import android.os.Build
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
-import com.ls.comunicator.core.Consts.Companion.CARD_CASES_WARNING
-import com.ls.comunicator.core.Consts.Companion.CARD_IMAGE_WARNING
-import com.ls.comunicator.core.Consts.Companion.CARD_NAME_WARNING
-import com.ls.comunicator.core.Consts.Companion.TEXT_PLACE_WARNING
 import com.ls.comunicator.model.Card
-import com.ls.comunicator.model.Image
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

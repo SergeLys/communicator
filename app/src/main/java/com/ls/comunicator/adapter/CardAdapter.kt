@@ -16,6 +16,7 @@ import com.ls.comunicator.view.CardSettingsActivity
 import com.ls.comunicator.core.*
 import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
+import com.ls.comunicator.model.Image
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_list_item.view.*
 import java.io.File
@@ -108,8 +109,6 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
         val cardText = view.card_text
 
         fun bind(card: Card) {
-            cardFrame.strokeColor = card.image.borderColour
-            cardFrame.strokeWidth = card.image.borderSize
             Picasso.get()
                 .load(File(getFilesDir(context), "/${Consts.LISTS_FOLDER}" +
                         "/${card.page.toLowerCase(Locale.getDefault())}" +
@@ -118,33 +117,37 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                 .placeholder(R.drawable.ic_image_black_24dp)
                 .resize(400, 400)
                 .into(cardImage)
-            cardText.setTextColor(card.image.textColour)
-            cardText.textSize = card.image.textSize
             cardText.text = card.name
 
-            if (card.image.textPlace != null) {
-                val imageParams = cardImage.layoutParams as RelativeLayout.LayoutParams
-                val textParams = cardText.layoutParams as RelativeLayout.LayoutParams
-                when(card.image.textPlace) {
-                    TextPositionEnum.UP -> {
-                        textParams.removeRule(RelativeLayout.BELOW)
-                        textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-                        textParams.topMargin = 10
-                        textParams.bottomMargin = 0
-                        imageParams.addRule(RelativeLayout.BELOW, R.id.card_text)
-                        imageParams.topMargin = 0
-                        imageParams.bottomMargin = 20
+            if (card.image != null) {
+                cardFrame.strokeColor = card.image.borderColour
+                cardFrame.strokeWidth = card.image.borderSize
+                cardText.setTextColor(card.image.textColour)
+                cardText.textSize = card.image.textSize
+                if (card.image.textPlace != null) {
+                    val imageParams = cardImage.layoutParams as RelativeLayout.LayoutParams
+                    val textParams = cardText.layoutParams as RelativeLayout.LayoutParams
+                    when(card.image.textPlace) {
+                        TextPositionEnum.UP -> {
+                            textParams.removeRule(RelativeLayout.BELOW)
+                            textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+                            textParams.topMargin = 10
+                            textParams.bottomMargin = 0
+                            imageParams.addRule(RelativeLayout.BELOW, R.id.card_text)
+                            imageParams.topMargin = 0
+                            imageParams.bottomMargin = 20
+                        }
+                        TextPositionEnum.BOTTOM -> {
+                            textParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP)
+                            imageParams.removeRule(RelativeLayout.BELOW)
+                            textParams.addRule(RelativeLayout.BELOW, R.id.card_image)
+                            textParams.topMargin = 0
+                            textParams.bottomMargin = 10
+                            imageParams.topMargin = 20
+                            imageParams.bottomMargin = 0
+                        }
+                        else -> {}
                     }
-                    TextPositionEnum.BOTTOM -> {
-                        textParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP)
-                        imageParams.removeRule(RelativeLayout.BELOW)
-                        textParams.addRule(RelativeLayout.BELOW, R.id.card_image)
-                        textParams.topMargin = 0
-                        textParams.bottomMargin = 10
-                        imageParams.topMargin = 20
-                        imageParams.bottomMargin = 0
-                    }
-                    else -> {}
                 }
             }
             when(type) {
@@ -163,8 +166,6 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                     popupMenu.setOnMenuItemClickListener {
                         when(it.itemId) {
                             R.id.menu_edit -> {
-                                card.image.imageView = ImageView(context)
-                                card.image.imageView.setImageDrawable(cardImage.drawable)
                                 val cardSettingsActivity = Intent(context, CardSettingsActivity::class.java)
                                 cardSettingsActivity.putExtra("page", card.page)
                                 cardSettingsActivity.putExtra("name", card.name)

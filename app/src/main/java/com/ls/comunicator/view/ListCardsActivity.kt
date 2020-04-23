@@ -45,6 +45,7 @@ class ListCardsActivity : AppCompatActivity() {
             createNewCardAlert.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener {
                     if (cardEditText.text.toString() != "") {
+                        card = Card()
                         card.name = cardEditText.text.toString()
                         card.page =  intent.getStringExtra("page")
                         if (ContextCompat.checkSelfPermission(this,
