@@ -16,7 +16,7 @@ import java.io.IOException
 import java.nio.channels.FileChannel
 import java.util.*
 
-fun showToast(appContext: Context,message: String) {
+fun showToastShort(appContext: Context,message: String) {
     Toast.makeText(appContext, message, LENGTH_SHORT).show()
 }
 

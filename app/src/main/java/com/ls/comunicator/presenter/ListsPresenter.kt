@@ -94,6 +94,7 @@ class ListsPresenter(private val view: ListsActivity, private val model: CardMod
                             R.id.menu_edit -> {
                                 val editPageSettingsActivity =
                                     Intent(context, PageCreationActivity::class.java)
+                                editPageSettingsActivity.putExtra("isEdit", true)
                                 editPageSettingsActivity.putExtra("page", pages[i])
                                 context?.let { it1 ->
                                     ContextCompat.startActivity(
