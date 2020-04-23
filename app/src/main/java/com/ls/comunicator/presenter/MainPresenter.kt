@@ -36,7 +36,6 @@ class MainPresenter(private val view: MainActivity, private val model: CardModel
                 val pageName = s.split("_")[0]
                 fragmentAdapter.addFragment(
                     PageFragment(
-                        getCardAmount(view.baseContext),
                         adapter,
                         s
                     ), pageName)
