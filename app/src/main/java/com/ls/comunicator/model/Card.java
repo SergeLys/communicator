@@ -1,14 +1,10 @@
 package com.ls.comunicator.model;
 
-import android.content.Context;
-import android.widget.ImageView;
-
-import com.ls.comunicator.R;
 import com.ls.comunicator.core.TextPositionEnum;
-
 import java.io.Serializable;
-
 import static android.graphics.Color.BLACK;
+import static com.ls.comunicator.core.Consts.DEFAULT_BORDER_SIZE;
+import static com.ls.comunicator.core.Consts.DEFAULT_TEXT_SIZE;
 
 public class Card implements Serializable {
 
@@ -20,11 +16,11 @@ public class Card implements Serializable {
 
     public Card() {}
 
-    public Card(String name, Context context) {
+    public Card(String page, String name) {
+        this.page = page;
         this.name = name;
-        this.image = new Image(20, BLACK, 10, BLACK, TextPositionEnum.BOTTOM);
-        this.image.setImageView(new ImageView(context));
-        this.image.getImageView().setImageResource(R.drawable.ic_image_black_24dp);
+        this.image = new Image(DEFAULT_TEXT_SIZE, BLACK,
+                DEFAULT_BORDER_SIZE, BLACK, TextPositionEnum.BOTTOM);
         this.isHasCases = false;
     }
 

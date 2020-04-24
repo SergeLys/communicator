@@ -6,17 +6,12 @@ class Consts {
         const val CARD = "card"
         const val PAGE = "page"
         const val LISTS_FOLDER = "lists"
-        const val CARD_NAME_WARNING = "Введите имя карточки !"
-        const val CARD_CASES_WARNING = "Озвучьте карточку !"
-        const val CARD_IMAGE_WARNING = "Выберите картинку !"
-        const val BORDER_COLOUR_WARNING = "Выберите цвет рамки !"
-        const val BORDER_SIZE_WARNING = "Выберите размер рамки !"
-        const val TEXT_COLOUR_WARNING = "Выберите цвет текста !"
-        const val TEXT_PLACE_WARNING = "Выберите расположение текста !"
-        const val TEXT_SIZE_WARNING = "Выберите размер текста !"
         const val CAMERA_REQUEST = 0
         const val FILE_BROWSER_REQUEST = 1
         const val AUDIO_BROWSER_REQUEST = 2
         const val WRITE_CODE = 2
+        const val DEFAULT_BORDER_SIZE = 10
+        const val DEFAULT_TEXT_SIZE = 20
+
     }
 }

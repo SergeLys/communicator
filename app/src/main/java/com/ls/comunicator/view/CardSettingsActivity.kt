@@ -16,35 +16,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
-import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.CAMERA_REQUEST
 import com.ls.comunicator.core.Consts.Companion.FILE_BROWSER_REQUEST
 import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
-import com.ls.comunicator.model.Image
 import com.ls.comunicator.presenter.CardSettingsPresenter
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.activity_card_settings.*
+import kotlinx.android.synthetic.main.dialog_text_graphic.*
+import kotlinx.android.synthetic.main.dialog_text_graphic.view.*
+import kotlinx.android.synthetic.main.dialog_text_graphic.view.radioGroup
 import kotlinx.android.synthetic.main.dialog_uri.view.*
 import java.io.File
 
 class CardSettingsActivity : AppCompatActivity() {
 
-    private lateinit var cardFrame: MaterialCardView
-    private lateinit var cardImage: ImageView
-    private lateinit var cardText: TextView
-    private lateinit var cardName: TextInputEditText
     lateinit var card: Card
-    lateinit var upCheckBox: RadioButton
-    lateinit var bottomCheckBox: RadioButton
-    lateinit var oldCardName: String
     private var imageUri: Uri? = null
     private lateinit var presenter: CardSettingsPresenter
 
@@ -56,21 +49,13 @@ class CardSettingsActivity : AppCompatActivity() {
         presenter.loadCard(intent.getStringExtra("page"), intent.getStringExtra("name"))
     }
 
-    fun init(c: Card) {
-        cardName = findViewById(R.id.card_name)
-        cardFrame = findViewById(R.id.card_preview)
-        cardImage = findViewById(R.id.card_image)
-        cardText = findViewById(R.id.card_text)
+    fun init(card: Card) {
         try {
-            card = c
-            if (card.image == null) card.image = Image()
-            card.image.imageView = ImageView(baseContext)
-            card.image.imageView.setImageDrawable(cardImage.drawable)
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                oldCardName = card.name
-                cardName.setText(card.name)
-                updateCardPreview(card)
-            }
+            this.card = card
+            this.card.image.imageView = ImageView(baseContext)
+            this.card.image.imageView.setImageDrawable(cardImage.drawable)
+            cardName.setText(this.card.name)
+            updateCardPreview(this.card)
         } catch (e: Exception) {
             onBackPressed()
         }
@@ -90,15 +75,13 @@ class CardSettingsActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
                 ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
             else
-                presenter.saveCard(oldCardName, card)
+                presenter.save(card)
         }
 
         cardName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                if (p0.toString() != "") {
-                    card.name = p0.toString()
-                    updateCardPreview(card)
-                }
+                card.name = p0.toString()
+                updateCardPreview(card)
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -110,47 +93,41 @@ class CardSettingsActivity : AppCompatActivity() {
     }
 
     private fun updateCardPreview(card: Card) {
-        cardFrame = findViewById(R.id.card_preview)
-        cardImage = findViewById(R.id.card_image)
-        cardText = findViewById(R.id.card_text)
-
         if (card.name != "" && card.name != null)
             cardText.text = card.name
-        if (card.image != null) {
-            if (card.image.borderColour != 0)
-                cardFrame.strokeColor = card.image.borderColour
-            if (card.image.borderSize != 0)
-                cardFrame.strokeWidth = card.image.borderSize
-            if (card.image.imageView != null)
-                cardImage.setImageDrawable(card.image.imageView.drawable)
-            if (card.image.textColour != 0)
-                cardText.setTextColor(card.image.textColour)
-            if (card.image.textSize != 0F)
-                cardText.textSize = card.image.textSize
-            if (card.image.textPlace != null) {
-                val imageParams = cardImage.layoutParams as RelativeLayout.LayoutParams
-                val textParams = cardText.layoutParams as RelativeLayout.LayoutParams
-                when(card.image.textPlace) {
-                    TextPositionEnum.UP -> {
-                        textParams.removeRule(RelativeLayout.BELOW)
-                        textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-                        textParams.topMargin = 10
-                        textParams.bottomMargin = 0
-                        imageParams.addRule(RelativeLayout.BELOW, R.id.card_text)
-                        imageParams.topMargin = 0
-                        imageParams.bottomMargin = 20
-                    }
-                    TextPositionEnum.BOTTOM -> {
-                        textParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP)
-                        imageParams.removeRule(RelativeLayout.BELOW)
-                        textParams.addRule(RelativeLayout.BELOW, R.id.card_image)
-                        textParams.topMargin = 0
-                        textParams.bottomMargin = 10
-                        imageParams.topMargin = 20
-                        imageParams.bottomMargin = 0
-                    }
-                    else -> {}
+        if (card.image.borderColour != 0)
+            cardPreview.strokeColor = card.image.borderColour
+        if (card.image.borderSize != 0)
+            cardPreview.strokeWidth = card.image.borderSize
+        if (card.image.imageView != null)
+            cardImage.setImageDrawable(card.image.imageView.drawable)
+        if (card.image.textColour != 0)
+            cardText.setTextColor(card.image.textColour)
+        if (card.image.textSize != 0F)
+            cardText.textSize = card.image.textSize
+        if (card.image.textPlace != null) {
+            val imageParams = cardImage.layoutParams as RelativeLayout.LayoutParams
+            val textParams = cardText.layoutParams as RelativeLayout.LayoutParams
+            when(card.image.textPlace) {
+                TextPositionEnum.UP -> {
+                    textParams.removeRule(RelativeLayout.BELOW)
+                    textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+                    textParams.topMargin = 10
+                    textParams.bottomMargin = 0
+                    imageParams.addRule(RelativeLayout.BELOW, R.id.cardText)
+                    imageParams.topMargin = 0
+                    imageParams.bottomMargin = 20
                 }
+                TextPositionEnum.BOTTOM -> {
+                    textParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP)
+                    imageParams.removeRule(RelativeLayout.BELOW)
+                    textParams.addRule(RelativeLayout.BELOW, R.id.cardImage)
+                    textParams.topMargin = 0
+                    textParams.bottomMargin = 10
+                    imageParams.topMargin = 20
+                    imageParams.bottomMargin = 0
+                }
+                else -> {}
             }
         }
     }
@@ -190,25 +167,6 @@ class CardSettingsActivity : AppCompatActivity() {
                         .placeholder(R.drawable.ic_image_black_24dp)
                         .resize(400, 400)
                         .into(card.image.imageView)
-                }
-            }
-            updateCardPreview(card)
-        }
-    }
-
-    private fun onCheckBoxClicked(checkBox: CheckBox) {
-        if (checkBox.isChecked) {
-
-            when(checkBox.id) {
-                R.id.up_check_box -> {
-                    card.image.textPlace = TextPositionEnum.UP
-                    if (bottomCheckBox.isChecked)
-                        bottomCheckBox.isChecked = false
-                }
-                R.id.bottom_check_box -> {
-                    card.image.textPlace = TextPositionEnum.BOTTOM
-                    if (upCheckBox.isChecked)
-                        upCheckBox.isChecked = false
                 }
             }
             updateCardPreview(card)
@@ -276,10 +234,21 @@ class CardSettingsActivity : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.dialog_text_graphic, null)
         val textColorLayout = view.findViewById<LinearLayout>(R.id.text_colour_btn)
         val textSizeSlider = view.findViewById<Slider>(R.id.text_size_slider)
-        upCheckBox = view.findViewById(R.id.up_check_box)
-        bottomCheckBox = view.findViewById(R.id.bottom_check_box)
-        upCheckBox.setOnCheckedChangeListener { p0, isChecked -> onCheckBoxClicked(p0 as CheckBox) }
-        bottomCheckBox.setOnCheckedChangeListener { p0, isChecked -> onCheckBoxClicked(p0 as CheckBox) }
+        textColorLayout.setBackgroundColor(card.image.textColour)
+        when (card.image.textPlace) {
+            TextPositionEnum.UP -> {view.radioGroup.check(R.id.up)}
+            TextPositionEnum.BOTTOM -> {view.radioGroup.check(R.id.bottom)}
+            else -> {view.radioGroup.check(R.id.bottom)}
+        }
+        textSizeSlider.value = card.image.textSize
+
+        view.radioGroup.setOnCheckedChangeListener { p0, id ->
+            when (id) {
+                R.id.up -> {card.image.textPlace = TextPositionEnum.UP}
+                R.id.bottom -> {card.image.textPlace = TextPositionEnum.BOTTOM}
+            }
+            updateCardPreview(card)
+        }
         textSizeSlider.setOnChangeListener { slider, value ->
             card.image.textSize = value
             updateCardPreview(card)
@@ -295,7 +264,6 @@ class CardSettingsActivity : AppCompatActivity() {
                 .show(supportFragmentManager)
         }
         builder.setView(view)
-        builder.setPositiveButton("Ok") { dialogInterface, i -> }
         builder.setNegativeButton("Отмена") {dialogInterface, i ->  }
         builder.show()
     }
@@ -306,6 +274,9 @@ class CardSettingsActivity : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.dialog_border_graphic, null)
         val borderColorLayout = view.findViewById<LinearLayout>(R.id.border_color_button)
         val  frameSizeSlider = view.findViewById<Slider>(R.id.frame_size_slider)
+        borderColorLayout.setBackgroundColor(card.image.borderColour)
+        frameSizeSlider.value = card.image.borderSize.toFloat()
+
         frameSizeSlider.setOnChangeListener { slider, value ->
             card.image.borderSize = value.toInt()
             updateCardPreview(card)
@@ -321,7 +292,6 @@ class CardSettingsActivity : AppCompatActivity() {
                 .show(supportFragmentManager)
         }
         builder.setView(view)
-        builder.setPositiveButton("Ok") { dialogInterface, i -> }
         builder.setNegativeButton("Отмена") {dialogInterface, i ->  }
         builder.show()
     }
@@ -335,9 +305,8 @@ class CardSettingsActivity : AppCompatActivity() {
             1 -> {
                 if (grantResults.isNotEmpty()
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    presenter.saveCard(oldCardName, card)
-                else
-                    Toast.makeText(baseContext,"Ошибка при сохранении", Toast.LENGTH_SHORT).show()
+                    presenter.save(card)
+                else showToastShort(baseContext, "Ошибка при сохранении")
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

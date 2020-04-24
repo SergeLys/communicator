@@ -45,9 +45,8 @@ class ListCardsActivity : AppCompatActivity() {
             createNewCardAlert.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener {
                     if (cardEditText.text.toString() != "") {
-                        card = Card()
-                        card.name = cardEditText.text.toString()
-                        card.page =  intent.getStringExtra("page")
+                        card = Card(intent.getStringExtra("page"),
+                                    cardEditText.text.toString())
                         if (ContextCompat.checkSelfPermission(this,
                                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 2)

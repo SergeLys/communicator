@@ -93,18 +93,19 @@
             android:layout_marginTop="15dp"/>
 
         <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkedButton="@+id/first"
             android:orientation="vertical">
             <RadioButton
-                android:id="@+id/up_check_box"
+                android:id="@+id/up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="@string/up_place"/>
             <RadioButton
-                android:id="@+id/bottom_check_box"
+                android:id="@+id/bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
