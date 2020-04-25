@@ -37,6 +37,7 @@ class ListCardsPresenter(private val view: ListCardsActivity, private val model:
                     val cardSettingsActivity = Intent(view.baseContext, CardSettingsActivity::class.java)
                     cardSettingsActivity.putExtra("page", card.page)
                     cardSettingsActivity.putExtra("name", card.name)
+                    cardSettingsActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(view.baseContext, cardSettingsActivity, null)
                     view.closeNewCardAlert()
                 }

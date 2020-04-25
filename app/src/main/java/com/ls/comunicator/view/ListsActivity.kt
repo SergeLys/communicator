@@ -30,6 +30,7 @@ class ListsActivity : AppCompatActivity() {
         addNewList.setOnClickListener {
                 val newPageSettingsActivity = Intent(this, PageCreationActivity::class.java)
                 newPageSettingsActivity.putExtra("isEdit", false)
+                newPageSettingsActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(newPageSettingsActivity)
             }
     }

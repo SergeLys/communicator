@@ -46,6 +46,7 @@ class PageCreationPresenter(private val view: PageCreationActivity, private val 
     fun openCardsList() {
         val listCardsActivity = Intent(view.baseContext, ListCardsActivity::class.java)
         listCardsActivity.putExtra("page", "${view.pageNameEditText.text.toString()}_${iconCode}")
+        listCardsActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(view.baseContext, listCardsActivity, null)
     }
 

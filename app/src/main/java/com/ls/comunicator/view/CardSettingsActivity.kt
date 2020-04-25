@@ -64,6 +64,7 @@ class CardSettingsActivity : AppCompatActivity() {
             val casesActivity = Intent(this, CasesActivity::class.java)
             casesActivity.putExtra("page", card.page)
             casesActivity.putExtra("name", card.name)
+            casesActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(casesActivity)
         }
 

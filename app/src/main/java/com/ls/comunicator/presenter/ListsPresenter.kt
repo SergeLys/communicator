@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -96,9 +96,10 @@ class ListsPresenter(private val view: ListsActivity, private val model: CardMod
                                     Intent(context, PageCreationActivity::class.java)
                                 editPageSettingsActivity.putExtra("isEdit", true)
                                 editPageSettingsActivity.putExtra("page", pages[i])
-                                context?.let { it1 ->
-                                    ContextCompat.startActivity(
-                                        it1,
+                                editPageSettingsActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                context?.let { it ->
+                                    startActivity(
+                                        it,
                                         editPageSettingsActivity,
                                         null
                                     )

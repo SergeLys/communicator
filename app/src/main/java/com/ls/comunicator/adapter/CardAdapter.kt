@@ -170,6 +170,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                                 val cardSettingsActivity = Intent(context, CardSettingsActivity::class.java)
                                 cardSettingsActivity.putExtra("page", card.page)
                                 cardSettingsActivity.putExtra("name", card.name)
+                                cardSettingsActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(context, cardSettingsActivity, null)
                                 true
                             }
