@@ -16,9 +16,10 @@ import com.ls.comunicator.view.CardSettingsActivity
 import com.ls.comunicator.core.*
 import com.ls.comunicator.model.Card
 import com.ls.comunicator.model.CardModel
-import com.ls.comunicator.model.Image
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_list_item.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -104,9 +105,9 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
 
     inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
-        val cardFrame = view.card_frame
-        val cardImage = view.card_image
-        val cardText = view.card_text
+        private val cardFrame = view.card_frame
+        private val cardImage = view.card_image
+        private val cardText = view.card_text
 
         fun bind(card: Card) {
             Picasso.get()
@@ -157,7 +158,7 @@ class CardAdapter(val cards : ArrayList<Card>, val context: Context, val type: C
                         true
                     }
                     itemView.setOnClickListener{
-                        play(context, arrayListOf(card), mediaPlayer, mTTS)
+                        GlobalScope.launch { play(context, arrayListOf(card), mediaPlayer, mTTS) }
                     }
                 }
                 CardAdapterEnum.EDIT_PAGE -> {
