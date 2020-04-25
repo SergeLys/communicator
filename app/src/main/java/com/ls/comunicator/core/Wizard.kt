@@ -1,7 +1,6 @@
 package com.ls.comunicator.core
 
 import android.content.Context
-import android.content.res.Resources
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Build
@@ -18,6 +17,28 @@ import java.util.*
 
 fun showToastShort(appContext: Context,message: String) {
     Toast.makeText(appContext, message, LENGTH_SHORT).show()
+}
+
+fun getFilesDir(context: Context): File? {
+    val memoryMode = getMemory(context)
+    var files: File?
+    try {
+        files = when (memoryMode) {
+            "internal" -> {
+                context.getExternalFilesDirs(null)[0]
+            }
+            "external" -> {
+                context.getExternalFilesDirs(null)[1]
+            }
+            else -> {
+                context.getExternalFilesDirs(null)[0]
+            }
+        }
+    } catch (e: Exception) {
+        files = context.getExternalFilesDir(null)
+        e.printStackTrace()
+    }
+    return files
 }
 
 fun play(context: Context, cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTTS: TextToSpeech) {
@@ -71,7 +92,6 @@ fun play(context: Context, cards: ArrayList<Card>, mediaPlayer: MediaPlayer, mTT
 
 fun checkPreposition(text: String): CaseEnum {
     var case = CaseEnum.EMPTY
-    val res: Resources = Resources.getSystem()
     val value = text.toLowerCase(Locale.getDefault())
     val genitive = arrayOf("от", "без", "у", "до", "возле", "для", "вокруг")
     val dative = arrayOf("по", "к")
