@@ -13,7 +13,6 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +20,6 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
 import com.ls.comunicator.R
 import com.ls.comunicator.core.*
 import com.ls.comunicator.core.Consts.Companion.AUDIO_BROWSER_REQUEST
@@ -40,12 +38,6 @@ class CasesActivity : AppCompatActivity() {
     private lateinit var watcher: TextChange
     lateinit var mediaRecorder: MediaRecorder
     lateinit var mediaPlayer: MediaPlayer
-    lateinit var nEditText: TextInputEditText
-    lateinit var gEditText: TextInputEditText
-    lateinit var dEditText: TextInputEditText
-    lateinit var aEditText: TextInputEditText
-    lateinit var iEditText: TextInputEditText
-    lateinit var pEditText: TextInputEditText
     private lateinit var fileBtn: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,40 +48,11 @@ class CasesActivity : AppCompatActivity() {
         presenter.loadCard(intent.getStringExtra("page"), intent.getStringExtra("name"))
     }
 
-    fun isFullCases(): Boolean {
-        var isFull = true
-        val error = "Заполните падеж"
-        if (nEditText.text.isNullOrEmpty()) {
-            nEditText.error = error
-            isFull = false
-        }
-        if (gEditText.text.isNullOrEmpty()){
-            gEditText.error = error
-            isFull = false
-        }
-        if (dEditText.text.isNullOrEmpty()){
-            dEditText.error = error
-            isFull = false
-        }
-        if (aEditText.text.isNullOrEmpty()){
-            aEditText.error = error
-            isFull = false
-        }
-        if (iEditText.text.isNullOrEmpty()){
-            iEditText.error = error
-            isFull = false
-        }
-        if (pEditText.text.isNullOrEmpty()){
-            pEditText.error = error
-            isFull = false
-        }
-        return isFull
-    }
-
-    fun init(c: Card) {
-        card = c
-        if (card.cases == null) card.addCases()
-        if (card.isHasCases) {
+    fun init(card: Card) {
+        this.card = card
+        if (this.card.cases == null) this.card.addCases()
+        initCases()
+        if (this.card.isHasCases) {
             casesLayout.visibility = View.VISIBLE
             isHasCases.isChecked = true
         } else {
@@ -100,40 +63,38 @@ class CasesActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 if (card.cases == null) throw Exception()
                 watcher = TextChange()
-                nEditText = findViewById(R.id.nominative_text)
-                nEditText.addTextChangedListener(watcher)
-                gEditText = findViewById(R.id.genitive_text)
-                gEditText.addTextChangedListener(watcher)
-                dEditText=  findViewById(R.id.dative_text)
-                dEditText.addTextChangedListener(watcher)
-                aEditText = findViewById(R.id.accusative_text)
-                aEditText.addTextChangedListener(watcher)
-                iEditText = findViewById(R.id.instrumental_text)
-                iEditText.addTextChangedListener(watcher)
-                pEditText = findViewById(R.id.prepositional_text)
-                pEditText.addTextChangedListener(watcher)
+                nominativeText.addTextChangedListener(watcher)
+                genitiveText.addTextChangedListener(watcher)
+                dativeText.addTextChangedListener(watcher)
+                accusativeText.addTextChangedListener(watcher)
+                instrumentalText.addTextChangedListener(watcher)
+                prepositionalText.addTextChangedListener(watcher)
             }
         } catch (e: Exception) {
             onBackPressed()
         }
 
-        isHasCases.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
-            override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
-                if (isChecked){
-                    casesLayout.visibility = View.VISIBLE
-                    card.isHasCases = true
-                }
-                else {
-                    casesLayout.visibility = View.GONE
-                    card.isHasCases = false
-                }
+        isHasCases.setOnCheckedChangeListener { p0, isChecked ->
+            if (isChecked){
+                casesLayout.visibility = View.VISIBLE
+                card.isHasCases = true
+            } else {
+                casesLayout.visibility = View.GONE
+                card.isHasCases = false
             }
-        })
+        }
 
-        findViewById<MaterialButton>(R.id.back_button)
-            .setOnClickListener {
-                if (isFullCases()) presenter.saveCard(card)
-            }
+        findViewById<MaterialButton>(R.id.back_button).setOnClickListener { presenter.save(card) }
+    }
+
+    private fun initCases() {
+        if (card.cases.nominative.isNullOrEmpty()) nominativeText.setText(card.name)
+        else nominativeText.setText(card.cases.nominative)
+        genitiveText.setText(card.cases.genitive)
+        dativeText.setText(card.cases.dative)
+        accusativeText.setText(card.cases.accusative)
+        instrumentalText.setText(card.cases.instrumental)
+        prepositionalText.setText(card.cases.prepositional)
     }
 
     fun onVoiceBtnClick(button: View) {
@@ -198,7 +159,7 @@ class CasesActivity : AppCompatActivity() {
         }
     }
 
-    fun getPathForAudio(context: Context, uri: Uri?): String? {
+    private fun getPathForAudio(context: Context, uri: Uri?): String? {
         var result: String? = null
         var cursor: Cursor? = null
         try {
@@ -221,7 +182,7 @@ class CasesActivity : AppCompatActivity() {
         return result
     }
 
-    fun getPath(view: View): String {
+    private fun getPath(view: View): String {
         var case: CaseEnum = CaseEnum.NOMINATIVE
         val page = card.page.toLowerCase(Locale.getDefault())
         val name = card.name.toLowerCase(Locale.getDefault())
@@ -243,12 +204,12 @@ class CasesActivity : AppCompatActivity() {
     inner class TextChange : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             when (p0.hashCode()) {
-                nEditText.editableText.hashCode() -> { card.cases.nominative = p0.toString() }
-                gEditText.editableText.hashCode() -> { card.cases.genitive = p0.toString() }
-                dEditText.editableText.hashCode() -> { card.cases.dative = p0.toString() }
-                aEditText.editableText.hashCode() -> { card.cases.accusative = p0.toString() }
-                iEditText.editableText.hashCode() -> { card.cases.instrumental = p0.toString() }
-                pEditText.editableText.hashCode() -> { card.cases.prepositional = p0.toString() }
+                nominativeText.editableText.hashCode() -> { card.cases.nominative = p0.toString() }
+                genitiveText.editableText.hashCode() -> { card.cases.genitive = p0.toString() }
+                dativeText.editableText.hashCode() -> { card.cases.dative = p0.toString() }
+                accusativeText.editableText.hashCode() -> { card.cases.accusative = p0.toString() }
+                instrumentalText.editableText.hashCode() -> { card.cases.instrumental = p0.toString() }
+                prepositionalText.editableText.hashCode() -> { card.cases.prepositional = p0.toString() }
             }
         }
 

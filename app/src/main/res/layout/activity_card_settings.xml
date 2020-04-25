@@ -164,6 +164,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/buttonColour"
             android:text="@string/save_card_button">

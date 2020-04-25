@@ -37,7 +37,7 @@
                     android:layout_alignParentStart="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/nominative_text"
+                        android:id="@+id/nominativeText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/NOMINATIVE" />
@@ -122,7 +122,7 @@
                         android:layout_alignParentStart="true">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/genitive_text"
+                            android:id="@+id/genitiveText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/GENITIVE" />
@@ -176,7 +176,7 @@
                         android:layout_alignParentStart="true">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/dative_text"
+                            android:id="@+id/dativeText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/DATIVE" />
@@ -230,7 +230,7 @@
                         android:layout_alignParentStart="true">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/accusative_text"
+                            android:id="@+id/accusativeText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/ACCUSATIVE" />
@@ -284,7 +284,7 @@
                         android:layout_alignParentStart="true">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/instrumental_text"
+                            android:id="@+id/instrumentalText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/INSTRUMENTAL" />
@@ -338,7 +338,7 @@
                         android:layout_alignParentStart="true">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/prepositional_text"
+                            android:id="@+id/prepositionalText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/PREPOSITIONAL" />
