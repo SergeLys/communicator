@@ -8,6 +8,7 @@ import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import com.ls.comunicator.model.Card
+import com.ls.comunicator.model.Cases
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -24,15 +25,9 @@ fun getFilesDir(context: Context): File? {
     var files: File?
     try {
         files = when (memoryMode) {
-            "internal" -> {
-                context.getExternalFilesDirs(null)[0]
-            }
-            "external" -> {
-                context.getExternalFilesDirs(null)[1]
-            }
-            else -> {
-                context.getExternalFilesDirs(null)[0]
-            }
+            "internal" -> { context.getExternalFilesDirs(null)[0] }
+            "external" -> { context.getExternalFilesDirs(null)[1] }
+            else -> { context.getExternalFilesDirs(null)[0] }
         }
     } catch (e: Exception) {
         files = context.getExternalFilesDir(null)
@@ -155,7 +150,7 @@ fun getPath(context: Context, case: CaseEnum, card: Card): String {
         getFilesDir(context)?.absolutePath + "/${Consts.LISTS_FOLDER}/${page}/${name}/sound/${case.text}.3gp"
 }
 
-fun getCase(case: CaseEnum, cases: Card.Cases): String {
+fun getCase(case: CaseEnum, cases: Cases): String {
     return when (case) {
         CaseEnum.NOMINATIVE -> cases.nominative
         CaseEnum.GENITVIE -> cases.genitive
