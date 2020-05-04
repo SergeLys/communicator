@@ -136,6 +136,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        cardAdapter.mTTS.stop()
+        cardAdapter.mTTS.shutdown()
         mTTS.stop()
         mTTS.shutdown()
         super.onDestroy()
