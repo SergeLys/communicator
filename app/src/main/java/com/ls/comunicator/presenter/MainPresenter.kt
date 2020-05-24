@@ -8,18 +8,17 @@ import com.ls.comunicator.view.PageFragment
 import com.ls.comunicator.view.TableContentFragment
 import com.ls.comunicator.adapter.CardAdapter
 import com.ls.comunicator.adapter.ViewPagerAdapter
-import com.ls.comunicator.core.getCardAmount
 import com.ls.comunicator.model.CardModel
+import kotlinx.coroutines.*
 import java.util.ArrayList
 
 class MainPresenter(private val view: MainActivity, private val model: CardModel) {
 
     fun loadPagesList(adapter: CardAdapter) {
-        model.loadPagesList(view.baseContext, object: CardModel.LoadPagesCallback {
-            override fun onLoad(pages: ArrayList<String>?) {
-                initTabs(pages, adapter)
-            }
-        })
+        CoroutineScope(Dispatchers.Main).launch {
+            val pages = model.loadPagesList(view.baseContext)
+            initTabs(pages, adapter)
+        }
     }
 
     private fun initTabs(pages: ArrayList<String>?, adapter: CardAdapter) {

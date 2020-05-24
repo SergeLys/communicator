@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.os.AsyncTask
 import androidx.core.graphics.drawable.toBitmap
 import com.ls.comunicator.core.getFilesDir
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.*
 import java.util.*
 
@@ -33,6 +35,20 @@ object CardModel {
 
     fun loadPagesList(context: Context, callback: LoadPagesCallback) {
         LoadPagesListTask(context, callback).execute()
+    }
+
+    suspend fun loadPagesList(context: Context) : ArrayList<String> = withContext(Dispatchers.IO) {
+        lateinit var listsFolder: File
+        val pagesList = ArrayList<String>()
+        try {
+            listsFolder = File(getFilesDir(context), "/lists")
+            if (listsFolder.exists()) {
+                listsFolder.listFiles().forEach {
+                    if (it.isDirectory) pagesList.add(it.name)
+                }
+            }
+        } catch (ex: Exception) { }
+        pagesList
     }
 
     interface LoadPageCardsCallback {
